@@ -12,14 +12,15 @@
             <div class="wrapper">
                 <span class="logo">Brenen Olson</span>
                 <div class="nav-links">
-                    <a href="research.html" class="navtab">Research</a>
                     <a href="projects.html" class="navtab">Projects</a>
+                    <a href="research.html" class="navtab">Research</a>
                     <a href="index.html" class="navtab">About</a>
                 </div>
             </div>
         </nav>
     </header>
 
+    <!-- Intro Section -->
     <div class="container">
         <img src="assets/Headshot.jpeg" class="main-photo" alt="Brenen Olson">
         <div class="about-wrapper">
@@ -28,20 +29,146 @@
         </div>
     </div>
 
-    <div class="education">
+    <!-- Education Section -->
+    <div class="body-container">
         <h1>Education</h1>
         <div class="edu-container">
-            <img src="assets/umnCSE.jpg" alt="College of Science and Engineering" class="school-logo">
+            <a href="https://cse.umn.edu/cs">
+                <img src="assets/umnCSE.jpg" alt="College of Science and Engineering" class="school-logo">
+            </a>
             <div class="info-box">
-                <h2>University of Minnesota Twin Cities - College of Science and Engineering</h2>
-                <h3>Major in Computer Science | Minor in UI/UX Design</h3>
+                <h2 class="degree">University of Minnesota Twin Cities - College of Science and Engineering</h2>
+                <br><hr><br>
+                <h3>Pursuing a Bachelor of Science (B.S.) degree in Computer Science at the College of Science and Engineering</h3>
+                <br>
+                <h3 class="date">2022 - 2026 (Anticipated)</h3>
+            </div>
+        </div>
+        
+        <div class="edu-container">
+            <a href="https://design.umn.edu/academics/explore-all-minors/user-experience-ux-design-undergraduate-minor">
+                <img src="assets/umnDesign.jpg" alt="College of Design" class="school-logo">
+            </a>
+            <div class="info-box">
+                <h2 class="degree">University of Minnesota Twin Cities - College of Design</h2>
+                <br><hr><br>
+                <h3>Pursuing a minor in UI/UX (User-Interface/User-Experience) Design at the College of Design</h3>
+                <br>
+                <h3 class="date">2024 - 2026 (Anticipated)</h3>
             </div>
         </div>
     </div>
 
+    <!-- Skills Section -->
+    <div class="body-container">
+        <h1>Programming Skills</h1>
+        <h2>Languages:</h2>
+        <div class="skills-list">
+            <div class="skill">
+                <h2>Java</h2>
+                <p>Proficient in Java development for web, desktop, and Android applications.</p>
+            </div>
+            <div class="skill">
+                <h2>Python</h2>
+                <img src="assets/pythonIcon.jpg" alt="Python">
+                <p>Experienced in Python for backend development, automation, and machine learning.</p>
+            </div>
+            <div class="skill">
+                <h2>C#</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+            <div class="skill">
+                <h2>C</h2>
+                <p>Skilled in JavaScript for building dynamic web applications using frameworks like React.</p>
+            </div>
+            <div class="skill">
+                <h2>Assembly</h2>
+                <p>Experience in designing intuitive user interfaces and ensuring great user experiences.</p>
+            </div>
+            <div class="skill">
+                <h2>Typescript</h2>
+                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+            </div>
+            <div class="skill">
+                <h2>OCaml</h2>
+                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+            </div>
+            <div class="skill">
+                <h2>HTML</h2>
+                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+            </div>
+            <div class="skill">
+                <h2>CSS</h2>
+                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+            </div>
+        </div>
+        <h2>Tools:</h2>
+        <div class="skills-list">
+            <div class="skill">
+                <h2>Git/GitHub</h2>
+                <p>Proficient in Java development for web, desktop, and Android applications.</p>
+            </div>
+            <div class="skill">
+                <h2>Unix</h2>
+                <p>Experienced in Python for backend development, automation, and machine learning.</p>
+            </div>
+            <div class="skill">
+                <h2>Linux</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+        </div>
+        <h2>Software:</h2>
+        <div class="skills-list">
+            <div class="skill">
+                <h2>IntelliJ IDEA</h2>
+                <p>Proficient in Java development for web, desktop, and Android applications.</p>
+            </div>
+            <div class="skill">
+                <h2>VS Code</h2>
+                <p>Experienced in Python for backend development, automation, and machine learning.</p>
+            </div>
+            <div class="skill">
+                <h2>Sublime</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+            <div class="skill">
+                <h2>React</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+            <div class="skill">
+                <h2>.Net Framwork</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+            <div class="skill">
+                <h2>Android Studio</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+            <div class="skill">
+                <h2>Unreal Engine 5</h2>
+                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="body-container">
+        <h1>Contact Me</h1>
+        <h3>Please contact me directly at <a href="mailto:brnolson@gmail.com" target="_blank" class="email">brnolson33@gmail.com</a> or use the following form.</h3>
+        <form action="https://formspree.io/f/mldgnwgw" method="POST">
+            <label for="email">Your Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+
+            <button type="submit">Send Message &#x27A3</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="foot-wrapper">
-            <h2>Connect</h2>
+            <h2 class="foot-header">Connect With Me Via:</h2>
             <div class="social-media">
                 <a href="https://github.com/brnolson" target="_blank">
                     <img src="assets/githubLogo.png" alt="GitHub" class="social-icon">

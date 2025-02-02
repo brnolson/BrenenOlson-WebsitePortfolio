@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brenen Olson</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <header>
+        <nav>
+            <div class="wrapper">
+                <span class="logo">Brenen Olson</span>
+                <div class="nav-links">
+                    <a href="projects.html" class="navtab">Projects</a>
+                    <a href="research.html" class="navtab">Research</a>
+                    <a href="index.html" class="navtab">About</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Projects</h1>
+    </div>
+
+    <div class="body-container">
+        <div class="filter">
+            <button class="filter-btn" onclick="filterProjects('all')">All Projects</button>
+            <button class="filter-btn" onclick="filterProjects('current')">Current Projects</button>
+            <button class="filter-btn" onclick="filterProjects('past')">Past Projects</button>
+        </div>
+        
+        <!-- Project List -->
+        <div class="project-list">
+            <div class="project" data-status="current" onclick="openModal('Project 1', 'Details about the current project.', 'assets/rouge.png')">
+                <img src="assets/rouge.png" alt="Project 1">
+                <h2>Immersive Paper/3D Game Unreal Engine 5 Game</h2>
+                <h4>Graphics and Game Development</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 2', 'Details about a past project.', 'assets/rouge.png')">
+                <img src="assets/rouge.png" alt="Project 2">
+                <h2>Project 2</h2>
+                <h4>Details about a past project.</h4>
+            </div>
+
+            <div class="project" data-status="current" onclick="openModal('Project 3', 'Details about another current project.', 'assets/rouge.png')">
+                <img src="assets/rouge.png" alt="Project 3">
+                <h2>Project 3</h2>
+                <h4>Details about another current project.</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/rouge.png')">
+                <img src="assets/rouge.png" alt="Project 4">
+                <h2>Project 4</h2>
+                <h4>Details about another past project.</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <!-- Modal Image (Large) -->
+            <img id="modal-image" class="modal-img" src="" alt="Project Image">
+            <div class="modal-body">
+                <h2 id="modal-title"></h2>
+                <p id="modal-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="foot-wrapper">
+            <h2 class="foot-header">Connect With Me Via:</h2>
+            <div class="social-media">
+                <a href="https://github.com/brnolson" target="_blank">
+                    <img src="assets/githubLogo.png" alt="GitHub" class="social-icon">
+                </a>
+                <a href="https://www.linkedin.com/in/brenen-olson-882128259/" target="_blank">
+                    <img src="assets/linkedInLogo.png" alt="LinkedIn" class="social-icon">
+                </a>
+                <a href="mailto:brnolson@gmail.com" target="_blank">
+                    <img src="assets/gmailLogo.png" alt="Email" class="social-icon">
+                </a>
+            </div>
+            <p>&copy;2025-Present Brenen Olson. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/projects.js"></script>
+  </body>
+</html>
