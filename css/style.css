@@ -1,0 +1,150 @@
+/* Global Variables */
+:root {
+    --blue: #2596be;
+    --yellow: #e6dc48;
+    --red: #d13035;
+}
+
+/* Everything */
+* {
+    font-family: "Afacad Flux", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(255, 255, 255);
+    background-color: darkslategrey;
+}
+
+h1 {
+    text-align: left;
+    font-size: xxx-large;
+    padding-bottom: 20px;
+    line-height: 70px;
+
+}
+
+h2 {
+    text-align: left;
+    font-size: large;
+    color: rgb(255, 255, 255);
+    font-style: normal;
+}
+
+h3 {
+    text-align: left;
+    font-size: medium;
+    color: bisque;
+    font-style: normal;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background-color: #333333;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navtab {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    transition: color 0.3s ease;
+}
+
+.navtab:hover {
+    color: var(bisque);
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 130px 20px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.edu-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 130px 20px;
+    text-align: center;
+    margin-top: 80px;
+    background-color: #d13035;
+
+}
+
+.education {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.main-photo {
+    width: 400px;
+    border-radius: 15px;
+}
+
+.about-wrapper {
+    padding-left: 175px;
+}
+
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px 0;
+}
+
+.social-icon {
+    filter: invert(1);
+    width: 40px;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+.info-box {
+}
+
+.school-logo {
+    width: 150px;
+    border-radius: 15px;
+}
+
+.footer {
+    padding: 20px;
+    background-color: #333333;
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+
+.foot-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
