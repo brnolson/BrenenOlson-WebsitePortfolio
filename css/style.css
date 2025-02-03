@@ -1,8 +1,6 @@
 /* Global Variables */
 :root {
-    --blue: #2596be;
-    --yellow: #e6dc48;
-    --red: #d13035;
+    --blue: #268996;
 }
 
 /* Everything */
@@ -50,7 +48,7 @@ h4 {
     align-items: center;
     justify-content: space-between;
     padding: 15px 20px;
-    background-color: #333333;
+    background-color: #333;
 }
 
 .logo {
@@ -92,7 +90,7 @@ h4 {
     justify-content: space-between;
     padding: 40px;
     background-color: #6d9266;
-    border-radius: 15px;
+    border-radius: 35px;
     width: 900px;
     min-height: 180px;
     margin: 20px auto;
@@ -125,7 +123,7 @@ h4 {
 }
 
 .about-wrapper {
-    padding-left: 175px;
+    padding-left: 120px;
 }
 
 
@@ -247,18 +245,21 @@ button:hover {
 .filter {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .filter-btn {
-    background-color: bisque;
-    color: black;
-    padding: 10px 20px;
-    border: none;
+    background-color: #333;
+    color: white;
+    padding: 7px 25px;
+    border: solid 1px white;
     margin: 0 10px;
     cursor: pointer;
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 15px;
     transition: background-color 0.3s;
 }
 
@@ -276,6 +277,7 @@ button:hover {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     overflow: auto;
+    color: black;
 }
 
 .modal-content {
@@ -290,9 +292,13 @@ button:hover {
     position: relative;
 }
 
+.modal h2 {
+    color: black;
+}
+
 .modal-img {
     width: 100%;
-    height: 250px;
+    height: 400px;
     object-fit: cover;
     border-radius: 35px;
 }
@@ -302,8 +308,8 @@ button:hover {
     font-size: 40px;
     font-weight: bold;
     position: absolute;
-    top: 30px;
-    right: 40px;
+    top: -25px;
+    right: -25px;
     cursor: pointer;
 }
 
@@ -319,7 +325,7 @@ button:hover {
 .project-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 60px;
     width: 100%;
     justify-items: center;
     margin-top: 20px;
@@ -374,7 +380,8 @@ button:hover {
 .skills-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 60px;
+    row-gap: 40px;
     width: 100%;
     justify-items: center;
     margin-top: 20px;
@@ -385,30 +392,28 @@ button:hover {
 }
 
 .skill {
-    background-color: #6d9266;
-    border-radius: 15px;
     padding: 20px;
     width: 100%;
     max-width: 350px;
-    height: 200px;
+    height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+    background-color: #333;
+    border-radius: 35px;
     transition: transform 0.3s;
-
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .skill:hover {
     transform: translateY(-10px);
-
 }
 
 .skill h2 {
     font-size: 20px;
     font-weight: bold;
     color: white;
+    text-align: center;
 }
 
 .skill p {
@@ -420,7 +425,16 @@ button:hover {
 }
 
 .skill img {
-    mix-blend-mode: multiply;
+    height: 200px;
+    width: auto;
+    padding: 10px;
+    padding-top: 15px;
+    margin: 0 auto;
+    transition: transform 0.3s;
+}
+
+.skill img:hover {
+    transform: scale(1.05);
 }
 
 /* Responiveness for Small Screens */

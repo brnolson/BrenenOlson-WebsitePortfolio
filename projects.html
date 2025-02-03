@@ -14,48 +14,89 @@
                 <div class="nav-links">
                     <a href="projects.html" class="navtab">Projects</a>
                     <a href="research.html" class="navtab">Research</a>
-                    <a href="index.html" class="navtab">About</a>
+                    <a href="index.html" class="navtab">
+                        <img style="width: 25px; filter: invert(1)" src="assets/homeIcon.png" alt="Home">
+                    </a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container" style="flex-direction: column;">
         <h1>Projects</h1>
+        <h3 style="font-size: x-large; text-align: center;">A compilation of my programming projects, both personal and collaborative.</h3>
     </div>
 
     <div class="body-container">
         <div class="filter">
-            <button class="filter-btn" onclick="filterProjects('all')">All Projects</button>
-            <button class="filter-btn" onclick="filterProjects('current')">Current Projects</button>
-            <button class="filter-btn" onclick="filterProjects('past')">Past Projects</button>
+            <img src="assets/filter.png" style="width: 30px; height: 30px; filter: invert(1);" alt="Filter">
+            <button class="filter-btn" onclick="filterProjects('all')">All</button>
+            <button class="filter-btn" onclick="filterProjects('current')">Current</button>
+            <button class="filter-btn" onclick="filterProjects('past')">Past</button>
         </div>
         
         <!-- Project List -->
         <div class="project-list">
             <div class="project" data-status="current" onclick="openModal('Project 1', 'Details about the current project.', 'assets/rouge.png')">
-                <img src="assets/rouge.png" alt="Project 1">
+                <img src="assets/rouge.png" alt="Rouge Unreal Engine Game">
                 <h2>Immersive Paper/3D Game Unreal Engine 5 Game</h2>
-                <h4>Graphics and Game Development</h4>
+                <h4>3D Graphics | Game Development</h4>
             </div>
 
-            <div class="project" data-status="past" onclick="openModal('Project 2', 'Details about a past project.', 'assets/rouge.png')">
-                <img src="assets/rouge.png" alt="Project 2">
-                <h2>Project 2</h2>
-                <h4>Details about a past project.</h4>
+            <div class="project" data-status="current" onclick="openModal('Project 2', 'Details about a past project.', 'assets/gopherGuesser.png')">
+                <img src="assets/gopherGuesser.png" alt="GopherGuesser Game">
+                <h2>University of Minnesota Campus GeoGuesser</h2>
+                <h4>UI/UX | Web/Game Development</h4>
             </div>
 
-            <div class="project" data-status="current" onclick="openModal('Project 3', 'Details about another current project.', 'assets/rouge.png')">
-                <img src="assets/rouge.png" alt="Project 3">
-                <h2>Project 3</h2>
-                <h4>Details about another current project.</h4>
+            <div class="project" data-status="past" onclick="openModal('Project 3', 'Details about another current project.', 'assets/vts.png')">
+                <img src="assets/vts.png" alt="Virtual Transit System">
+                <h2>University of Minnesota Virtual Transit System Simulator</h2>
+                <h4>Software Engineering | Design Pattern</h4>
             </div>
 
-            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/rouge.png')">
-                <img src="assets/rouge.png" alt="Project 4">
-                <h2>Project 4</h2>
-                <h4>Details about another past project.</h4>
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/sortStack.png')">
+                <img src="assets/sortStack.png" alt="Sort Stack Sorting">
+                <h2>Complex Sorting Algorithm for Marching Band Leadership Team</h2>
+                <h4>Data Structures | Algorithms</h4>
             </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/sortStack.png')">
+                <img src="assets/auditionTools.png" alt="Audition Tools">
+                <h2>Autonomous Audio and Video Editing Tools</h2>
+                <h4>Scripting | Tooling | Optimization</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/rocketGame.png')">
+                <img src="assets/rocketGame.png" alt="Turtle Rocket Game">
+                <h2>Python Turtle Rocket Game</h2>
+                <h4>2D Graphics | Game Development</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/mineSweeper.png')">
+                <img src="assets/mineSweeper.png" alt="Minesweeper Game">
+                <h2>Minesweeper Game</h2>
+                <h4>Search Algorithms | Game Development</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/chess.png')">
+                <img src="assets/chess.png" alt="2D Array Chess">
+                <h2>2D Array Chess Game</h2>
+                <h4>Data Structures | Game Development</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/musicTrainer.png')">
+                <img src="assets/musicTrainer.png" alt="Music Staff Trainer App">
+                <h2>Music Staff Trainer App</h2>
+                <h4>2D Graphics | Game Development</h4>
+            </div>
+
+            <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/portfolio.png')">
+                <img src="assets/portfolio.png" alt="Portfolio Website">
+                <h2>Website Portfolio</h2>
+                <h4>Web Development</h4>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -63,7 +104,6 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <!-- Modal Image (Large) -->
             <img id="modal-image" class="modal-img" src="" alt="Project Image">
             <div class="modal-body">
                 <h2 id="modal-title"></h2>
