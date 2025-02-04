@@ -6,173 +6,272 @@
     <title>Brenen Olson</title>
     <link rel="stylesheet" href="css/style.css">
   </head>
-  <body>
+  <body style="background-image: url('assets/bgd.png');">
     <header>
         <nav>
             <div class="wrapper">
                 <span class="logo">Brenen Olson</span>
                 <div class="nav-links">
-                    <a href="projects.html" class="navtab">Projects</a>
-                    <a href="research.html" class="navtab">Research</a>
-                    <a href="index.html" class="navtab">
-                        <img style="width: 25px; filter: invert(1)" src="assets/homeIcon.png" alt="Home">
-                    </a>
+                    <a href="#about" class="navtab">About</a>
+                    <a href="#skills" class="navtab">Skills</a>
+                    <a href="#projects" class="navtab">Projects</a>
+                    <a href="#about" class="navtab" style="color: rgb(85, 85, 85); text-decoration-line: line-through;">Research</a>
+                    <a href="#contact" class="navtab">Contact</a>
                 </div>
             </div>
         </nav>
     </header>
 
     <!-- Intro Section -->
-    <div class="container">
-        <img src="assets/Headshot.jpeg" class="main-photo" alt="Brenen Olson">
-        <div class="about-wrapper">
-            <h1>Hello,<br>My name is Brenen Olson<br>Software Developer</h1> 
-            <h3>Software and Automation | Interactive UI/UX | Game Development</h3>
+     <section id="about">
+        <div class="container">
+            <img src="assets/Headshot.jpeg" class="main-photo" alt="Brenen Olson">
+            <div class="about-wrapper">
+                <h1 style="padding-bottom: 0px;">Hello,<br>My name is Brenen Olson<br></h1>
+                <h1 class="gradient-text" style="width: 100%;">Software Developer</h1>
+                <h3>Software and Automation | Interactive UI/UX | Game Development</h3>
+            </div>
         </div>
-    </div>
 
-    <!-- Education Section -->
-    <div class="body-container">
-        <h1>Education</h1>
-        <div class="edu-container">
-            <a href="https://cse.umn.edu/cs">
-                <img src="assets/umnCSE.jpg" alt="College of Science and Engineering" class="school-logo">
-            </a>
-            <div class="info-box">
-                <h2 class="degree">University of Minnesota Twin Cities - College of Science and Engineering</h2>
-                <br><hr><br>
-                <h3>Pursuing a Bachelor of Science (B.S.) degree in Computer Science at the College of Science and Engineering</h3>
-                <br>
-                <h3 class="date">2022 - 2026 (Anticipated)</h3>
+        <!-- Education Section -->
+        <div class="body-container">
+            <h1>Education</h1>
+            <div class="edu-container">
+                <a href="https://cse.umn.edu/cs">
+                    <img src="assets/umnCSE.jpg" alt="College of Science and Engineering" class="school-logo">
+                </a>
+                <div class="info-box">
+                    <h2 class="degree">University of Minnesota Twin Cities - College of Science and Engineering</h2>
+                    <br><hr><br>
+                    <h3>Pursuing a Bachelor of Science (B.S.) degree in Computer Science at the College of Science and Engineering</h3>
+                    <br>
+                    <h3 class="gradient-text" style="text-align: right; width: 100%;">2022 - 2026 (Anticipated)</h3>
+                </div>
+            </div>
+            
+            <div class="edu-container">
+                <a href="https://design.umn.edu/academics/explore-all-minors/user-experience-ux-design-undergraduate-minor">
+                    <img src="assets/umnDesign.jpg" alt="College of Design" class="school-logo">
+                </a>
+                <div class="info-box">
+                    <h2 class="degree">University of Minnesota Twin Cities - College of Design</h2>
+                    <br><hr><br>
+                    <h3>Pursuing a minor in UI/UX (User-Interface/User-Experience) Design at the College of Design</h3>
+                    <br>
+                    <h3 class="gradient-text" style="text-align: right; width: 100%;">2024 - 2026 (Anticipated)</h3>
+                </div>
             </div>
         </div>
-        
-        <div class="edu-container">
-            <a href="https://design.umn.edu/academics/explore-all-minors/user-experience-ux-design-undergraduate-minor">
-                <img src="assets/umnDesign.jpg" alt="College of Design" class="school-logo">
-            </a>
-            <div class="info-box">
-                <h2 class="degree">University of Minnesota Twin Cities - College of Design</h2>
-                <br><hr><br>
-                <h3>Pursuing a minor in UI/UX (User-Interface/User-Experience) Design at the College of Design</h3>
-                <br>
-                <h3 class="date">2024 - 2026 (Anticipated)</h3>
-            </div>
-        </div>
-    </div>
+    </section>
 
     <!-- Skills Section -->
-    <div class="body-container">
-        <h1>Programming Skills</h1>
-        <h2>Languages:</h2>
-        <div class="skills-list">
-            <div class="skill">
-                <h2>Java</h2>
-                <img src="assets/skills/javaIcon.png" alt="Java">
-                <p>Proficient in Java development for web, desktop, and Android applications.</p>
+    <section id="skills">
+        <div class="body-container">
+            <h1>Programming Skills</h1>
+            <h2>Languages:</h2>
+            <div class="skills-list">
+                <div class="skill">
+                    <h2>Java</h2>
+                    <img src="assets/skills/javaIcon.png" alt="Java">
+                    <p>Proficient in Java development for web, desktop, and Android applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>Python</h2>
+                    <img src="assets/skills/pythonIcon.png" alt="Python">
+                    <p>Experienced in Python for backend development, automation, and machine learning.</p>
+                </div>
+                <div class="skill">
+                    <h2>C#</h2>
+                    <img src="assets/skills/cSharpIcon.png" alt="C#">
+                    <p>Strong background in C# programming for system-level and performance-critical applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>C</h2>
+                    <img src="assets/skills/cIcon.png" alt="C">
+                    <p>Skilled in JavaScript for building dynamic web applications using frameworks like React.</p>
+                </div>
+                <div class="skill">
+                    <h2>Assembly</h2>
+                    <img src="assets/skills/assemblyIcon.png" alt="Assembly">
+                    <p>Experience in designing intuitive user interfaces and ensuring great user experiences.</p>
+                </div>
+                <div class="skill">
+                    <h2>Typescript</h2>
+                    <img src="assets/skills/typeScriptIcon.png" alt="Typescript";>
+                    <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+                </div>
+                <div class="skill">
+                    <h2>OCaml</h2>
+                    <img src="assets/skills/oCamlIcon.png" alt="OCaml" style="background-color: white; border-radius: 30px; height: 180px;">
+                    <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+                </div>
+                <div class="skill">
+                    <h2>HTML</h2>
+                    <img src="assets/skills/htmlIcon.png" alt="HTML">
+                    <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+                </div>
+                <div class="skill">
+                    <h2>CSS</h2>
+                    <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+                </div>
             </div>
-            <div class="skill">
-                <h2>Python</h2>
-                <img src="assets/skills/pythonIcon.png" alt="Python">
-                <p>Experienced in Python for backend development, automation, and machine learning.</p>
+            <h2>Tools:</h2>
+            <div class="skills-list">
+                <div class="skill">
+                    <h2>Git/GitHub</h2>
+                    <p>Proficient in Java development for web, desktop, and Android applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>Unix</h2>
+                    <p>Experienced in Python for backend development, automation, and machine learning.</p>
+                </div>
+                <div class="skill">
+                    <h2>Linux</h2>
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
             </div>
-            <div class="skill">
-                <h2>C#</h2>
-                <img src="assets/skills/cSharpIcon.png" alt="C#">
-                <p>Strong background in C# programming for system-level and performance-critical applications.</p>
-            </div>
-            <div class="skill">
-                <h2>C</h2>
-                <img src="assets/skills/cIcon.png" alt="C">
-                <p>Skilled in JavaScript for building dynamic web applications using frameworks like React.</p>
-            </div>
-            <div class="skill">
-                <h2>Assembly</h2>
-                <img src="assets/skills/assemblyIcon.png" alt="Assembly">
-                <p>Experience in designing intuitive user interfaces and ensuring great user experiences.</p>
-            </div>
-            <div class="skill">
-                <h2>Typescript</h2>
-                <img src="assets/skills/typeScriptIcon.png" alt="Typescript";>
-                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
-            </div>
-            <div class="skill">
-                <h2>OCaml</h2>
-                <img src="assets/skills/oCamlIcon.png" alt="OCaml" style="background-color: white; border-radius: 30px; height: 180px;">
-                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
-            </div>
-            <div class="skill">
-                <h2>HTML</h2>
-                <img src="assets/skills/htmlIcon.png" alt="HTML">
-                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
-            </div>
-            <div class="skill">
-                <h2>CSS</h2>
-                <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
+            <h2>Software:</h2>
+            <div class="skills-list">
+                <div class="skill">
+                    <h2>IntelliJ IDEA</h2>
+                    <p>Proficient in Java development for web, desktop, and Android applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>VS Code</h2>
+                    <p>Experienced in Python for backend development, automation, and machine learning.</p>
+                </div>
+                <div class="skill">
+                    <h2>Sublime</h2>
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>React</h2>
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>.Net Framwork</h2>
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>Android Studio</h2>
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>Unreal Engine 5</h2>
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
             </div>
         </div>
-        <h2>Tools:</h2>
-        <div class="skills-list">
-            <div class="skill">
-                <h2>Git/GitHub</h2>
-                <p>Proficient in Java development for web, desktop, and Android applications.</p>
+    </section>
+
+    <!-- Project Section -->
+    <section id="projects">
+        <div class="container" style="flex-direction: column;">
+            <h1 class="gradient-text">Projects</h1>
+            <h3 style="color: white; font-size: x-large; text-align: center;">A compilation of my programming projects, both personal and collaborative.</h3>
+        </div>
+
+        <div class="body-container">
+            <div class="filter">
+                <img src="assets/filter.png" style="width: 30px; height: 30px;" alt="Filter">
+                <button class="filter-btn" onclick="filterProjects('all')">All</button>
+                <button class="filter-btn" onclick="filterProjects('current')">Current</button>
+                <button class="filter-btn" onclick="filterProjects('past')">Past</button>
             </div>
-            <div class="skill">
-                <h2>Unix</h2>
-                <p>Experienced in Python for backend development, automation, and machine learning.</p>
-            </div>
-            <div class="skill">
-                <h2>Linux</h2>
-                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+            
+            <!-- Project List -->
+            <div class="project-list">
+                <div class="project" data-status="current" onclick="openModal('Project 1', 'Details about the current project.', 'assets/projects/rouge.png')">
+                    <img src="assets/projects/rouge.png" alt="Rouge Unreal Engine Game">
+                    <h2>Immersive Paper/3D Game Unreal Engine 5 Game</h2>
+                    <h4>3D Graphics | Game Development</h4>
+                </div>
+
+                <div class="project" data-status="current" onclick="openModal('Project 2', 'Details about a past project.', 'assets/projects/gopherGuesser.png')">
+                    <img src="assets/projects/gopherGuesser.png" alt="GopherGuesser Game">
+                    <h2>University of Minnesota Campus GeoGuesser</h2>
+                    <h4>UI/UX | Web/Game Development</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 3', 'Details about another current project.', 'assets/projects/vts.png')">
+                    <img src="assets/projects/vts.png" alt="Virtual Transit System">
+                    <h2>University of Minnesota Virtual Transit System Simulator</h2>
+                    <h4>Software Engineering | Design Pattern</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/sortStack.png')">
+                    <img src="assets/projects/sortStack.png" alt="Sort Stack Sorting">
+                    <h2>Complex Sorting Algorithm for Marching Band Leadership Team</h2>
+                    <h4>Data Structures | Algorithms</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/sortStack.png')">
+                    <img src="assets/auditionTools.png" alt="Audition Tools">
+                    <h2>Autonomous Audio and Video Editing Tools</h2>
+                    <h4>Scripting | Tooling | Optimization</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/rocketGame.png')">
+                    <img src="assets/projects/rocketGame.png" alt="Turtle Rocket Game">
+                    <h2>Python Turtle Rocket Game</h2>
+                    <h4>2D Graphics | Game Development</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/mineSweeper.png')">
+                    <img src="assets/projects/mineSweeper.png" alt="Minesweeper Game">
+                    <h2>Minesweeper Game</h2>
+                    <h4>Search Algorithms | Game Development</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/chess.png')">
+                    <img src="assets/projects/chess.png" alt="2D Array Chess">
+                    <h2>2D Array Chess Game</h2>
+                    <h4>Data Structures | Game Development</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/musicTrainer.png')">
+                    <img src="assets/musicTrainer.png" alt="Music Staff Trainer App">
+                    <h2>Music Staff Trainer App</h2>
+                    <h4>2D Graphics | Game Development</h4>
+                </div>
+
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/portfolio.png')">
+                    <img src="assets/portfolio.png" alt="Portfolio Website">
+                    <h2>Website Portfolio</h2>
+                    <h4>Web Development</h4>
+                </div>
             </div>
         </div>
-        <h2>Software:</h2>
-        <div class="skills-list">
-            <div class="skill">
-                <h2>IntelliJ IDEA</h2>
-                <p>Proficient in Java development for web, desktop, and Android applications.</p>
-            </div>
-            <div class="skill">
-                <h2>VS Code</h2>
-                <p>Experienced in Python for backend development, automation, and machine learning.</p>
-            </div>
-            <div class="skill">
-                <h2>Sublime</h2>
-                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
-            </div>
-            <div class="skill">
-                <h2>React</h2>
-                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
-            </div>
-            <div class="skill">
-                <h2>.Net Framwork</h2>
-                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
-            </div>
-            <div class="skill">
-                <h2>Android Studio</h2>
-                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
-            </div>
-            <div class="skill">
-                <h2>Unreal Engine 5</h2>
-                <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+    
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img id="modal-image" class="modal-img" src="" alt="Project Image">
+                <div class="modal-body">
+                    <h2 id="modal-title"></h2>
+                    <p id="modal-description"></p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Contact Section -->
-    <div class="body-container">
-        <h1>Contact Me</h1>
-        <h3>Please contact me directly at <a href="mailto:brnolson@gmail.com" target="_blank" class="email">brnolson33@gmail.com</a> or use the following form.</h3>
-        <form action="https://formspree.io/f/mldgnwgw" method="POST">
-            <label for="email">Your Email:</label>
-            <input type="email" id="email" name="email" required>
+    <section id="contact">
+        <div class="body-container">
+            <h1>Contact Me</h1>
+            <h3 style="color: white;">Please contact me directly at <a href="mailto:brnolson@gmail.com" target="_blank" class="gradient-text">brnolson33@gmail.com</a> or use the following form.</h3>
+            <form action="https://formspree.io/f/mldgnwgw" method="POST">
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" required>
 
-            <label for="message">Your Message:</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
+                <label for="message">Your Message:</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
 
-            <button type="submit">Send Message &#x27A3</button>
-        </form>
-    </div>
+                <button type="submit">Send Message &#x27A3</button>
+            </form>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -192,5 +291,7 @@
             <p>&copy;2025-Present Brenen Olson. All rights reserved.</p>
         </div>
     </footer>
+
+    <script src="js/scripts.js"></script>
   </body>
 </html>
