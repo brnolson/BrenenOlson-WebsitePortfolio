@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.addEventListener("scroll", updateActiveTab);
-    updateActiveTab(); // Run on load
+    updateActiveTab();
 });
 
 // Shrink header on scroll effect
