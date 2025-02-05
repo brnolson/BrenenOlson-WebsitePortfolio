@@ -1,6 +1,5 @@
 /* Global Variables */
 :root {
-    --blue: #268996;
     --border: rgb(112, 112, 112);
     --tile: rgb(65, 65, 65, 0.212);
     --gradient: linear-gradient(to right, #2bacf7, #f183ec);
@@ -72,23 +71,37 @@ section {
     color: white;
 }
 
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.1); /* Transparent Glass Effect */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
 nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     background-color: rgba(12, 12, 12, 0.95);
-    z-index: 1000;
 }
 
 .nav-links {
     display: flex;
     gap: 20px;
+    padding-left: 60px;
+    padding: 20px;
 }
 
 .navtab {
     text-decoration: none;
-    font-size: 20px;
+    font-size: medium;
     font-weight: bold;
     color: white;
 }
@@ -98,6 +111,24 @@ nav {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
+}
+
+.scrolled {
+    padding: 30px 0;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+}
+
+.scrolled .wrapper {
+    padding: 0px 20px;
+}
+
+.scrolled .logo {
+    font-size: 1.5rem;
+}
+
+.scrolled nav {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .container {
@@ -112,8 +143,7 @@ nav {
 
 .edu-container {
     background-color: var(--tile);
-    border-left: solid 1px var(--border);
-    border-right: solid 1px var(--border);
+    border: solid 1px var(--border);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -143,7 +173,7 @@ nav {
 
 .date {
     text-align: right;
-    color: darkslategrey;
+    color: #f183ec;
 }
 
 .main-photo {
@@ -207,7 +237,7 @@ form {
     gap: 15px;
     width: 500px;
     max-width: 600px;
-    background-color: var(--tile);
+    background: var(--gradient);
     border: solid 1px var(--border);
     padding: 30px;
     border-radius: 15px;
@@ -216,7 +246,7 @@ form {
 
 label {
     font-size: large;
-    color: white;
+    color: black;
     text-align: left;
     width: 100%;
 }
@@ -224,11 +254,11 @@ label {
 input, textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     border-radius: 5px;
     font-size: 16px;
-    background-color: bisque;
-    color: #333;
+    background-color: var(--tile);
+    color: black;
 }
 
 textarea {
@@ -237,8 +267,8 @@ textarea {
 }
 
 button {
-    background-color: var(--tile);
-    color: white;
+    background: var(--gradient);
+    color: black;
     padding: 12px;
     font-size: large;
     border-radius: 5px;
@@ -248,7 +278,8 @@ button {
 }
 
 button:hover {
-    background-color: var(--gradient);
+    background: none;
+    background-color: white;
     transform: scale(1.025);
 }
 
@@ -280,6 +311,7 @@ button:hover {
 }
 
 .filter-btn {
+    background: none;
     background-color: var(--tile);
     color: black;
     padding: 7px 25px;
@@ -478,7 +510,7 @@ button:hover {
 }
 
 /* Responiveness for Small Screens */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .edu-container {
         flex-direction: column;
         align-items: center;
@@ -533,7 +565,7 @@ button:hover {
         max-width: 400px;
     }
 
-    input, textarea, button {
+    input, textarea, button{
         font-size: medium;
     }
 
