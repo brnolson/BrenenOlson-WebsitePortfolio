@@ -1,21 +1,43 @@
 // Filter Projects
 function filterProjects(status) {
     const projects = document.querySelectorAll('.project');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    // Show/hide projects based on filter
     projects.forEach(project => {
         if (status === 'all' || project.getAttribute('data-status') === status) {
-            project.style.display = 'block';
+            project.classList.remove('hidden');
         } else {
-            project.style.display = 'none';
+            project.classList.add('hidden');
         }
     });
+
+    // Remove active class from all buttons
+    buttons.forEach(button => button.classList.remove('active'));
+
+    // Add active class to the clicked button
+    document.querySelector(`.filter-btn[onclick="filterProjects('${status}')"]`).classList.add('active');
 }
 
+
 // Open Modal with image, title, and description
-function openModal(title, description, imageSrc) {
-    document.getElementById('modal').style.display = 'block';
+function openModal(title, description, imageSrc, skills = []) {
+    document.getElementById('modal').style.display = 'flex';
     document.getElementById('modal-title').textContent = title;
     document.getElementById('modal-description').textContent = description;
     document.getElementById('modal-image').src = imageSrc;
+
+    // Select skills container
+    const skillsContainer = document.getElementById('modal-skills');
+    skillsContainer.innerHTML = "";
+
+    // Add skills dynamically
+    skills.forEach(skill => {
+        let skillBox = document.createElement("div");
+        skillBox.classList.add("skill-box");
+        skillBox.textContent = skill;
+        skillsContainer.appendChild(skillBox);
+    });
 }
 
 // Close Modal
@@ -28,8 +50,10 @@ window.onclick = function(event) {
     if (event.target === document.getElementById('modal')) {
         closeModal();
     }
-}
+};
 
+
+// Navtab highlight
 document.addEventListener("DOMContentLoaded", function () {
     const sections = document.querySelectorAll("section");
     const navLinks = document.querySelectorAll(".nav-links .navtab");
@@ -38,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentSection = "";
 
         sections.forEach((section) => {
-            const sectionTop = section.offsetTop - 100; // Adjust for fixed nav
+            const sectionTop = section.offsetTop -300; // Adjust for fixed nav
             if (window.scrollY >= sectionTop) {
                 currentSection = section.getAttribute("id");
             }

@@ -13,7 +13,8 @@
     padding: 0;
 }
 
-/* Page Construction */
+/* -------------------------Page Construction------------------------- */
+
 #construction-overlay {
     position: fixed;
     top: 0;
@@ -35,7 +36,8 @@
 body {
     overflow: hidden;
 }
-/* End of Page Construction */
+
+/* -------------------------End of Page Construction------------------------- */
 
 html {
     scroll-behavior: smooth;
@@ -192,7 +194,7 @@ nav {
     justify-content: center;
     text-align: center;
     margin-top: 120px;
-    padding-bottom: 60px;
+    padding-bottom: 250px;
 }
 
 .date {
@@ -344,15 +346,22 @@ button:hover {
     cursor: pointer;
     font-size: 1rem;
     border-radius: 15px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
 }
 
 .filter-btn:hover {
     background: #333;
     color: white;
     border: solid 1px white;
-
 }
+
+/* Active Button Styling */
+.filter-btn.active {
+    background: #333;
+    color: white;
+    border: solid 1px white;
+}
+
 
 .modal {
     display: none;
@@ -365,6 +374,8 @@ button:hover {
     background-color: rgba(0, 0, 0, 0.7);
     overflow: auto;
     color: black;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -388,6 +399,44 @@ button:hover {
     height: 400px;
     object-fit: cover;
     border-radius: 35px;
+    margin-bottom: 15px;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.skills-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-width: 450px;
+    justify-content: flex-end;
+}
+
+.skill-box {
+    background: white;
+    border: 2px solid #444;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    color: black;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .close {
@@ -448,6 +497,12 @@ button:hover {
     height: 200px;
     object-fit: cover;
     border-radius: 25px;
+    transition: transform 0.3s;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.project img:hover {
+    transform: translateY(-10px);
 }
 
 .project h2 {
@@ -468,12 +523,11 @@ button:hover {
 .skills-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 60px;
     row-gap: 40px;
     width: 100%;
     justify-items: center;
     margin-top: 20px;
-    max-width: 1300px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 30px;
@@ -484,7 +538,7 @@ button:hover {
     border: solid 1px var(--border);
     padding: 20px;
     width: 100%;
-    max-width: 350px;
+    max-width: 250px;
     height: 350px;
     display: flex;
     flex-direction: column;
@@ -541,6 +595,8 @@ button:hover {
         text-align: center;
         min-height: auto;
         width: 300px;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 
     .container {

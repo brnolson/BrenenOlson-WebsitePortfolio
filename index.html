@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body style="background-image: url('assets/bgd.png');">
-    
-    <!-- Page Construction -->
+
+    <!-- -------------------------Page Construction------------------------- -->
+
     <div id="construction-overlay">
-        🚧 Page Under Construction 🚧
+        🚧 Page Under Construction Until 02/10/2025 🚧
     </div>
-    <!-- End of Page Construction -->
+
+    <!-- -------------------------End of Page Construction------------------------- -->
 
     <header>
         <nav>
@@ -75,7 +77,8 @@
     <section id="skills">
         <div class="body-container">
             <h1>Programming Skills</h1>
-            <h2>Languages:</h2>
+            <h2 style="padding-bottom: 20px;">Languages:</h2>
+            <hr style="width: 500px;">
             <div class="skills-list">
                 <div class="skill">
                     <h2>Java</h2>
@@ -123,7 +126,8 @@
                     <p>Hands-on experience in game development using Unreal Engine and other game engines.</p>
                 </div>
             </div>
-            <h2>Tools and Frameworks:</h2>
+            <h2 style="padding-bottom: 20px;">Tools and Frameworks:</h2>
+            <hr style="width: 500px;">
             <div class="skills-list">
                 <div class="skill">
                     <h2>Git</h2>
@@ -162,40 +166,41 @@
                 </div>
                 <div class="skill">
                     <h2>Gradle</h2>
-                    <img src="assets/skills/gradleIcon.png" alt="Gradle">
+                    <img src="assets/skills/gradleIcon.png" alt="Gradle" style="filter: brightness(4);">
                     <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
                 </div>
             </div>
-            <h2>Software:</h2>
+            <h2 style="padding-bottom: 20px;">Software:</h2>
+            <hr style="width: 500px;">
             <div class="skills-list">
                 <div class="skill">
                     <h2>IntelliJ IDEA</h2>
+                    <img src="assets/skills/intelliJIcon.png" alt="IntelliJ IDEA">
                     <p>Proficient in Java development for web, desktop, and Android applications.</p>
                 </div>
                 <div class="skill">
                     <h2>VS Code</h2>
                     <img src="assets/skills/vsCodeIcon.png" alt="VS Code">
-
                     <p>Experienced in Python for backend development, automation, and machine learning.</p>
                 </div>
                 <div class="skill">
                     <h2>Sublime</h2>
-                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
-                </div>
-                <div class="skill">
-                    <h2>React</h2>
-                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
-                </div>
-                <div class="skill">
-                    <h2>.Net Framwork</h2>
+                    <img src="assets/skills/sublimeIcon.png" alt="Sublime Text Editor">
                     <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
                 </div>
                 <div class="skill">
                     <h2>Android Studio</h2>
+                    <img src="assets/skills/androidStudioIcon.png" alt="Android Studio">
+                    <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
+                </div>
+                <div class="skill">
+                    <h2>Unity</h2>
+                    <img src="assets/skills/unity.png" alt="Unity" style="filter: invert(1);">
                     <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
                 </div>
                 <div class="skill">
                     <h2>Unreal Engine 5</h2>
+                    <img src="assets/skills/unrealIcon.png" alt="Unreal Engine 5" style="filter: invert(1);">
                     <p>Strong background in C++ programming for system-level and performance-critical applications.</p>
                 </div>
             </div>
@@ -211,70 +216,76 @@
 
         <div class="body-container">
             <div class="filter">
-                <img src="assets/filter.png" style="width: 30px; height: 30px;" alt="Filter">
-                <button class="filter-btn" onclick="filterProjects('all')">All</button>
+                <img src="assets/filter.png" style="width: 30px; height: 100%;" alt="Filter">
+                <button class="filter-btn active" onclick="filterProjects('all')">All</button>
                 <button class="filter-btn" onclick="filterProjects('current')">Current</button>
                 <button class="filter-btn" onclick="filterProjects('past')">Past</button>
             </div>
             
             <!-- Project List -->
             <div class="project-list">
-                <div class="project" data-status="current" onclick="openModal('Project 1', 'Details about the current project.', 'assets/projects/rouge.png')">
+                <div class="project" data-status="current" onclick="openModal('Project 1', 'Details about the current project.', 'assets/projects/spaceSim.png', ['Unreal Engine 5', 'Blueprints', 'C++', '3D Rendering', 'Computer Graphics', 'Simulation', 'Mathmatics'])">
+                    <img src="assets/projects/spaceSim.png" alt="SPACESiM Simlation">
+                    <h2>SPACESiM Cable Movement Simulator</h2>
+                    <h4>3D Graphics | Physics Simulation</h4>
+                </div>
+                
+                <div class="project" data-status="current" onclick="openModal('Project 1', 'Details about the current project.', 'assets/projects/rouge.png', ['Unreal Engine 5', 'Blueprints', 'C++', '3D Rendering', 'Computer Graphics', 'Game Development'])">
                     <img src="assets/projects/rouge.png" alt="Rouge Unreal Engine Game">
                     <h2>Immersive Paper/3D Game Unreal Engine 5 Game</h2>
                     <h4>3D Graphics | Game Development</h4>
                 </div>
 
-                <div class="project" data-status="current" onclick="openModal('Project 2', 'Details about a past project.', 'assets/projects/gopherGuesser.png')">
+                <div class="project" data-status="current" onclick="openModal('Project 2', 'Details about a past project.', 'assets/projects/gopherGuesser.png', ['JavaScript', 'React.js', 'Node.js', 'Tailwind CSS', 'Web Development', 'UI/UX Design', 'Collaborative'])">
                     <img src="assets/projects/gopherGuesser.png" alt="GopherGuesser Game">
                     <h2>University of Minnesota Campus GeoGuesser</h2>
                     <h4>UI/UX | Web/Game Development</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 3', 'Details about another current project.', 'assets/projects/vts.png')">
+                <div class="project" data-status="past" onclick="openModal('Project 3', 'Details about another current project.', 'assets/projects/vts.png', ['Java', 'Design Patterns', 'UML', 'Mockito', 'JaCoCo', 'Collaborative'])">
                     <img src="assets/projects/vts.png" alt="Virtual Transit System">
                     <h2>University of Minnesota Virtual Transit System Simulator</h2>
                     <h4>Software Engineering | Design Pattern</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/sortStack.png')">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/sortStack.png', ['Python', 'Data Structures', 'Algorithms', 'Runtime Analysis', 'Optimization'])">
                     <img src="assets/projects/sortStack.png" alt="Sort Stack Sorting">
                     <h2>Complex Sorting Algorithm for Marching Band Leadership Team</h2>
                     <h4>Data Structures | Algorithms</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/sortStack.png')">
-                    <img src="assets/auditionTools.png" alt="Audition Tools">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/auditionTools.png', ['Python', 'Automation', 'Console Application', 'Audio Editing', 'Optimization'])">
+                    <img src="assets/projects/auditionTools.png" alt="Audition Tools">
                     <h2>Autonomous Audio and Video Editing Tools</h2>
                     <h4>Scripting | Tooling | Optimization</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/rocketGame.png')">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/rocketGame.png', ['Python', 'Turtle Graphics', 'User Interface', 'Game Development'])">
                     <img src="assets/projects/rocketGame.png" alt="Turtle Rocket Game">
                     <h2>Python Turtle Rocket Game</h2>
                     <h4>2D Graphics | Game Development</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/mineSweeper.png')">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/mineSweeper.png', ['Java', 'Data Structures', 'Search Algorithms', 'Game Development'])">
                     <img src="assets/projects/mineSweeper.png" alt="Minesweeper Game">
                     <h2>Minesweeper Game</h2>
                     <h4>Search Algorithms | Game Development</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/chess.png')">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/chess.png', ['Java', '2D Arrays', 'Data Structures', 'Algorithms', 'Game Development'])">
                     <img src="assets/projects/chess.png" alt="2D Array Chess">
                     <h2>2D Array Chess Game</h2>
                     <h4>Data Structures | Game Development</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/musicTrainer.jpg')">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/musicTrainer.jpg', ['Python', 'Turtle Graphics', 'Software Development', ' Music Education'])">
                     <img src="assets/projects/musicTrainer.jpg" alt="Music Staff Trainer App">
                     <h2>Music Staff Trainer App</h2>
                     <h4>2D Graphics | Game Development</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/portfolio.png')">
-                    <img src="assets/portfolio.png" alt="Portfolio Website">
+                <div class="project" data-status="past" onclick="openModal('Project 4', 'Details about another past project.', 'assets/projects/portfolio.png', ['HTML', 'CSS', 'JavaScript', 'Web Design'])">
+                    <img src="assets/projects/portfolio.png" alt="Portfolio Website">
                     <h2>Website Portfolio</h2>
                     <h4>Web Development</h4>
                 </div>
@@ -287,7 +298,10 @@
                 <span class="close" onclick="closeModal()">&times;</span>
                 <img id="modal-image" class="modal-img" src="" alt="Project Image">
                 <div class="modal-body">
-                    <h2 id="modal-title"></h2>
+                    <div class="modal-header">
+                        <h2 id="modal-title"></h2>
+                        <div id="modal-skills" class="skills-container"></div>
+                    </div>
                     <p id="modal-description"></p>
                 </div>
             </div>
@@ -309,6 +323,7 @@
                 <button type="submit">Send Message &#x27A3</button>
             </form>
         </div>
+        <br style="padding: 160px;">
     </section>
 
     <!-- Footer -->
@@ -319,7 +334,7 @@
                 <a href="https://github.com/brnolson" target="_blank">
                     <img src="assets/githubLogo.png" alt="GitHub" class="social-icon">
                 </a>
-                <a href="https://www.linkedin.com/in/brenen-olson-882128259/" target="_blank">
+                <a href="https://www.linkedin.com/in/brenen-olson/" target="_blank">
                     <img src="assets/linkedInLogo.png" alt="LinkedIn" class="social-icon">
                 </a>
                 <a href="mailto:brnolson@gmail.com" target="_blank">
