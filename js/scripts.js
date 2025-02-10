@@ -24,7 +24,7 @@ function filterProjects(status) {
 function openModal(title, description, imageSrc, skills = []) {
     document.getElementById('modal').style.display = 'flex';
     document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-description').textContent = description;
+    document.getElementById('modal-description').innerHTML = description;
     document.getElementById('modal-image').src = imageSrc;
 
     // Select skills container

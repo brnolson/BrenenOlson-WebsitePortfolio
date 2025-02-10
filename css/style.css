@@ -15,7 +15,7 @@
 
 /* -------------------------Page Construction------------------------- */
 
-#construction-overlay {
+/* #construction-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -35,7 +35,7 @@
 
 body {
     overflow: hidden;
-}
+} */
 
 /* -------------------------End of Page Construction------------------------- */
 
@@ -193,8 +193,8 @@ nav {
     align-items: center;
     justify-content: center;
     text-align: center;
-    margin-top: 120px;
-    padding-bottom: 250px;
+    margin-top: 160px;
+    margin-bottom: 160px;
 }
 
 .date {
@@ -355,13 +355,11 @@ button:hover {
     border: solid 1px white;
 }
 
-/* Active Button Styling */
 .filter-btn.active {
     background: #333;
     color: white;
     border: solid 1px white;
 }
-
 
 .modal {
     display: none;
@@ -376,6 +374,7 @@ button:hover {
     color: black;
     justify-content: center;
     align-items: center;
+    align-items: start;
 }
 
 .modal-content {
@@ -385,6 +384,7 @@ button:hover {
     border: 1px solid #888;
     width: 80%;
     max-width: 800px;
+    min-width: 635px;
     border-radius: 45px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -392,6 +392,8 @@ button:hover {
 
 .modal h2 {
     color: black;
+    width: 200px;
+    font-size: x-large;
 }
 
 .modal-img {
@@ -423,7 +425,7 @@ button:hover {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    max-width: 450px;
+    max-width: 350px;
     justify-content: flex-end;
 }
 
@@ -437,6 +439,11 @@ button:hover {
     white-space: nowrap;
     color: black;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s;
+}
+
+.skill-box:hover {
+    transform: translateY(-5px);
 }
 
 .close {
@@ -588,7 +595,7 @@ button:hover {
 }
 
 /* Responiveness for Small Screens */
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
     .edu-container {
         flex-direction: column;
         align-items: center;
@@ -653,6 +660,16 @@ button:hover {
         max-width: 400px;
     }
 
+    .project-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skills-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
     .project-list {
         grid-template-columns: 1fr;
     }
