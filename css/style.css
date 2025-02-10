@@ -512,6 +512,11 @@ button:hover {
     transform: translateY(-10px);
 }
 
+.project-date {
+    width: 100%;
+    text-align: right;
+}
+
 .project h2 {
     font-size: 24px;
     font-weight: bold;

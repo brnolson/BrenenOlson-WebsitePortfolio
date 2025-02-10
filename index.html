@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brenen Olson</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="stylesheet" href="css/style.css">
+    <title>Brenen Olson</title>
   </head>
   <body style="background-image: url('assets/bgd.png');">
 
@@ -24,7 +25,8 @@
                     <a href="#about" class="navtab">About</a>
                     <a href="#skills" class="navtab">Skills</a>
                     <a href="#projects" class="navtab">Projects</a>
-                    <a href="#" class="navtab" style="color: rgb(85, 85, 85); text-decoration-line: line-through;">Research</a>
+                    <!-- <a href="#design" class="navtab">Design</a> -->
+                    <!-- <a href="#research" class="navtab">Research</a> -->
                     <a href="#contact" class="navtab">Contact</a>
                 </div>
             </div>
@@ -88,7 +90,7 @@
                 <div class="skill">
                     <h2>Python</h2>
                     <img src="assets/skills/pythonIcon.png" alt="Python">
-                    <p>Experienced in Python for algorithm development, automation, and embedded systems.</p>
+                    <p>Experienced in Python for algorithm development, automation, and graphics.</p>
                 </div>
                 <div class="skill">
                     <h2>C#</h2>
@@ -191,7 +193,7 @@
                 <div class="skill">
                     <h2>Android Studio</h2>
                     <img src="assets/skills/androidStudioIcon.png" alt="Android Studio">
-                    <p>Exposure to Android Studio for building and optimizing Android applications.</p>
+                    <p>Actively learning Android Studio for building and optimizing Android applications.</p>
                 </div>
                 <div class="skill">
                     <h2>Unity</h2>
@@ -199,7 +201,7 @@
                     <p>Actively learning Unity for developing 2D/3D games and interactive experiences.</p>
                 </div>
                 <div class="skill">
-                    <h2>Arduino</h2>
+                    <h2>Arduino IDE</h2>
                     <img src="assets/skills/arduinoIcon.png" alt="Arduino IDE">
                     <p>Programmed Routines on Various Microcontrollers using Arduino IDE.</p>
                 </div>
@@ -229,68 +231,78 @@
             
             <!-- Project List -->
             <div class="project-list">
-                <div class="project" data-status="current" onclick="openModal('SPACESiM Research Cable Tension Simulation', 'SPACESiM, a research project at the University of Minnesota funded by Cornell University, simulates a payload moving in a 6-DOF space using 8 cables. The system models cable behavior with high accuracy using Hooke\'s Law and advanced physics, simulating tension, recoil, and stretching in space. This real-time simulation supports space mission planning and improves cable design for satellite deployment and space station maintenance.<br><br>● Developed a real-time cable simulation system to model 6-DOF movement using 8 cables in space.<br>● Utilized Hooke’s Law to accurately simulate tension, recoil, and stretching behavior of cables under varying forces.<br>● Created interactive simulations within Unreal Engine 5 for visualization and testing of complex cable systems.<br>● Supported collaborative research with Cornell University, contributing to next-generation cable design and space mission solutions.<br>● Worked with C++ and Blueprints in Unreal Engine 5 for efficient simulation development and testing.', 'assets/projects/spaceSim.png', ['Unreal Engine 5', 'Blueprints', 'C++', '3D Rendering', 'Computer Graphics', 'Simulation', 'Mathematics']);">
+                <div class="project" data-status="current" onclick="openModal('SPACESiM Research Cable Tension Simulation', 'SPACESiM, a research project at the University of Minnesota funded by Cornell University, simulates a payload moving in a 6-DOF space using 8 cables. The system models cable behavior with high accuracy using Hooke\'s Law and advanced physics, simulating tension, recoil, and stretching in space. This real-time simulation supports simulated docking mission planning, allowing Cornell students to use the mechanism to test models and projects.<br><br>● Developed a real-time cable simulation system to model 6-DOF movement using 8 cables in space.<br>● Utilized Hooke’s Law to accurately simulate tension, recoil, and stretching behavior of cables under varying forces.<br>● Created interactive simulations within Unreal Engine 5 for visualization and testing of complex cable systems.<br>● Supported collaborative research with Cornell University, contributing to next-generation space mission solutions.<br>● Worked with C++ and Blueprints in Unreal Engine 5 for efficient simulation development and testing.', 'assets/projects/spaceSim.png', ['Unreal Engine 5', 'Blueprints', 'C++', '3D Rendering', 'Computer Graphics', 'Simulation', 'Mathematics']);">
                     <img src="assets/projects/spaceSim.png" alt="SPACESiM Research Cable Tension Simulation">
+                    <h3 class="project-date">2025-Present</h3>
                     <h2>SPACESiM Research Cable Tension Simulation</h2>
                     <h4>3D Graphics | Physics Simulation</h4>
                 </div>
                 
                 <div class="project" data-status="current" onclick="openModal('Immersive Paper/3D Game Unreal Engine 5 Game', 'This immersive project, currently titled &quot;Rouge&quot;, is a personal endeavor that highlights my passion for game design, development, and storytelling. Every asset and gameplay mechanic is handcrafted to deliver a unique and engaging experience, weaving my narrative into interactive visuals and gameplay.<br><br>● Designed and built advanced gameplay mechanics, graphics, and real-time rendering for an immersive 3D experience.<br>● Implemented physics-based interactions and dynamic environment effects, creating a more responsive gameplay experience.<br>● Optimized performance for smooth gameplay across a range of devices using advanced rendering techniques.<br>● Created original sound design, including sound effects and music, to complement the atmosphere and gameplay experience.<br>● Used Unreal Engine 5 and Blueprints for rapid prototyping and efficient development of complex systems.', 'assets/projects/rouge.png', ['Unreal Engine 5', 'Blueprints', 'C++', '3D Rendering', 'Computer Graphics', 'Game Development'])">
                     <img src="assets/projects/rouge.png" alt="Rouge Unreal Engine Game">
+                    <h3 class="project-date">2024-Present</h3>
                     <h2>Immersive Paper/3D Game Unreal Engine 5 Game</h2>
                     <h4>3D Graphics | Game Development</h4>
                 </div>
 
-                <div class="project" data-status="current" onclick="openModal('University of Minnesota Campus GeoGuesser', 'The University of Minnesota Campus GeoGuesser is an interactive web-based game developed in collaboration with the Social Coding Club at the University of Minnesota. The game challenges players to identify campus locations based on images, promoting exploration and engagement with the university environment. Built with JavaScript, React.js, and Node.js, the project emphasizes intuitive UI/UX design and responsive keybindings to enhance gameplay fluidity.<br><br>● Collaborated with the Social Coding Club to develop a campus exploration game using JavaScript, React.js, and Node.js.<br>● Led frontend development efforts by implementing custom keybindings for dynamic and efficient user navigation.<br>● Designed and refined UI/UX elements using Tailwind CSS, improving responsiveness and visual appeal.<br>● Conducted user testing to gather feedback and iteratively enhance the game’s interface and functionality.', 'assets/projects/gopherGuesser.png', ['JavaScript', 'React.js', 'Node.js', 'Tailwind CSS', 'UI/UX', 'Game Development', 'Collaborative'])">
+                <div class="project" data-status="current" onclick="openModal('University of Minnesota Campus GeoGuesser', 'The University of Minnesota Campus GeoGuesser is an interactive web-based game developed in collaboration with the Social Coding Club at the University of Minnesota. The game challenges players to identify campus locations based on images, promoting exploration and engagement with the campus. Built with JavaScript, React.js, and Node.js, the project emphasizes intuitive UI/UX design and responsive keybindings to enhance gameplay fluidity.<br><br>● Collaborated with the Social Coding Club to develop a campus exploration game using JavaScript, React.js, and Node.js.<br>● Led frontend development efforts by implementing custom keybindings for dynamic and efficient user navigation.<br>● Designed and refined UI/UX elements using Tailwind CSS, improving responsiveness and visual appeal.<br>● Conducted user testing to gather feedback and iteratively enhance the game’s interface and functionality.', 'assets/projects/gopherGuesser.png', ['JavaScript', 'React.js', 'Node.js', 'Tailwind CSS', 'UI/UX', 'Game Development', 'Collaborative'])">
                     <img src="assets/projects/gopherGuesser.png" alt="GopherGuesser Game">
+                    <h3 class="project-date">2024-Present</h3>
                     <h2>University of Minnesota Campus GeoGuesser</h2>
                     <h4>UI/UX | Web/Game Development</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('Virtual Transit System', 'The University of Minnesota Virtual Transit System Simulator is a Java-based application designed to simulate a virtual campus transit system. Using object-oriented design principles and UML, the project models real-world transit scenarios while incorporating advanced design patterns for maintainability and scalability. It also includes a testing framework to ensure system reliability and performance.<br><br>● Developed a virtual campus transit simulation in Java, applying UML and object-oriented principles for system modeling.<br>● Implemented design patterns to improve system scalability and adaptability to different transit scenarios.<br>● Built a comprehensive testing framework using Mockito for unit testing and JaCoCo for code coverage analysis.<br>● Focused on modularity and maintainability, ensuring the system can be easily updated with new features or changes.', 'assets/projects/vts.png', ['Java', 'Design Patterns', 'UML', 'Mockito', 'JaCoCo', 'Collaborative'])">
                     <img src="assets/projects/vts.png" alt="Virtual Transit System">
+                    <h3 class="project-date">2024</h3>
                     <h2>University of Minnesota Virtual Transit System Simulator</h2>
                     <h4>Software Engineering | Design Pattern</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('Complex Sorting Algorithm for Marching Band Leadership Team', 'This project involved developing a complex sorting algorithm to optimize the selection process for the University of Minnesota Marching Band leadership team. The algorithm ensures fair and balanced leader assignments by incorporating constraint-based matching, prioritizing match variability while improving decision-making efficiency. By leveraging Python’s data structures and optimization techniques, the system streamlines the selection process, reducing manual effort and enhancing fairness.<br><br>● Designed and implemented a constraint-based sorting algorithm to optimize leadership team assignments.<br>● Ensured fair and balanced leader distribution by prioritizing match variability.<br>● Improved decision-making efficiency, reducing manual selection complexity.<br>● Developed the algorithm in Python, leveraging advanced data structures and optimization techniques.', 'assets/projects/sortStack.png', ['Python', 'Algorithm Design', 'Optimization', 'Constraint-Based Matching', 'Automation'])">
                     <img src="assets/projects/sortStack.png" alt="Sort Stack Sorting">
+                    <h3 class="project-date">2024</h3>
                     <h2>Complex Sorting Algorithm for Marching Band Leadership Team</h2>
                     <h4>Data Structures | Algorithms</h4>
                 </div>
 
-                <div class="project" data-status="past" onclick="openModal('Autonomous Audio and Video Editing Tools', 'This project involved developing Python-based automation tools to streamline audio and video editing workflows. Using PyAutoGUI, the tools automate repetitive post-production tasks, including slide spacing adjustments, audio cue placements, and document generation from PowerPoint. By reducing manual effort, the system enhances efficiency and consistency in media production.<br><br>● Developed Python automation tools using PyAutoGUI to optimize audio and video editing processes.<br>● Automated slide spacing, audio cue placement, and document generation from PowerPoint, reducing manual workload.<br>● Streamlined post-production workflows by improving efficiency and consistency in media production.<br>● Designed the system to be adaptable for various editing and media processing needs.', 'assets/projects/auditionTools.png', ['Python', 'Automation', 'PyAutoGUI', 'Media Processing', 'Efficiency'])">
-                    <img src="assets/projects/auditionTools.png" alt="Audition Tools">
+                <div class="project" data-status="past" onclick="openModal('Autonomous Audio and Video Editing Tools', 'This project involved developing Python-based automation tools to streamline audio and video editing workflows for my Student Tech Support Services position. Using PyAutoGUI, the tools automate repetitive post-production tasks, including slide spacing adjustments, audio cue placements, and document generation from PowerPoint. By reducing manual effort, the system enhances efficiency and consistency in media production.<br><br>● Developed Python automation tools using PyAutoGUI to optimize audio and video editing processes.<br>● Automated slide spacing, audio cue placement, and document generation from PowerPoint, reducing manual workload.<br>● Streamlined post-production workflows by improving efficiency and consistency in media production.<br>● Designed the system to be adaptable for various editing and media processing needs.', 'assets/projects/auditionTools.png', ['Python', 'Automation', 'PyAutoGUI', 'Media Processing', 'Efficiency'])">
+                    <img src="assets/projects/auditionTools.png" alt="Audition Tools"><h3 class="project-date">2023</h3>
                     <h2>Autonomous Audio and Video Editing Tools</h2>
                     <h4>Scripting | Tooling | Optimization</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('Python Turtle Rocket Game', 'The Python Turtle Rocket Game is a 2D interactive game built using Python’s Turtle Graphics module. The game features a simple yet engaging user interface where players control a rocket, navigating through obstacles and completing challenges. This project showcases fundamental game development principles, including event-driven programming, collision detection, and user interaction mechanics.<br><br>● Developed a 2D interactive game using Python and the Turtle Graphics module.<br>● Designed an engaging user interface with real-time rocket movement and obstacle navigation.<br>● Implemented event-driven programming concepts for smooth player interactions.<br>● Applied basic game development techniques, including collision detection and UI elements.', 'assets/projects/rocketGame.png', ['Python', 'Turtle Graphics', 'Game Development', 'User Interface', 'Event-Driven Programming'])">
                     <img src="assets/projects/rocketGame.png" alt="Turtle Rocket Game">
+                    <h3 class="project-date">2023</h3>
                     <h2>Python Turtle Rocket Game</h2>
                     <h4>2D Graphics | Game Development</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('Minesweeper Game', 'The Minesweeper Game is a Java-based implementation of the classic logic puzzle, incorporating efficient search algorithms and data structures to enhance gameplay. The project focuses on optimizing reveal mechanics, implementing recursive flood-fill algorithms, and managing game states dynamically.<br><br>● Developed a Minesweeper game in Java, implementing search algorithms for efficient tile reveal mechanics.<br>● Utilized data structures to manage game state and improve performance.<br>● Implemented recursive flood-fill for uncovering safe areas dynamically.', 'assets/projects/mineSweeper.png', ['Java', 'Data Structures', 'Search Algorithms', 'Game Development', 'Recursive Algorithms'])">
                     <img src="assets/projects/mineSweeper.png" alt="Minesweeper Game">
+                    <h3 class="project-date">2023</h3>
                     <h2>Minesweeper Game</h2>
                     <h4>Search Algorithms | Game Development</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('2D Array Chess Game', 'The 2D Array Chess Game is a Java-based implementation of chess, utilizing 2D arrays and data structures to efficiently manage game states and piece movement. The project incorporates rule enforcement, turn-based logic, and algorithmic validation of legal moves, ensuring an accurate and strategic gameplay experience.<br><br>● Implemented chess logic using 2D arrays to efficiently track piece positions and board state.<br>● Developed algorithms for move validation, check detection, and turn-based play enforcement.<br>● Utilized data structures to manage game state, ensuring efficient updates and move processing.<br>● Applied algorithmic techniques to detect legal moves, castling, and special rules like en passant.', 'assets/projects/chess.png', ['Java', '2D Arrays', 'Data Structures', 'Algorithms', 'Game Development'])">
                     <img src="assets/projects/chess.png" alt="2D Array Chess">
+                    <h3 class="project-date">2023</h3>
                     <h2>2D Array Chess Game</h2>
                     <h4>Data Structures | Game Development</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('Music Staff Trainer App', 'The Music Staff Trainer App is a Python-based educational tool designed to help users practice music note recognition through interactive exercises. Utilizing Turtle Graphics, the app visually represents a music staff and dynamically generates note-reading challenges. This project applies software development principles to enhance music education through interactive learning.<br><br>● Developed an interactive music education tool using Python and Turtle Graphics.<br>● Designed algorithms to generate random notes on a staff, reinforcing music notation skills.<br>● Implemented user input handling for real-time note identification and response validation.<br>● Applied software development techniques to create a structured and adaptable learning experience.', 'assets/projects/musicTrainer.jpg', ['Python', 'Turtle Graphics', 'Software Development', 'Music Education'])">
                     <img src="assets/projects/musicTrainer.jpg" alt="Music Staff Trainer App">
+                    <h3 class="project-date">2021</h3>
                     <h2>Music Staff Trainer App</h2>
                     <h4>2D Graphics | Game Development</h4>
                 </div>
 
                 <div class="project" data-status="past" onclick="openModal('Website Portfolio', 'The Website Portfolio is a personal web development project showcasing skills in HTML, CSS, and JavaScript. The portfolio features an interactive, responsive layout that adapts to different screen sizes, presenting various projects, achievements, and skills. This project emphasizes clean, modular code and a user-friendly interface to highlight web development proficiency.<br><br>● Designed and developed a personal website portfolio using HTML, CSS, and JavaScript.<br>● Implemented a responsive layout, ensuring accessibility across different devices and screen sizes.<br>● Applied best practices in web design to create a clean and user-friendly interface.<br>● Highlighted various projects, achievements, and skills, showcasing web development capabilities.', 'assets/projects/portfolio.png', ['HTML', 'CSS', 'JavaScript', 'Web Design'])">
                     <img src="assets/projects/portfolio.png" alt="Portfolio Website">
+                    <h3 class="project-date">2025</h3>
                     <h2>Website Portfolio</h2>
                     <h4>Web Development</h4>
                 </div>
@@ -317,7 +329,7 @@
     <section id="contact">
         <div class="body-container">
             <h1>Contact Me</h1>
-            <h3 style="color: white;">Please contact me directly at <a href="mailto:brnolson@gmail.com" target="_blank" class="gradient-text">brnolson33@gmail.com</a> or use the following form.</h3>
+            <h3 style="color: white; padding-bottom: 60px;">Please contact me directly at <a href="mailto:brnolson@gmail.com" target="_blank" class="gradient-text">brnolson33@gmail.com</a> or use the following form.</h3>
             <form action="https://formspree.io/f/mldgnwgw" method="POST">
                 <label for="email">Your Email:</label>
                 <input type="email" id="email" name="email" required>
