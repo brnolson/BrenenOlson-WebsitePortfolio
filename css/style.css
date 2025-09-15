@@ -41,15 +41,18 @@ body {
 
 html {
     scroll-behavior: smooth;
+    height: 100%; /* ensure full screen base */
 }
 
 body {
+    min-height: 100vh; /* always cover full screen */
+    margin: 0;
+
     background-image: url("../assets/bgd.png");
     background-repeat: no-repeat; /* stops tiling */
-    background-attachment: fixed;
     background-size: cover;
     background-position:center;
-    background-attachment: fixed;
+    
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color: rgb(255, 255, 255);
 }
