@@ -39,26 +39,21 @@ body {
 
 /* -------------------------End of Page Construction------------------------- */
 
-html {
-    scroll-behavior: smooth;
-    height: 100%; /* ensure full screen base */
-    overflow-x: hidden;
-}
-
-body {
-    min-height: 100vh; /* always cover full screen */
-    margin: 0;
-    overflow-x: hidden;
-
-    background-image: url("../assets/bgd.png");
-    background-repeat: no-repeat; /* stops tiling */
-    background-attachment: fixed;
-    background-size: cover;
-    background-position:center;
-    
+html, body {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: calc(var(--vh, 1vh) * 100); /* mobile-safe full height */
+    width: 100%;
+    background-image: url("../assets/bgd.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
     color: rgb(255, 255, 255);
 }
+
 
 h1 {
     text-align: left;
@@ -92,12 +87,13 @@ section {
 }
 
 .wrapper {
-    background-color:transparent;
+    background-color: transparent;
     border-bottom: solid 1px var(--border);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* center everything horizontally */
     padding: 15px 20px;
+    gap: 2rem; /* optional spacing between logo and nav links */
 }
 
 .logo {
