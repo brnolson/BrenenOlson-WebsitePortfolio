@@ -217,8 +217,8 @@ nav {
 
 
 .info-box {
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-left: 40px;
+    padding-right: 40px;
     text-align: left;
     flex-grow: 1;
 }
@@ -450,7 +450,7 @@ button:hover {
 }
 
 .skill-box:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
 }
 
 .close {
@@ -777,8 +777,8 @@ button:hover {
 
     .close {
         font-size: 25px;
-        top: -10px;
-        right: -10px;
+        top: -12px;
+        right: -12px;
     }
 
     .modal-img {
@@ -861,6 +861,7 @@ button:hover {
         width: 90%;
         padding: 12px;
         font-size: 13px;
+        margin-top: 5%;
     }
 
     .filter {
