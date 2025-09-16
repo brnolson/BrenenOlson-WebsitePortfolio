@@ -125,9 +125,7 @@ nav {
 
 .nav-links {
     display: flex;
-    gap: 20px;
-    padding-left: 60px;
-    padding: 20px;
+    gap: 50px;
 }
 
 .navtab {
@@ -335,7 +333,7 @@ button:hover {
     display: flex;
     justify-content: center;
     background: var(--gradient);
-    padding: 20px;
+    padding: 10px 20px;
     border-radius: 30px;
     border: solid 1px var(--border);
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
@@ -615,8 +613,8 @@ button:hover {
         align-items: center;
         text-align: center;
         min-height: auto;
-        width: calc(100vw - 40px);
-        max-width: 600px;
+        width: 100%;
+        max-width: 300px;
         padding-left: 0px;
         padding-right: 0px;
     }
@@ -690,7 +688,6 @@ button:hover {
         font-size: 1.25rem;
     }
 
-    /* Mobile modal fixes - make readable without scrolling */
     .modal-content {
         width: 90%;
         margin: 2% auto;
@@ -740,9 +737,20 @@ button:hover {
 }
 
 @media (max-width: 768px) {
+    .nav-links {
+        gap: 30px;
+    }
+
+    
+
     .project-list {
         grid-template-columns: 1fr;
         padding: 0 20px;
+    }
+
+    h1 {
+        font-size: xx-large;
+        line-height: 50px;
     }
 
     .logo {
@@ -754,15 +762,19 @@ button:hover {
         padding: 0 20px 30px 20px;
     }
 
-    .edu-container {
-        width: calc(100vw - 30px);
-    }
-
-    /* Smaller modal text for very small screens */
     .modal-content {
-        width: 95%;
+        width: 90%;
         padding: 12px;
         font-size: 13px;
+    }
+
+    .filter {
+        width: 90%;
+    }
+
+    .filter-btn {
+        padding: 7px 18px;
+        
     }
 
     .modal-body {
@@ -773,35 +785,5 @@ button:hover {
     .skill-box {
         font-size: 10px;
         padding: 2px 4px;
-    }
-}
-
-/* Fix for very small screens */
-@media (max-width: 480px) {
-    .main-photo {
-        width: 250px;
-    }
-
-    .edu-container {
-        width: calc(100vw - 20px);
-    }
-
-    /* Extra small modal for tiny screens */
-    .modal-content {
-        width: 98%;
-        margin: 1% auto;
-        padding: 10px;
-        font-size: 12px;
-    }
-
-    .modal-body {
-        font-size: 11px;
-        line-height: 1.1;
-    }
-
-    .close {
-        font-size: 20px;
-        top: -8px;
-        right: -8px;
     }
 }
