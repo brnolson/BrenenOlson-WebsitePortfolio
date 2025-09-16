@@ -187,7 +187,7 @@ nav {
 }
 
 .edu-container:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .body-container {
@@ -251,7 +251,7 @@ nav {
 }
 
 .school-logo:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -503,7 +503,7 @@ button:hover {
 }
 
 .project:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .project img {
@@ -516,7 +516,7 @@ button:hover {
 }
 
 .project img:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .project-date {
@@ -568,7 +568,7 @@ button:hover {
 }
 
 .skill:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .skill h2 {
