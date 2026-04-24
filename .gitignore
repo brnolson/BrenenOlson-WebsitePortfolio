@@ -1,0 +1,10 @@
+# Build cache for the one-shot JSX compiler (node compile.cjs).
+# Auto-created on first compile; contains @babel/standalone (~20MB).
+.babel-cache/
+
+# Vercel
+.vercel/
+
+# OS
+.DS_Store
+Thumbs.db

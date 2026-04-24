@@ -1,91 +1,82 @@
-// Filter Projects
-function filterProjects(status) {
-    const projects = document.querySelectorAll('.project');
-    const buttons = document.querySelectorAll('.filter-btn');
+// Page chrome behaviors: FPS counter, scroll progress, slim topbar, active-nav
+// highlighting, and a scramble-on-scroll effect for section headlines.
 
-    // Show/hide projects based on filter
-    projects.forEach(project => {
-        if (status === 'all' || project.getAttribute('data-status') === status) {
-            project.classList.remove('hidden');
-        } else {
-            project.classList.add('hidden');
-        }
+(function fps() {
+  let frames = 0, last = performance.now();
+  const tick = () => {
+    frames++;
+    const now = performance.now();
+    if (now - last >= 500) {
+      const rate = Math.round((frames * 1000) / (now - last));
+      document.querySelectorAll(".hero-fps").forEach(el => el.textContent = rate);
+      frames = 0; last = now;
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+})();
+
+(function scrollChrome() {
+  const progress = document.getElementById("scrollProgress");
+  const topbar   = document.getElementById("topbar");
+  const navLinks = document.querySelectorAll(".chrome-nav a");
+  if (!progress || !topbar) return;
+
+  const onScroll = () => {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const total = h.scrollHeight - h.clientHeight;
+    const pct = Math.min(1, scrolled / (total || 1));
+    progress.style.transform = `scaleX(${pct})`;
+    topbar.classList.toggle("slim", scrolled > 60);
+
+    const ids = ["about", "pin", "projects", "skills", "experience", "research", "contact"];
+    let active = null;
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      if (r.top <= 120 && r.bottom > 120) { active = id; break; }
+    }
+    navLinks.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + active));
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+
+(function scramble() {
+  const CHARS = "!@#$%^&*()_+=-[]{}|;:<>?/~`ABCDEF0123456789";
+  const run = (el) => {
+    const text = el.textContent;
+    let frame = 0, raf;
+    const q = [...text].map(ch => ({ ch, start: Math.floor(Math.random() * 18), end: Math.floor(Math.random() * 18) + 8 }));
+    const step = () => {
+      let out = "", done = 0;
+      q.forEach(({ ch, start, end }) => {
+        if (frame >= end) { done++; out += ch; }
+        else if (frame >= start) out += CHARS[Math.floor(Math.random() * CHARS.length)];
+        else out += " ";
+      });
+      el.textContent = out;
+      if (done < q.length) { frame++; raf = requestAnimationFrame(step); }
+    };
+    step();
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !e.target.dataset.scrambled) {
+        e.target.dataset.scrambled = "1";
+        run(e.target);
+      }
     });
+  }, { threshold: 0.4 });
 
-    // Remove active class from all buttons
-    buttons.forEach(button => button.classList.remove('active'));
-
-    // Add active class to the clicked button
-    document.querySelector(`.filter-btn[onclick="filterProjects('${status}')"]`).classList.add('active');
-}
-
-
-// Open Modal with image, title, and description
-function openModal(title, description, imageSrc, skills = []) {
-    document.getElementById('modal').style.display = 'flex';
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-description').innerHTML = description;
-    document.getElementById('modal-image').src = imageSrc;
-
-    // Select skills container
-    const skillsContainer = document.getElementById('modal-skills');
-    skillsContainer.innerHTML = "";
-
-    // Add skills dynamically
-    skills.forEach(skill => {
-        let skillBox = document.createElement("div");
-        skillBox.classList.add("skill-box");
-        skillBox.textContent = skill;
-        skillsContainer.appendChild(skillBox);
-    });
-}
-
-// Close Modal
-function closeModal() {
-    document.getElementById('modal').style.display = 'none';
-}
-
-// Close modal if clicked outside the modal content
-window.onclick = function(event) {
-    if (event.target === document.getElementById('modal')) {
-        closeModal();
-    }
-};
-
-
-// Navtab highlight
-document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll(".nav-links .navtab");
-
-    function updateActiveTab() {
-        let currentSection = "";
-
-        sections.forEach((section) => {
-            const sectionTop = section.offsetTop -300; // Adjust for fixed nav
-            if (window.scrollY >= sectionTop) {
-                currentSection = section.getAttribute("id");
-            }
-        });
-
-        navLinks.forEach((link) => {
-            link.classList.remove("active");
-            if (link.getAttribute("href").includes(currentSection)) {
-                link.classList.add("active");
-            }
-        });
-    }
-
-    window.addEventListener("scroll", updateActiveTab);
-    updateActiveTab();
-});
-
-// Shrink header on scroll effect
-window.addEventListener("scroll", function () {
-    let header = document.querySelector("header");
-    if (window.scrollY > 250) {
-        header.classList.add("scrolled");
-    } else {
-        header.classList.remove("scrolled");
-    }
-});
+  // React renders section headlines async; attach the observer on a couple of
+  // settle timers so we catch late mounts (projects/experience/etc.).
+  const attach = () => {
+    document.querySelectorAll(".section-head, .contact-big").forEach(el => io.observe(el));
+  };
+  setTimeout(attach, 400);
+  setTimeout(attach, 1500);
+})();

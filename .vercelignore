@@ -1,0 +1,6 @@
+# Files Vercel shouldn't bother deploying
+.git/
+.gitignore
+.babel-cache/
+compile.cjs
+js/*.jsx
