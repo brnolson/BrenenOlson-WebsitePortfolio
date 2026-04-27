@@ -302,7 +302,10 @@ section { position: relative; }
 }
 .pin-label {
   position: absolute;
-  transform: translate(-50%, -50%);
+  /* Anchor the *dot* (left edge of the label) to the projected point.
+     The dot is 8px wide; we shift left by half its width and center vertically
+     so the dot's exact center lands on the projected (x, y). */
+  transform: translate(-4px, -50%);
   display: flex; align-items: center;
   gap: 0;
   font-family: var(--mono);

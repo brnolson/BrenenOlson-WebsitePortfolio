@@ -889,22 +889,20 @@ const PinScene = ({
       }
 
       // ============================================================
-      //  HELIX TILT — upright (chapter 1) → sideways (chapter 2 end)
-      //  We rotate the parent helixTiltGroup around the Z axis so the
-      //  helix's Y-axis (its long axis) sweeps from vertical to horizontal.
-      //  Self-spin still happens on helixRotationGroup independently.
+      //  HELIX TILT — upright → fully sideways during chapter 2.
+      //  The parent helixTiltGroup rotates around Z so the helix's long
+      //  axis (Y) sweeps from vertical to horizontal. Self-spin keeps
+      //  running on helixRotationGroup independently.
       // ============================================================
-      const tiltAmt = ss(2.0, 2.7, p); // 0..1 over chapter 2
-      const tiltAngle = -Math.PI * 0.5 * tiltAmt; // 0 → -90°
-      helixTiltGroup.rotation.z = tiltAngle;
-      // Slight x-tilt during the lay-down so the viewer sees a 3/4 view, not pure side
-      helixTiltGroup.rotation.x = 0.18 * tiltAmt;
+      const tiltAmt = ss(2.05, 2.85, p); // tilt covers most of chapter 2
+      helixTiltGroup.rotation.z = -Math.PI * 0.5 * tiltAmt; // 0 → -90°
+      helixTiltGroup.rotation.x = 0.22 * tiltAmt; // small 3/4 perspective
 
       // ============================================================
-      //  CAMERA PATH — three chapters, mostly held positions.
-      //  · 0..1 cell overview → close
-      //  · 1..2 zoom toward nucleus, helix reveal
-      //  · 2..3 pull back slightly so the laid-down helix fits the frame
+      //  CAMERA PATH
+      //  · 0..1 cell overview → close push-in
+      //  · 1..2 cell fades + camera reaches its hold position for chapter 2
+      //  · 2..3 CAMERA HELD — only motion the user sees is the helix tilting
       // ============================================================
       cellGroup.getWorldPosition(cellWorldPos);
       nucleusGroup.getWorldPosition(nucleusWorldPos);
@@ -913,22 +911,20 @@ const PinScene = ({
       const WP = {
         cellOverview: new THREE.Vector3(0, 0.2, 9),
         cellClose: new THREE.Vector3(0, 0.0, 4.0),
-        helixEst: new THREE.Vector3(0.0, 0.0, 5.5),
-        helixOut: new THREE.Vector3(0.0, 0.2, 6.8)
+        helixHold: new THREE.Vector3(0.0, 0.0, 6.8) // single hold position for the tilt
       };
       if (p < 1) {
         const k = ss(0, 1, p);
         camPos.copy(WP.cellOverview).lerp(WP.cellClose, k);
         lookAt.set(0, 0, 0);
       } else if (p < 2) {
-        // Reach helix-establish view by ~70% of the chapter, then hold.
-        const k = ss(1.0, 1.7, p);
-        camPos.copy(WP.cellClose).lerp(WP.helixEst, k);
+        // Cell fades, helix appears, camera reaches its chapter-2 hold position.
+        const k = ss(1.0, 1.85, p);
+        camPos.copy(WP.cellClose).lerp(WP.helixHold, k);
         lookAt.set(0, 0, 0);
       } else {
-        // Pull back gently so the laid-down (horizontal) helix still fits.
-        const k = ss(2.0, 2.7, p);
-        camPos.copy(WP.helixEst).lerp(WP.helixOut, k);
+        // CHAPTER 2 — camera fixed; the helix tilt is the only motion.
+        camPos.copy(WP.helixHold);
         lookAt.set(0, 0, 0);
       }
       camera.position.copy(camPos);
@@ -936,10 +932,14 @@ const PinScene = ({
 
       // ============================================================
       //  LABEL OVERLAY — anchor-driven projection.
-      //  Each anchor stores a LOCAL-SPACE point on its group (cell or helix);
-      //  every frame we transform through the group's matrixWorld and project
-      //  to NDC. The dot lands on the actual organelle / structure.
+      //  CRITICAL: matrixWorld for groups and camera.matrixWorldInverse only
+      //  refresh during renderer.render(). We project labels BEFORE render,
+      //  so we have to refresh matrices ourselves first or the labels will
+      //  lag a frame behind the geometry (and look "detached").
       // ============================================================
+      scene.updateMatrixWorld(true);
+      camera.updateMatrixWorld();
+      camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
       const labels = [];
       const project = v => {
         tmp.copy(v).project(camera);
@@ -954,8 +954,7 @@ const PinScene = ({
         return project(v);
       };
 
-      // CELL labels — long-lasting (in: 0.15, out: 1.55) so the reader has
-      // time to read each organelle's callout. Anchors are surface points.
+      // CELL labels — long-lasting so the reader has time to read each callout.
       const cellLabelFade = ss(0.15, 0.55, p) * (1 - ss(1.25, 1.55, p));
       if (cellLabelFade > 0.02) {
         for (const a of cellAnchors) {
@@ -971,10 +970,9 @@ const PinScene = ({
         }
       }
 
-      // DNA labels — appear once the helix is established, last through the
-      // tilt animation, and out as the chapter ends. Each anchor uses a
-      // function so it can sample current strand/rung positions.
-      const dnaLabelFade = ss(1.5, 1.9, p) * (1 - ss(2.85, 3.0, p));
+      // DNA labels — appear when the helix is fully visible (end of chapter 1)
+      // and stay through the entire chapter-2 tilt animation.
+      const dnaLabelFade = ss(1.7, 2.0, p) * (1 - ss(2.95, 3.0, p));
       if (dnaLabelFade > 0.02) {
         for (const a of dnaAnchors) {
           const local = a.localFn();
