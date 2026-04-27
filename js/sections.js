@@ -66,7 +66,7 @@ window.About = () => /*#__PURE__*/React.createElement("section", {
 // ---------- PINNED SCROLL ----------
 window.PinSection = () => {
   const wrapRef = React.useRef(null);
-  const [progress, setProgress] = React.useState(0); // 0..6
+  const [progress, setProgress] = React.useState(0); // 0..4
   const [chapter, setChapter] = React.useState(0);
   React.useEffect(() => {
     const onScroll = () => {
@@ -74,9 +74,9 @@ window.PinSection = () => {
       const rect = wrapRef.current.getBoundingClientRect();
       const total = wrapRef.current.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
-      const p = scrolled / total * 3; // three chapters → 0..3
+      const p = scrolled / total * 4; // four chapters → 0..4
       setProgress(p);
-      setChapter(Math.min(2, Math.max(0, Math.round(p))));
+      setChapter(Math.min(3, Math.max(0, Math.round(p))));
     };
     window.addEventListener("scroll", onScroll, {
       passive: true
@@ -93,9 +93,13 @@ window.PinSection = () => {
     headline: "Inside the library.",
     sub: "At the core of every cell: DNA. Two meters of filament, coiled into something smaller than a grain of dust. Three and a half billion years of faithful copies, all the way down to now."
   }, {
-    title: "Sideways",
-    headline: "The double helix, unfolded.",
+    title: "Labeled",
+    headline: "The double helix, up close.",
     sub: "Two antiparallel sugar-phosphate backbones. Base pairs every 3.4 ångströms. Major groove on one face, minor groove on the other. Every word biology ever spoke, written here."
+  }, {
+    title: "Structure",
+    headline: "Read between the strands.",
+    sub: "The ladder tilts horizontal — and you're inside it. Each rung: two complementary bases, hydrogen-bonded. Four letters, infinite sequences, one unbroken chain from the first cell to now."
   }];
   return /*#__PURE__*/React.createElement("section", {
     className: "pin-wrap",
@@ -118,7 +122,7 @@ window.PinSection = () => {
     className: "pin-counter"
   }, /*#__PURE__*/React.createElement("span", {
     className: "idx"
-  }, "0", chapter + 1), "/03 \xB7 graphics demo \xB7 scroll-driven"), /*#__PURE__*/React.createElement("h2", {
+  }, "0", chapter + 1), "/04 \xB7 graphics demo \xB7 scroll-driven"), /*#__PURE__*/React.createElement("h2", {
     className: "pin-headline"
   }, chapters[chapter].headline), /*#__PURE__*/React.createElement("p", {
     className: "pin-sub"
@@ -133,14 +137,14 @@ window.PinSection = () => {
     className: "pin-footer"
   }, /*#__PURE__*/React.createElement("div", {
     className: "pin-tag"
-  }, "cell \u2192 helix \u2192 sideways"), /*#__PURE__*/React.createElement("div", {
+  }, "cell \u2192 helix \u2192 labeled \u2192 structure"), /*#__PURE__*/React.createElement("div", {
     className: "pin-progress-bar",
     style: {
-      "--p": `${progress / 3 * 100}%`
+      "--p": `${progress / 4 * 100}%`
     }
   }), /*#__PURE__*/React.createElement("div", {
     className: "pin-tag"
-  }, Math.round(progress / 3 * 100), "%")))));
+  }, Math.round(progress / 4 * 100), "%")))));
 };
 
 // ---------- PROJECTS ----------

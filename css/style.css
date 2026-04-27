@@ -266,7 +266,7 @@ section { position: relative; }
 .about-card-note { font-size: 11px; color: var(--ink-dim); line-height: 1.5; }
 
 /* ---------- PINNED SCROLL ANATOMY ---------- */
-.pin-wrap { position: relative; height: 300vh; background: var(--bg); }
+.pin-wrap { position: relative; height: 400vh; background: var(--bg); }
 .pin-sticky {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
   background: #040509;
