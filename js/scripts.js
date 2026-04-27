@@ -80,3 +80,22 @@
   setTimeout(attach, 400);
   setTimeout(attach, 1500);
 })();
+
+// Scroll-reveal: add `.in-view` to elements with `.about-statement` when they
+// enter the viewport. CSS handles the actual fade + gradient wash-in animation.
+(function scrollReveal() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("in-view");
+        io.unobserve(e.target); // play once, don't re-trigger
+      }
+    });
+  }, { threshold: 0.25 });
+
+  const attach = () => {
+    document.querySelectorAll(".about-statement").forEach(el => io.observe(el));
+  };
+  setTimeout(attach, 400);
+  setTimeout(attach, 1500);
+})();

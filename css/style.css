@@ -135,8 +135,14 @@ img { display: block; max-width: 100%; }
   line-height: 0.98; letter-spacing: -0.03em;
   margin-bottom: 32px;
 }
-.hero-title .accent  { background: linear-gradient(135deg, var(--cyan), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; }
-.hero-title .accent2 { background: linear-gradient(135deg, var(--violet), var(--magenta)); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; }
+.hero-title .accent  { background: linear-gradient(120deg, var(--cyan), var(--violet), var(--magenta), var(--violet), var(--cyan)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 11s ease-in-out infinite; }
+.hero-title .accent2 { background: linear-gradient(120deg, var(--violet), var(--magenta), var(--coral), var(--magenta), var(--violet)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 9s ease-in-out infinite; animation-delay: -3s; }
+
+/* TWEAK ME — speed of the gradient shimmer. Keep it subtle (8–12s). */
+@keyframes gradientShimmer {
+  0%, 100% { background-position:   0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
 .hero-sub { font-size: 13px; line-height: 1.7; color: var(--ink-dim); margin-bottom: 36px; max-width: 460px; }
 .hero-cta-row { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
 .cta {
@@ -224,8 +230,47 @@ section { position: relative; }
   color: var(--ink);
   margin-bottom: 48px;
 }
-.about-statement em { font-style: normal; background: linear-gradient(135deg, var(--cyan), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.about-statement em.med { background: linear-gradient(135deg, var(--mint), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.about-statement em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--cyan), var(--violet), var(--magenta), var(--violet), var(--cyan));
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShimmer 9s ease-in-out infinite;
+}
+.about-statement em.med {
+  background: linear-gradient(120deg, var(--mint), var(--cyan), var(--violet), var(--cyan), var(--mint));
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShimmer 8s ease-in-out infinite;
+  animation-delay: -2.5s;
+}
+
+/* --- Scroll-driven reveal for the about statement ---
+   Default state is hidden + shifted; the .in-view class (added by scripts.js
+   when the element scrolls into view) plays the entrance. The ems also reveal
+   sequentially via per-em animation-delay so the gradients "wash in". */
+.about-statement {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.about-statement.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.about-statement em {
+  background-position: 100% 50%;
+  transition: background-position 1.2s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.about-statement.in-view em            { animation-play-state: running; }
+.about-statement em:nth-of-type(1)     { transition-delay: 0.25s; }
+.about-statement em:nth-of-type(2)     { transition-delay: 0.45s; }
+.about-statement em:nth-of-type(3)     { transition-delay: 0.65s; }
+.about-statement.in-view em            { background-position: 0% 50%; }
 
 .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .about-card {
@@ -736,7 +781,7 @@ section { position: relative; }
   font-size: clamp(40px, 5vw, 72px); line-height: 0.98; letter-spacing: -0.03em;
   margin-bottom: 40px;
 }
-.contact-big .accent { background: linear-gradient(135deg, var(--cyan), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; }
+.contact-big .accent { background: linear-gradient(120deg, var(--cyan), var(--violet), var(--magenta), var(--violet), var(--cyan)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 10s ease-in-out infinite; }
 .contact-email {
   display: inline-flex; align-items: center; gap: 12px;
   font-family: var(--mono); font-size: 14px; color: var(--ink);
