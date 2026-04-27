@@ -74,9 +74,9 @@ window.PinSection = () => {
       const rect = wrapRef.current.getBoundingClientRect();
       const total = wrapRef.current.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(-rect.top, 0), total);
-      const p = scrolled / total * 4; // four chapters → 0..4
+      const p = scrolled / total * 3; // three chapters → 0..3
       setProgress(p);
-      setChapter(Math.min(3, Math.max(0, Math.round(p))));
+      setChapter(Math.min(2, Math.max(0, Math.round(p))));
     };
     window.addEventListener("scroll", onScroll, {
       passive: true
@@ -87,19 +87,15 @@ window.PinSection = () => {
   const chapters = [{
     title: "Cell",
     headline: "You are thirty trillion of these.",
-    sub: "A living machine, ten micrometers wide. Power plants, shipping routes, a library at the center. Every story you've ever been part of started with one of these."
+    sub: "A living machine, ten micrometers wide. Power plants, shipping routes, a library at the center. Every story you've ever been part of started with one of these — and the smallest details are real."
   }, {
     title: "Helix",
-    headline: "Two meters, folded into a speck.",
-    sub: "At the library's core: DNA. Two meters of filament, coiled into something smaller than a grain of dust. Three and a half billion years of faithful copies, all the way down to now."
+    headline: "Inside the library.",
+    sub: "At the core of every cell: DNA. Two meters of filament, coiled into something smaller than a grain of dust. Three and a half billion years of faithful copies, all the way down to now."
   }, {
-    title: "Pair",
-    headline: "The handshake.",
-    sub: "Adenine finds Thymine. Guanine finds Cytosine. Two hydrogen bonds at the rung — three at the other pair. Every word biology has ever spoken is written in these four letters."
-  }, {
-    title: "Coil",
-    headline: "Do it again. Forever.",
-    sub: "Every pair returns to its partner. The helix coils back. Three billion of these match-ups happen in every one of your cells, every day — and then the cell divides, and it starts over."
+    title: "Sideways",
+    headline: "The double helix, unfolded.",
+    sub: "Two antiparallel sugar-phosphate backbones. Base pairs every 3.4 ångströms. Major groove on one face, minor groove on the other. Every word biology ever spoke, written here."
   }];
   return /*#__PURE__*/React.createElement("section", {
     className: "pin-wrap",
@@ -122,7 +118,7 @@ window.PinSection = () => {
     className: "pin-counter"
   }, /*#__PURE__*/React.createElement("span", {
     className: "idx"
-  }, "0", chapter + 1), "/04 \xB7 graphics demo \xB7 scroll-driven"), /*#__PURE__*/React.createElement("h2", {
+  }, "0", chapter + 1), "/03 \xB7 graphics demo \xB7 scroll-driven"), /*#__PURE__*/React.createElement("h2", {
     className: "pin-headline"
   }, chapters[chapter].headline), /*#__PURE__*/React.createElement("p", {
     className: "pin-sub"
@@ -137,14 +133,14 @@ window.PinSection = () => {
     className: "pin-footer"
   }, /*#__PURE__*/React.createElement("div", {
     className: "pin-tag"
-  }, "cell \u2192 helix \u2192 base pair \u2192 reassemble"), /*#__PURE__*/React.createElement("div", {
+  }, "cell \u2192 helix \u2192 sideways"), /*#__PURE__*/React.createElement("div", {
     className: "pin-progress-bar",
     style: {
-      "--p": `${progress / 4 * 100}%`
+      "--p": `${progress / 3 * 100}%`
     }
   }), /*#__PURE__*/React.createElement("div", {
     className: "pin-tag"
-  }, Math.round(progress / 4 * 100), "%")))));
+  }, Math.round(progress / 3 * 100), "%")))));
 };
 
 // ---------- PROJECTS ----------

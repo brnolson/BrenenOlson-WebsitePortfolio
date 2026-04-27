@@ -81,21 +81,26 @@
   setTimeout(attach, 1500);
 })();
 
-// Scroll-reveal: add `.in-view` to elements with `.about-statement` when they
-// enter the viewport. CSS handles the actual fade + gradient wash-in animation.
-(function scrollReveal() {
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add("in-view");
-        io.unobserve(e.target); // play once, don't re-trigger
-      }
+// Scroll-driven gradient fill on the about statement. CSS reads `--scroll-progress`
+// (0..1) to position the gradient on each <em>. As the paragraph travels through
+// the viewport, the gradient pans subtly — same effect in both scroll directions.
+(function aboutScrollFill() {
+  const targets = () => document.querySelectorAll(".about-statement");
+  const update = () => {
+    const vh = window.innerHeight;
+    targets().forEach(el => {
+      const rect = el.getBoundingClientRect();
+      // Map element travel through the viewport to 0..1.
+      // 0 = element bottom is at viewport bottom (just entered)
+      // 1 = element top is at viewport top  (about to exit upward)
+      const range = vh + rect.height;
+      const traveled = vh - rect.top;
+      const t = Math.max(0, Math.min(1, traveled / range));
+      el.style.setProperty("--scroll-progress", t.toFixed(4));
     });
-  }, { threshold: 0.25 });
-
-  const attach = () => {
-    document.querySelectorAll(".about-statement").forEach(el => io.observe(el));
   };
-  setTimeout(attach, 400);
-  setTimeout(attach, 1500);
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  setTimeout(update, 400);
+  setTimeout(update, 1500);
 })();

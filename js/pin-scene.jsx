@@ -95,7 +95,7 @@ const PinScene = ({ progress }) => {
     cellGroup.add(new THREE.Mesh(memGeo, memWireMat));
 
     // Phospholipid bilayer: points studded along the membrane surface (both layers)
-    const bilayerN = LOW ? 280 : 900;
+    const bilayerN = LOW ? 200 : 600;
     const bilayerGeo = track(new THREE.BufferGeometry());
     const bilayerPos = new Float32Array(bilayerN * 3);
     for (let i = 0; i < bilayerN; i++) {
@@ -275,7 +275,7 @@ const PinScene = ({ progress }) => {
     }
 
     // Ribosomes — vivid magenta dots scattered in cytoplasm (avoid the nucleus region)
-    const riboN = LOW ? 80 : 260;
+    const riboN = LOW ? 60 : 180;
     const riboGeo = track(new THREE.BufferGeometry());
     const riboPos = new Float32Array(riboN * 3);
     let placed = 0;
@@ -294,6 +294,67 @@ const PinScene = ({ progress }) => {
     riboGeo.setAttribute("position", new THREE.BufferAttribute(riboPos, 3));
     const riboMat = track(new THREE.PointsMaterial({ color: CELL_COLORS.ribosomes, size: 0.05, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
     cellGroup.add(new THREE.Points(riboGeo, riboMat));
+
+    // Lysosomes — small membrane-bound vesicles (digestive enzymes). 3 placed
+    // in the cytoplasm; small, high-saturation cyan-purple, with wireframe shell.
+    const lysosomeMats = [];
+    const lysosomeWireMats = [];
+    const lysosomePositions = [
+      [-1.65,  0.10,  0.55],
+      [ 0.55,  1.55, -0.40],
+      [ 0.95, -0.45, -1.50],
+    ];
+    lysosomePositions.forEach(p => {
+      const g = track(new THREE.IcosahedronGeometry(0.16, 1));
+      const m = track(new THREE.MeshBasicMaterial({ color: 0xa78bfa, transparent: true, opacity: 0.85 }));
+      lysosomeMats.push(m);
+      const mesh = new THREE.Mesh(g, m);
+      mesh.position.set(p[0], p[1], p[2]);
+      cellGroup.add(mesh);
+      const wm = track(new THREE.LineBasicMaterial({ color: 0xd0c4ff, transparent: true, opacity: 0.55 }));
+      lysosomeWireMats.push(wm);
+      const wire = new THREE.LineSegments(track(new THREE.EdgesGeometry(g, 1)), wm);
+      wire.scale.setScalar(1.15);
+      mesh.add(wire);
+    });
+
+    // Centrosome — paired centrioles near the nucleus (cell-division organizer).
+    // Modelled as two small perpendicular cylinders ("9-triplet barrel" simplified).
+    const centrosomeMats = [];
+    const centrosomeWireMats = [];
+    const centrosomePos = [-1.55, -0.85, -0.20];
+    [0, 1].forEach(i => {
+      const g = track(new THREE.CylinderGeometry(0.05, 0.05, 0.22, 9, 1, false));
+      const m = track(new THREE.MeshBasicMaterial({ color: 0xffaa66, transparent: true, opacity: 0.9 }));
+      centrosomeMats.push(m);
+      const mesh = new THREE.Mesh(g, m);
+      mesh.position.set(centrosomePos[0] + (i ? 0.18 : 0), centrosomePos[1], centrosomePos[2] + (i ? 0 : 0.18));
+      mesh.rotation.x = i ? Math.PI / 2 : 0; // orthogonal pair
+      cellGroup.add(mesh);
+      const wm = track(new THREE.LineBasicMaterial({ color: 0xffd9a0, transparent: true, opacity: 0.6 }));
+      centrosomeWireMats.push(wm);
+      const wire = new THREE.LineSegments(track(new THREE.EdgesGeometry(g, 1)), wm);
+      wire.scale.setScalar(1.06);
+      mesh.add(wire);
+    });
+
+    // ----------------------------------------------------------------
+    // CELL ANCHORS — local-space points each label tracks. We project these
+    // through cellGroup.matrixWorld every frame, so as the cell tumbles the
+    // labels stay glued to their organelle. Choose anchor points on the
+    // *surface* of each organelle so the dot lands on the object, not in it.
+    // ----------------------------------------------------------------
+    const cellAnchors = [
+      { id: "M",  title: "Plasma Membrane",   subtitle: "Phospholipid bilayer",   local: [ 2.42,  0.55,  0.0 ] },
+      { id: "N",  title: "Nucleus",           subtitle: "DNA · 22 chromosomes",   local: [ 0.0,   0.95,  0.0 ] },
+      { id: "Nu", title: "Nucleolus",         subtitle: "rRNA synthesis",         local: [ 0.20, -0.10,  0.25 ] },
+      { id: "Mi", title: "Mitochondrion",     subtitle: "ATP · cellular power",   local: [ 1.40,  0.78,  0.95 ] },
+      { id: "ER", title: "Endoplasmic Ret.",  subtitle: "Protein + lipid synth.", local: [ 1.50, -0.10, -0.95 ] },
+      { id: "G",  title: "Golgi Apparatus",   subtitle: "Vesicle packaging",      local: [-1.50,  0.95,  0.65 ] },
+      { id: "Ly", title: "Lysosome",          subtitle: "Digestive enzymes",      local: [-1.65,  0.10,  0.55 ] },
+      { id: "C",  title: "Centrosome",        subtitle: "Centrioles · MTOC",      local: [-1.46, -0.85, -0.10 ] },
+      { id: "R",  title: "Ribosomes",         subtitle: "Protein synthesis",      local: [ 1.70, -1.50,  0.50 ] },
+    ];
 
     // Diagonal rotation axis — gives the cell a tumbling, off-axis spin
     // TWEAK ME — change the components of this axis to alter the tumble direction.
@@ -361,11 +422,34 @@ const PinScene = ({ progress }) => {
       mesh.scale.set(radius, len, radius);
     };
 
-    // The helix itself is static geometry, but rotates as a single group. Cheaper
-    // and cleaner than rebuilding strand/rung positions every frame. Only the
-    // focus rung (which splits / zooms) lives outside this rotation group.
+    // Helix transforms split into TWO nested groups so we can independently
+    // control "self-spin" (around the helix's own axis) and "tilt" (laying it
+    // upright vs sideways). All static geometry lives in helixRotationGroup;
+    // the tilt group's quaternion changes as the user scrolls into chapter 2.
+    const helixTiltGroup = new THREE.Group();
+    dnaGroup.add(helixTiltGroup);
     const helixRotationGroup = new THREE.Group();
-    dnaGroup.add(helixRotationGroup);
+    helixTiltGroup.add(helixRotationGroup);
+
+    // ----------------------------------------------------------------
+    // DNA ANCHORS — local-space points (in helixRotationGroup local coords)
+    // that each label sticks to. Projected through helixRotationGroup.matrixWorld
+    // every frame so labels track the helix as it tilts and spins.
+    // ----------------------------------------------------------------
+    const dnaAnchors = [
+      { id: "BB",  title: "Sugar-Phosphate",  subtitle: "Backbone strand",         localFn: () => {
+          const [x, y, z] = strandPoint(40, 0, 0);
+          return [x * 1.45, y, z * 1.45];
+        } },
+      { id: "BP",  title: "Base Pair",        subtitle: "A·T or G·C",              localFn: () => {
+          const [a, b] = rungEndpoints(12, 0);
+          return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2];
+        } },
+      { id: "MG",  title: "Major Groove",     subtitle: "Wide face · 22 Å",        localFn: () => [DNA_RADIUS * 1.6,  1.05,  0] },
+      { id: "mg",  title: "Minor Groove",     subtitle: "Narrow face · 12 Å",      localFn: () => [-DNA_RADIUS * 1.6, -0.5,  0] },
+      { id: "5",   title: "5′ End",           subtitle: "Phosphate terminus",      localFn: () => [...strandPoint(SEG - 1, 0, 0)] },
+      { id: "3",   title: "3′ End",           subtitle: "Hydroxyl terminus",       localFn: () => [...strandPoint(0, 1, 0)] },
+    ];
 
     // --- Strands as thick tubes (no more 1px lines) ---
     // Backbone tube radius is matched to the rung radius so the ladder "frame"
@@ -440,181 +524,6 @@ const PinScene = ({ progress }) => {
       alignCylinder(wmesh, a, b, 1.12);
     }
 
-    // --- Focus ladder rung: the zoom-in target. Anatomically-styled nucleotide:
-    //     BASE (hexagonal cylinder — purine/pyrimidine ring shape) → SUGAR
-    //     (pentagonal cylinder — deoxyribose pentose ring) → PHOSPHATE sphere.
-    //     Every piece carries a wireframe overlay to match the cell's look.
-    //     Hydrogen bonds between A and T are two short cylinders at the pair centre.
-    const focusGroup = new THREE.Group();
-    dnaGroup.add(focusGroup);
-
-    // ==========================================================
-    //  REALISM DESIGN CHOICES (for the focus rung / nucleotide)
-    //  ---------------------------------------------------------
-    //  · Purine vs. pyrimidine ring shapes are anatomically distinct.
-    //    Adenine & Guanine are PURINES — fused 9-atom bicyclic ring
-    //    (6-membered + 5-membered). Thymine & Cytosine are PYRIMIDINES
-    //    — single 6-membered ring. We build them with real fused geometry.
-    //
-    //  · Deoxyribose is a PENTOSE SUGAR — a 5-membered ring, rendered as
-    //    a pentagonal prism (5 radial segments on a CylinderGeometry).
-    //
-    //  · Phosphate (PO₄) is TETRAHEDRAL — one central phosphorus atom
-    //    with four oxygens at tetrahedral bond angles (~109.5°). Shown
-    //    as 1 + 4 icosahedral atoms + 4 P–O bond sticks (ball-and-stick
-    //    diagram, standard in chemistry textbooks).
-    //
-    //  · CPK-style atom colors: P = orange (per PyMOL), O = red (per
-    //    CPK/IUPAC). The atoms are distinct sizes because real atomic
-    //    radii differ (P ~1.00 Å, O ~0.66 Å).
-    //
-    //  · Ring sizes are proportional: the base ring is the largest piece
-    //    (real nucleobase ~0.5 nm across), the sugar is intermediate, and
-    //    each phosphate oxygen is small. Matches real molecular scale.
-    //
-    //  · Every solid piece has an EdgesGeometry wireframe parented to it
-    //    so the overlay moves with the mesh without per-frame sync code.
-    // ==========================================================
-    const CPK_OXYGEN = 0xff5252; // CPK red
-    const PO_BOND    = 0xe8ecff; // bright white-blue bond stick
-    const GLYC_BOND  = 0x9fb0d8; // glycosidic C–N bond stick
-
-    const makeHalfRung = (type /* "A" | "T" */) => {
-      const grp = new THREE.Group();
-      const baseColor = type === "A" ? DNA_COLORS.baseA : DNA_COLORS.baseT;
-      const solidMats = [];
-      const wireMats = [];
-
-      // --- Helper: build a flat-prism "ring" with its own parented wireframe ---
-      const addRing = (parent, radius, segs, localX = 0, rotZ = 0, thickness = 0.05) => {
-        const geo = track(new THREE.CylinderGeometry(radius, radius, thickness, segs, 1, false));
-        const mat = track(new THREE.MeshBasicMaterial({ color: baseColor, transparent: true, opacity: 0.9 }));
-        solidMats.push(mat);
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.rotation.x = Math.PI / 2;
-        mesh.rotation.z = rotZ;
-        mesh.position.x = localX;
-        parent.add(mesh);
-        const edgesGeo = track(new THREE.EdgesGeometry(geo, 1));
-        const wireMat = track(new THREE.LineBasicMaterial({ color: DNA_COLORS.rungWire, transparent: true, opacity: 0.7 }));
-        wireMats.push(wireMat);
-        const wire = new THREE.LineSegments(edgesGeo, wireMat);
-        wire.scale.setScalar(1.04); // slight outward scale
-        mesh.add(wire); // parent to mesh → inherits rotation
-        return mesh;
-      };
-
-      // --- BASE ASSEMBLY ---
-      // Adenine = purine: 6-ring + fused 5-ring (imidazole).
-      // Thymine = pyrimidine: single 6-ring.
-      const baseAssembly = new THREE.Group();
-      grp.add(baseAssembly);
-      if (type === "A") {
-        addRing(baseAssembly, 0.11,  6, 0, 0);               // 6-membered ring
-        addRing(baseAssembly, 0.085, 5, 0.165, Math.PI / 5); // 5-membered ring fused on the right
-      } else {
-        addRing(baseAssembly, 0.13, 6, 0, 0);                // single pyrimidine ring
-      }
-
-      // --- SUGAR (deoxyribose, 5-ring pentagonal prism) ---
-      const sugGeo = track(new THREE.CylinderGeometry(0.10, 0.10, 0.04, 5, 1, false));
-      const sugMat = track(new THREE.MeshBasicMaterial({ color: DNA_COLORS.sugar, transparent: true, opacity: 0.9 }));
-      solidMats.push(sugMat);
-      const sugar = new THREE.Mesh(sugGeo, sugMat);
-      sugar.rotation.x = Math.PI / 2;
-      sugar.rotation.z = Math.PI / 5;
-      grp.add(sugar);
-      const sugEdges = track(new THREE.EdgesGeometry(sugGeo, 1));
-      const sugWireMat = track(new THREE.LineBasicMaterial({ color: DNA_COLORS.rungWire, transparent: true, opacity: 0.7 }));
-      wireMats.push(sugWireMat);
-      const sugWire = new THREE.LineSegments(sugEdges, sugWireMat);
-      sugWire.scale.setScalar(1.04);
-      sugar.add(sugWire); // parented → inherits sugar's rotation
-
-      // --- PHOSPHATE AS TETRAHEDRAL PO₄ ---
-      // Central phosphorus + 4 oxygens at tetrahedral corners + 4 P–O bonds.
-      // Standard ball-and-stick representation used in chemistry courses.
-      const phosAssembly = new THREE.Group();
-      grp.add(phosAssembly);
-
-      // Central P atom
-      const pGeo = track(new THREE.IcosahedronGeometry(0.032, 1));
-      const pMat = track(new THREE.MeshBasicMaterial({ color: DNA_COLORS.phosphate, transparent: true, opacity: 0.95 }));
-      solidMats.push(pMat);
-      const pAtom = new THREE.Mesh(pGeo, pMat);
-      phosAssembly.add(pAtom);
-      const pEdges = track(new THREE.EdgesGeometry(pGeo, 1));
-      const pWireMat = track(new THREE.LineBasicMaterial({ color: DNA_COLORS.phosphateWire, transparent: true, opacity: 0.7 }));
-      wireMats.push(pWireMat);
-      const pWire = new THREE.LineSegments(pEdges, pWireMat);
-      pWire.scale.setScalar(1.12);
-      pAtom.add(pWire);
-
-      // 4 O atoms at tetrahedral vertices + P-O bond sticks
-      const oGeo = track(new THREE.IcosahedronGeometry(0.024, 1));
-      const oMat = track(new THREE.MeshBasicMaterial({ color: CPK_OXYGEN, transparent: true, opacity: 0.95 }));
-      solidMats.push(oMat);
-      const bondGeo = track(new THREE.CylinderGeometry(0.006, 0.006, 1, 6));
-      const bondMat = track(new THREE.MeshBasicMaterial({ color: PO_BOND, transparent: true, opacity: 0.7 }));
-      solidMats.push(bondMat);
-      const oEdges = track(new THREE.EdgesGeometry(oGeo, 1));
-      const oWireMat = track(new THREE.LineBasicMaterial({ color: 0xffdada, transparent: true, opacity: 0.6 }));
-      wireMats.push(oWireMat);
-      // Tetrahedral vertex directions
-      const tetra = [
-        new THREE.Vector3( 1,  1,  1),
-        new THREE.Vector3(-1, -1,  1),
-        new THREE.Vector3(-1,  1, -1),
-        new THREE.Vector3( 1, -1, -1),
-      ];
-      const BOND_LEN = 0.075;
-      tetra.forEach(v => {
-        const dir = v.clone().normalize();
-        const tip = dir.clone().multiplyScalar(BOND_LEN);
-        const o = new THREE.Mesh(oGeo, oMat);
-        o.position.copy(tip);
-        phosAssembly.add(o);
-        // O wireframe parented to the O atom
-        const oWire = new THREE.LineSegments(oEdges, oWireMat);
-        oWire.scale.setScalar(1.12);
-        o.add(oWire);
-        // P-O bond stick: centered between P and O, oriented along dir, scaled to length
-        const bond = new THREE.Mesh(bondGeo, bondMat);
-        bond.position.copy(tip).multiplyScalar(0.5);
-        bond.quaternion.setFromUnitVectors(tmpUp, dir);
-        bond.scale.set(1, BOND_LEN, 1);
-        phosAssembly.add(bond);
-      });
-
-      // --- GLYCOSIDIC BOND (base ↔ sugar) ---
-      const gbondGeo = track(new THREE.CylinderGeometry(0.013, 0.013, 0.07, 6));
-      const gbondMat = track(new THREE.MeshBasicMaterial({ color: GLYC_BOND, transparent: true, opacity: 0.75 }));
-      solidMats.push(gbondMat);
-      const gbond = new THREE.Mesh(gbondGeo, gbondMat);
-      gbond.rotation.x = Math.PI / 2;
-      grp.add(gbond);
-
-      return {
-        group: grp, type,
-        baseAssembly, sugar, phosAssembly, gbond,
-        solidMats, wireMats,
-      };
-    };
-
-    const half0 = makeHalfRung("A"); // Adenine — purine
-    const half1 = makeHalfRung("T"); // Thymine — pyrimidine
-    focusGroup.add(half0.group);
-    focusGroup.add(half1.group);
-    half0.group.rotation.y = Math.PI; // flip so its base points outward toward strand 0
-
-    // Hydrogen bonds between A and T — 2 bonds per pair (A-T forms exactly 2 H-bonds)
-    const hbondMat = track(new THREE.MeshBasicMaterial({ color: DNA_COLORS.hbond, transparent: true, opacity: 0.6 }));
-    const hbondGeo = track(new THREE.CylinderGeometry(0.01, 0.01, 1, 6));
-    const hbond0 = new THREE.Mesh(hbondGeo, hbondMat);
-    const hbond1 = new THREE.Mesh(hbondGeo, hbondMat);
-    focusGroup.add(hbond0);
-    focusGroup.add(hbond1);
-
     // --- Sparkly starfield behind everything ---
     // Three layers of twinkling stars at different depths. Each star has its own
     // phase so they twinkle asynchronously. Draws additively for a bright glow.
@@ -660,12 +569,6 @@ const PinScene = ({ progress }) => {
     // ==========================================================
     const cellWorldPos = new THREE.Vector3();
     const nucleusWorldPos = new THREE.Vector3();
-    const focusWorldPos = new THREE.Vector3();
-    const half0BaseWorldPos = new THREE.Vector3();
-    const half0SugarWorldPos = new THREE.Vector3();
-    const half0PhosWorldPos = new THREE.Vector3();
-    const half1BaseWorldPos = new THREE.Vector3();
-    const tmpQ = new THREE.Quaternion();
 
     // --- Visibility: pause rendering when the pinned section is off-screen ---
     let visible = true;
@@ -734,168 +637,65 @@ const PinScene = ({ progress }) => {
         setOpacity(S.bpMat,       0.95 * dnaFade);
       }
 
-      // Rung opacities — hide the focus rung's static copy while the detailed
-      // focus-rung assembly takes over (chapter 2), and dim all non-focus rungs
-      // during that examination so the eye tracks the active pair.
-      const nonFocusFade = 1 - (ss(1.9, 2.2, p) - ss(3.1, 3.6, p));
+      // Rung opacities — uniform fade with the rest of the helix.
       for (let i = 0; i < RUNG_COUNT; i++) {
-        const hideFocus = i === FOCUS_RUNG_IDX && p > 1.8 && p < 3.4;
-        if (hideFocus) {
-          setOpacity(rungMats[i], 0);
-          setOpacity(rungWireMats[i], 0);
-        } else {
-          setOpacity(rungMats[i],     0.85 * dnaFade * nonFocusFade);
-          setOpacity(rungWireMats[i], 0.55 * dnaFade * nonFocusFade);
-        }
+        setOpacity(rungMats[i],     0.85 * dnaFade);
+        setOpacity(rungWireMats[i], 0.55 * dnaFade);
       }
 
       // ============================================================
-      //  Focus ladder rung — appears during chapter 2 (progress 1.6..3.4)
+      //  HELIX TILT — upright (chapter 1) → sideways (chapter 2 end)
+      //  We rotate the parent helixTiltGroup around the Z axis so the
+      //  helix's Y-axis (its long axis) sweeps from vertical to horizontal.
+      //  Self-spin still happens on helixRotationGroup independently.
       // ============================================================
-      const focusAppear = ss(1.6, 2.1, p) * (1 - ss(3.1, 3.6, p));
-      const [fa, fb] = rungEndpoints(FOCUS_RUNG_IDX, p);
-      const midX = (fa[0] + fb[0]) / 2;
-      const midY = (fa[1] + fb[1]) / 2;
-      const midZ = (fa[2] + fb[2]) / 2;
-      focusGroup.position.set(midX, midY, midZ);
-      focusWorldPos.set(midX, midY, midZ);
-      const dir = tmp.set(fb[0]-fa[0], fb[1]-fa[1], fb[2]-fa[2]);
-      const len = dir.length();
-      dir.normalize();
-      // Rotate the focus group so its z-axis aligns with the rung direction.
-      focusGroup.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
-
-      // Split factor — pair opens up during chapter 2, rejoins at chapter 3.
-      const splitFactor = ss(1.9, 2.4, p) * (1 - ss(3.0, 3.5, p));
-      const halfBaseLen = len / 2;
-      const pushAmt = halfBaseLen + splitFactor * 0.55;
-
-      // Position half0 at -Z, half1 at +Z (focusGroup points +Z along the rung direction)
-      half0.group.position.set(0, 0, -pushAmt * 0.45);
-      half1.group.position.set(0, 0,  pushAmt * 0.45);
-
-      // Within each half, arrange: base ring(s) → glycosidic bond → sugar → phosphate.
-      // Local +Z is "outward" toward the strand (half0 is flipped via rotation.y = PI).
-      const Z_BASE   = 0.05;   // base ring(s) center
-      const Z_BOND   = 0.12;   // glycosidic bond center
-      const Z_SUGAR  = 0.19;   // deoxyribose pentagon center
-      const Z_PHOS   = 0.30;   // phosphate tetrahedron center
-      [half0, half1].forEach(h => {
-        h.baseAssembly.position.set(0, 0, Z_BASE);
-        h.gbond.position.set(0, 0, Z_BOND);
-        h.sugar.position.set(0, 0, Z_SUGAR);
-        h.phosAssembly.position.set(0, 0, Z_PHOS);
-      });
-
-      // Both halves stay fully visible during the base-pair chapter — we label
-      // everything at once. Opacity comes from the collected material arrays.
-      half0.group.scale.setScalar(1 + focusAppear * 0.2);
-      const half1Dim = 1;
-      half0.solidMats.forEach(m => setOpacity(m, 0.92 * focusAppear));
-      half0.wireMats.forEach(m  => setOpacity(m, 0.7  * focusAppear));
-      half1.solidMats.forEach(m => setOpacity(m, 0.92 * focusAppear * half1Dim));
-      half1.wireMats.forEach(m  => setOpacity(m, 0.7  * focusAppear * half1Dim));
-
-      // Hydrogen bonds — two short cylinders between the inner faces of the two bases.
-      // They fade as the pair splits.
-      const hbondAlive = focusAppear * (1 - splitFactor * 0.9);
-      setOpacity(hbondMat, 0.6 * hbondAlive);
-      const hbondLen = Math.max(0.05, pushAmt * 0.9 - Z_BASE * 2);
-      [[hbond0, 0.035], [hbond1, -0.035]].forEach(([hb, yOff]) => {
-        hb.scale.set(1, hbondLen, 1);
-        hb.position.set(0, yOff, 0);
-        hb.quaternion.setFromUnitVectors(tmpUp, new THREE.Vector3(0, 0, 1));
-      });
+      const tiltAmt = ss(2.0, 2.7, p);                      // 0..1 over chapter 2
+      const tiltAngle = -Math.PI * 0.5 * tiltAmt;           // 0 → -90°
+      helixTiltGroup.rotation.z = tiltAngle;
+      // Slight x-tilt during the lay-down so the viewer sees a 3/4 view, not pure side
+      helixTiltGroup.rotation.x = 0.18 * tiltAmt;
 
       // ============================================================
-      //  CAMERA PATH — six chapter waypoints
+      //  CAMERA PATH — three chapters, mostly held positions.
+      //  · 0..1 cell overview → close
+      //  · 1..2 zoom toward nucleus, helix reveal
+      //  · 2..3 pull back slightly so the laid-down helix fits the frame
       // ============================================================
-      // cell overview → into nucleus → helix mid-view → focus rung → zoom into nucleotide → back out
       cellGroup.getWorldPosition(cellWorldPos);
       nucleusGroup.getWorldPosition(nucleusWorldPos);
 
-      // Recompute dynamic "look targets" — use the assembly groups so labels track
-      // the averaged center of each nucleotide piece.
-      half0.baseAssembly.getWorldPosition(half0BaseWorldPos);
-      half0.sugar.getWorldPosition(half0SugarWorldPos);
-      half0.phosAssembly.getWorldPosition(half0PhosWorldPos);
-      half1.baseAssembly.getWorldPosition(half1BaseWorldPos);
-
-      // --- Compute a perpendicular side-view for the nucleotide close-up ---
-      // The nucleotide axis runs from base → sugar → phosphate. Looking down that
-      // axis hides everything behind the phosphate, so we place the camera off to
-      // one side of the axis so base, sugar, and phosphate are visible in a row.
-      const nucAxis = tmpA.copy(half0PhosWorldPos).sub(half0BaseWorldPos).normalize();
-      const upRef = Math.abs(nucAxis.y) > 0.9 ? new THREE.Vector3(1, 0, 0) : tmpUp;
-      const nucPerp = tmpB.crossVectors(nucAxis, upRef).normalize();
-      const nucMid = new THREE.Vector3().addVectors(half0BaseWorldPos, half0PhosWorldPos).multiplyScalar(0.5);
-      const nucleotideCamPos = nucMid.clone()
-        .add(nucPerp.clone().multiplyScalar(0.7))
-        .add(new THREE.Vector3(0, 0.14, 0));
-
-      // ----------------------------------------------------------------
-      //  Four-chapter camera path — fewer waypoints, each phase holds more.
-      //  Cell (0..1) → Helix reveal + rotate (1..2) → Base pair labeled
-      //  from a perpendicular angle (2..3) → Pull back to full helix (3..4).
-      // ----------------------------------------------------------------
       const camPos = new THREE.Vector3();
       const lookAt = new THREE.Vector3();
       const WP = {
         cellOverview: new THREE.Vector3(0, 0.2, 9),
-        cellClose:    new THREE.Vector3(0, 0.0, 4.2),
-        helixEst:     new THREE.Vector3(0.2, 0, 6.0),
-        rungSide:     nucleotideCamPos,           // perpendicular side view of focus rung
-        finalOut:     new THREE.Vector3(0, 0.2, 6.5),
-      };
-      const LP = {
-        cellCenter:    new THREE.Vector3(0, 0, 0),
-        origin:        new THREE.Vector3(0, 0, 0),
-        rungMid:       focusWorldPos.clone(),
-        nucleotideMid: nucMid.clone(),
+        cellClose:    new THREE.Vector3(0, 0.0, 4.0),
+        helixEst:     new THREE.Vector3(0.0, 0.0, 5.5),
+        helixOut:     new THREE.Vector3(0.0, 0.2, 6.8),
       };
 
       if (p < 1) {
-        // Chapter 0: cell overview — slow push in
         const k = ss(0, 1, p);
         camPos.copy(WP.cellOverview).lerp(WP.cellClose, k);
-        lookAt.copy(LP.cellCenter);
+        lookAt.set(0, 0, 0);
       } else if (p < 2) {
-        // Chapter 1: zoom into nucleus → helix reveal (with rotation continuing)
-        const k = ss(1, 2, p);
+        // Reach helix-establish view by ~70% of the chapter, then hold.
+        const k = ss(1.0, 1.7, p);
         camPos.copy(WP.cellClose).lerp(WP.helixEst, k);
-        lookAt.copy(LP.cellCenter).lerp(LP.origin, k);
-      } else if (p < 3) {
-        // Chapter 2: two-stage zoom for a natural approach.
-        //   Stage A (2.0 → 2.4): pull in toward the rung from the helix view.
-        //   Stage B (2.4 → 2.7): arc around to a perpendicular side view.
-        //   Hold  (2.7 → 3.0):   camera stops so the labels are readable.
-        // Intermediate "approach" waypoint is computed from the focus rung's
-        // live world position so it moves with the rotating helix.
-        const approach = new THREE.Vector3(
-          focusWorldPos.x * 0.35,
-          focusWorldPos.y * 0.3,
-          3.4
-        );
-        if (p < 2.4) {
-          const k = ss(2.0, 2.4, p);
-          camPos.copy(WP.helixEst).lerp(approach, k);
-          lookAt.copy(LP.origin).lerp(LP.rungMid, k);
-        } else {
-          const k = ss(2.4, 2.7, p);
-          camPos.copy(approach).lerp(WP.rungSide, k);
-          lookAt.copy(LP.rungMid).lerp(LP.nucleotideMid, k);
-        }
+        lookAt.set(0, 0, 0);
       } else {
-        // Chapter 3: pull back to the full helix (reassemble)
-        const k = ss(3, 4, p);
-        camPos.copy(WP.rungSide).lerp(WP.finalOut, k);
-        lookAt.copy(LP.nucleotideMid).lerp(LP.origin, k);
+        // Pull back gently so the laid-down (horizontal) helix still fits.
+        const k = ss(2.0, 2.7, p);
+        camPos.copy(WP.helixEst).lerp(WP.helixOut, k);
+        lookAt.set(0, 0, 0);
       }
       camera.position.copy(camPos);
       camera.lookAt(lookAt);
 
       // ============================================================
-      //  LABEL OVERLAY UPDATES
+      //  LABEL OVERLAY — anchor-driven projection.
+      //  Each anchor stores a LOCAL-SPACE point on its group (cell or helix);
+      //  every frame we transform through the group's matrixWorld and project
+      //  to NDC. The dot lands on the actual organelle / structure.
       // ============================================================
       const labels = [];
       const project = (v) => {
@@ -903,35 +703,31 @@ const PinScene = ({ progress }) => {
         if (tmp.z > 1) return null;
         return { x: (tmp.x * 0.5 + 0.5) * 100, y: (-tmp.y * 0.5 + 0.5) * 100 };
       };
+      const projectLocal = (group, local) => {
+        const v = new THREE.Vector3(local[0], local[1], local[2]).applyMatrix4(group.matrixWorld);
+        return project(v);
+      };
 
-      // Cell label phase (0..1): show an "Eukaryotic cell" callout
-      const cellLabelFade = ss(0.1, 0.5, p) * (1 - ss(1.1, 1.5, p));
+      // CELL labels — long-lasting (in: 0.15, out: 1.55) so the reader has
+      // time to read each organelle's callout. Anchors are surface points.
+      const cellLabelFade = ss(0.15, 0.55, p) * (1 - ss(1.25, 1.55, p));
       if (cellLabelFade > 0.02) {
-        const pN = project(nucleusWorldPos);
-        if (pN) labels.push({ id: "N", title: "Nucleus", subtitle: "Holds the DNA", x: pN.x, y: pN.y, fade: cellLabelFade });
-        // One additional callout for the membrane
-        const memWP = new THREE.Vector3(2.5, 0, 0).applyMatrix4(cellGroup.matrixWorld);
-        const pM = project(memWP);
-        if (pM) labels.push({ id: "M", title: "Plasma Membrane", subtitle: "Phospholipid Bilayer", x: pM.x, y: pM.y, fade: cellLabelFade });
-        // And mitochondria
-        const mitoWP = new THREE.Vector3(1.25, 0.70, 0.90).applyMatrix4(cellGroup.matrixWorld);
-        const pMi = project(mitoWP);
-        if (pMi) labels.push({ id: "Mi", title: "Mitochondrion", subtitle: "Powerhouse", x: pMi.x, y: pMi.y, fade: cellLabelFade });
+        for (const a of cellAnchors) {
+          const pos = projectLocal(cellGroup, a.local);
+          if (pos) labels.push({ id: a.id, title: a.title, subtitle: a.subtitle, x: pos.x, y: pos.y, fade: cellLabelFade });
+        }
       }
 
-      // All nucleotide callouts appear together during chapter 2 (progress 2..3):
-      // both bases (A / T) AND the three nucleotide components (P / S / B) of the
-      // A-half are labeled in a single shot, so the reader sees the whole picture.
-      const pairFade = ss(2.0, 2.5, p) * (1 - ss(3.0, 3.4, p));
-      if (pairFade > 0.02) {
-        const pA = project(half0BaseWorldPos);
-        const pT = project(half1BaseWorldPos);
-        const pP = project(half0PhosWorldPos);
-        const pS = project(half0SugarWorldPos);
-        if (pA) labels.push({ id: "A", title: "Adenine",      subtitle: "Nitrogenous base · purine", x: pA.x, y: pA.y, fade: pairFade });
-        if (pT) labels.push({ id: "T", title: "Thymine",      subtitle: "Nitrogenous base · pyrimidine", x: pT.x, y: pT.y, fade: pairFade });
-        if (pS) labels.push({ id: "S", title: "Deoxyribose",  subtitle: "Pentose sugar (5-ring)", x: pS.x, y: pS.y, fade: pairFade });
-        if (pP) labels.push({ id: "P", title: "Phosphate",    subtitle: "PO₄ backbone unit", x: pP.x, y: pP.y, fade: pairFade });
+      // DNA labels — appear once the helix is established, last through the
+      // tilt animation, and out as the chapter ends. Each anchor uses a
+      // function so it can sample current strand/rung positions.
+      const dnaLabelFade = ss(1.5, 1.9, p) * (1 - ss(2.85, 3.0, p));
+      if (dnaLabelFade > 0.02) {
+        for (const a of dnaAnchors) {
+          const local = a.localFn();
+          const pos = projectLocal(helixRotationGroup, local);
+          if (pos) labels.push({ id: a.id, title: a.title, subtitle: a.subtitle, x: pos.x, y: pos.y, fade: dnaLabelFade });
+        }
       }
 
       window.dispatchEvent(new CustomEvent("pin-labels-update", { detail: labels }));

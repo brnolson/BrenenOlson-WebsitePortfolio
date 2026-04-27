@@ -230,47 +230,29 @@ section { position: relative; }
   color: var(--ink);
   margin-bottom: 48px;
 }
+/* About statement is always visible. The gradient fill on each <em> is driven
+   by a CSS variable (--scroll-progress, 0..1) that scripts.js updates as the
+   element travels through the viewport. Subtle, two-way pan — not a one-shot
+   reveal. */
 .about-statement em {
   font-style: normal;
   background: linear-gradient(120deg, var(--cyan), var(--violet), var(--magenta), var(--violet), var(--cyan));
-  background-size: 280% 100%;
+  background-size: 220% 100%;
+  background-position: calc(var(--scroll-progress, 0.5) * 100%) 50%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradientShimmer 9s ease-in-out infinite;
+  transition: background-position 0.18s linear;
 }
 .about-statement em.med {
   background: linear-gradient(120deg, var(--mint), var(--cyan), var(--violet), var(--cyan), var(--mint));
-  background-size: 280% 100%;
+  background-size: 220% 100%;
+  background-position: calc(var(--scroll-progress, 0.5) * 100%) 50%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: gradientShimmer 8s ease-in-out infinite;
-  animation-delay: -2.5s;
+  transition: background-position 0.18s linear;
 }
-
-/* --- Scroll-driven reveal for the about statement ---
-   Default state is hidden + shifted; the .in-view class (added by scripts.js
-   when the element scrolls into view) plays the entrance. The ems also reveal
-   sequentially via per-em animation-delay so the gradients "wash in". */
-.about-statement {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.9, 0.2, 1);
-}
-.about-statement.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-.about-statement em {
-  background-position: 100% 50%;
-  transition: background-position 1.2s cubic-bezier(0.2, 0.9, 0.2, 1);
-}
-.about-statement.in-view em            { animation-play-state: running; }
-.about-statement em:nth-of-type(1)     { transition-delay: 0.25s; }
-.about-statement em:nth-of-type(2)     { transition-delay: 0.45s; }
-.about-statement em:nth-of-type(3)     { transition-delay: 0.65s; }
-.about-statement.in-view em            { background-position: 0% 50%; }
 
 .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .about-card {
@@ -284,7 +266,7 @@ section { position: relative; }
 .about-card-note { font-size: 11px; color: var(--ink-dim); line-height: 1.5; }
 
 /* ---------- PINNED SCROLL ANATOMY ---------- */
-.pin-wrap { position: relative; height: 400vh; background: var(--bg); }
+.pin-wrap { position: relative; height: 300vh; background: var(--bg); }
 .pin-sticky {
   position: sticky; top: 0; height: 100vh; overflow: hidden;
   background: #040509;
