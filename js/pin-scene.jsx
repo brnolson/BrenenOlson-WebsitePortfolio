@@ -35,7 +35,7 @@ const PinScene = ({ progress }) => {
 
     const resize = () => {
       const { clientWidth: w, clientHeight: h } = mount;
-      renderer.setSize(w, h, false);
+      renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     };
@@ -649,7 +649,7 @@ const PinScene = ({ progress }) => {
       //  axis (Y) sweeps from vertical to horizontal. Self-spin keeps
       //  running on helixRotationGroup independently.
       // ============================================================
-      const tiltAmt = ss(2.05, 2.85, p);                    // tilt covers most of chapter 2
+      const tiltAmt = ss(2.0, 3.0, p);                       // tilt spans the full final chapter
       helixTiltGroup.rotation.z = -Math.PI * 0.5 * tiltAmt; // 0 → -90°
       helixTiltGroup.rotation.x = 0.22 * tiltAmt;           // small 3/4 perspective
 
