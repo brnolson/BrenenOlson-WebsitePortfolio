@@ -359,22 +359,22 @@ const PinScene = ({
     const DNA_COLORS = {
       strand0: 0x5eb5ff,
       strand1: 0xa78bfa,
-      phosphate: 0xffb84d,
-      baseA: 0x66d466,
-      baseT: 0xe06666,
-      baseG: 0x6691ff,
-      baseC: 0xe8dc66,
-      rungWire: 0xffffff
+      phosphate: 0xc8a8ff,
+      baseA: 0x80ffe0,
+      baseT: 0xff88cc,
+      baseG: 0x88ccff,
+      baseC: 0xcc88ff,
+      rungWire: 0xe7e9ff
     };
     const dnaGroup = new THREE.Group();
     scene.add(dnaGroup);
 
     // Reduced segment counts for performance; still reads as smooth at any viewing distance
-    const DNA_HEIGHT = 4.2,
+    const DNA_HEIGHT = 8,
       TURNS = 3,
       DNA_RADIUS = 0.6,
-      SEG = 90;
-    const RUNG_COUNT = 18;
+      SEG = 130;
+    const RUNG_COUNT = 28;
     const BACKBONE_BEAD_EVERY = 8;
     const strandPoint = (i, s, spin) => {
       const u = i / (SEG - 1);
@@ -406,54 +406,50 @@ const PinScene = ({
     helixTiltGroup.add(helixRotationGroup);
 
     // DNA ANCHORS — 6 labels, sequential fade windows [pIn, pOut] across chapters 2–4
+    // Positions are in helixTiltGroup local space (parent of the spinning group) so they
+    // stay fixed relative to the helix silhouette as it rotates and tilts.
     const dnaAnchors = [{
       id: "BB",
       title: "Sugar-Phosphate",
       subtitle: "Backbone strand",
       pIn: 1.75,
       pOut: 2.45,
-      localFn: () => {
-        const [x, y, z] = strandPoint(25, 0, 0);
-        return [x * 1.5, y, z * 1.5];
-      }
+      local: [1.0, 0.5, 0]
     }, {
       id: "BP",
       title: "Base Pair",
       subtitle: "A·T or G·C",
       pIn: 2.20,
       pOut: 2.90,
-      localFn: () => {
-        const [a, b] = rungEndpoints(9, 0);
-        return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2];
-      }
+      local: [-0.8, -0.5, 0]
     }, {
       id: "5",
       title: "5′ End",
       subtitle: "Phosphate terminus",
       pIn: 2.55,
       pOut: 3.20,
-      localFn: () => [...strandPoint(SEG - 1, 0, 0)]
+      local: [0.5, 2.0, 0]
     }, {
       id: "MG",
       title: "Major Groove",
       subtitle: "Wide face · 22 Å",
       pIn: 3.10,
       pOut: 3.65,
-      localFn: () => [DNA_RADIUS * 1.6, 1.0, 0]
+      local: [1.2, 0.8, 0]
     }, {
       id: "mg",
       title: "Minor Groove",
       subtitle: "Narrow face · 12 Å",
       pIn: 3.40,
       pOut: 3.85,
-      localFn: () => [-DNA_RADIUS * 1.6, -0.6, 0]
+      local: [-1.0, -0.3, 0]
     }, {
       id: "3",
       title: "3′ End",
       subtitle: "Hydroxyl terminus",
       pIn: 3.62,
       pOut: 4.00,
-      localFn: () => [...strandPoint(0, 1, 0)]
+      local: [-0.5, -2.0, 0]
     }];
 
     // Strand tubes — no wireframe overlay on tubes (saves 2 large draw calls)
@@ -677,12 +673,15 @@ const PinScene = ({
         return project(v);
       };
 
-      // Cell labels — one at a time, cross-fading sequentially
+      // Cell labels — one at a time, cross-fading sequentially; back-face culled
       if (cellFade > 0.02) {
         for (const a of cellAnchors) {
           const fade = ss(a.pIn, a.pIn + 0.18, p) * (1 - ss(a.pOut - 0.15, a.pOut, p)) * cellFade;
           if (fade > 0.02) {
-            const pos = projectLocal(cellGroup, a.local);
+            const anchorWorld = new THREE.Vector3(a.local[0], a.local[1], a.local[2]).applyMatrix4(cellGroup.matrixWorld);
+            const toCam = new THREE.Vector3().subVectors(camera.position, anchorWorld);
+            if (toCam.dot(anchorWorld) < 0) continue; // back-facing, skip
+            const pos = project(anchorWorld);
             if (pos) labels.push({
               id: a.id,
               title: a.title,
@@ -696,12 +695,12 @@ const PinScene = ({
       }
 
       // DNA labels — one at a time, cross-fading sequentially through chapters 2–4
+      // Projected through helixTiltGroup (not helixRotationGroup) so they don't spin with the helix
       if (dnaFade > 0.02) {
         for (const a of dnaAnchors) {
           const fade = ss(a.pIn, a.pIn + 0.20, p) * (1 - ss(a.pOut - 0.15, a.pOut, p)) * dnaFade;
           if (fade > 0.02) {
-            const local = a.localFn();
-            const pos = projectLocal(helixRotationGroup, local);
+            const pos = projectLocal(helixTiltGroup, a.local);
             if (pos) labels.push({
               id: a.id,
               title: a.title,
