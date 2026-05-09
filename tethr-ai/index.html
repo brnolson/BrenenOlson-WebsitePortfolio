@@ -308,12 +308,33 @@
   footer a { color: var(--pink); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
 
-  @media (max-width: 540px) {
+  @media (max-width: 640px) {
     .wrap { padding: 28px 18px 64px; }
     section { padding: 22px 20px; }
     h1 { font-size: 30px; }
+    .hero { padding: 16px 4px 36px; }
+    .hero p { font-size: 15px; }
+    .logo-row img, .logo-row .ai-mark { width: 60px; height: 60px; }
+    .logo-row .ai-mark { font-size: 18px; border-radius: 18px; }
     .pricing { grid-template-columns: 1fr; }
-    .download-card { flex-wrap: wrap; }
+
+    /* Stack download card vertically: image on top, caption full-width, button full-width */
+    .download-card {
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+      gap: 12px;
+      padding: 18px 16px;
+    }
+    .download-card img { margin: 0 auto; width: 64px; height: 64px; }
+    .download-card .meta { width: 100%; }
+    .download-card .meta .filename { font-size: 16px; }
+    .download-card .meta .desc { font-size: 14px; line-height: 1.5; }
+    .download-card .btn { width: 100%; justify-content: center; padding: 12px 18px; }
+
+    .screenshot-caption { font-size: 13px; line-height: 1.5; padding: 0 4px; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 15px; }
   }
 
   /* Password gate */
