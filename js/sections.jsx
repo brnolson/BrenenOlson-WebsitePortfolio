@@ -1061,7 +1061,7 @@ window.Experience = () => {
     <section className="xp" id="experience" data-screen-label="experience">
       <div className="xp-head">
         <div className="section-label"><span className="section-num">05</span> experience</div>
-        <h2 className="section-head">Industry experience,<br />research, and a degree.</h2>
+        <h2 className="section-head">Founder, engineer,<br />and graduate.</h2>
       </div>
       <div className="xp-timeline">
         {XP.map((item, i) => (

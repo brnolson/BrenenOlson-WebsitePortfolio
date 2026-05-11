@@ -1344,7 +1344,7 @@ window.Experience = () => {
     className: "section-num"
   }, "05"), " experience"), /*#__PURE__*/React.createElement("h2", {
     className: "section-head"
-  }, "Industry experience,", /*#__PURE__*/React.createElement("br", null), "research, and a degree.")), /*#__PURE__*/React.createElement("div", {
+  }, "Founder, engineer,", /*#__PURE__*/React.createElement("br", null), "and graduate.")), /*#__PURE__*/React.createElement("div", {
     className: "xp-timeline"
   }, XP.map((item, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
