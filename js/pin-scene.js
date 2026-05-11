@@ -2,11 +2,11 @@
 /* global React, THREE */
 // NOTE: edit this file then run `node compile.cjs` to rebuild js/pin-scene.js.
 //
-// Pinned-scroll anatomy journey — four chapters (progress 0..4):
-//   0-1: eukaryotic cell overview with sequential callout labels
-//   1-2: cell fades out, DNA double helix fades in
-//   2-3: upright helix — sequential DNA labels
-//   3-4: helix tilts horizontal + camera zooms into the strand
+// Pinned-scroll DNA journey — progress 0..4
+//   0→1.5 : camera rides the horizontal helix (zoomed in, ends cut off)
+//   1.5→2.5: strand rotates 90° to vertical, camera pulls back
+//   2.5→3.5: strand slides right
+//   3.5→4  : hold
 
 const PinScene = ({
   progress
@@ -22,21 +22,21 @@ const PinScene = ({
     const LOW = typeof window !== "undefined" && window.__QUALITY__ === "low";
     const REDUCED = typeof window !== "undefined" && window.__REDUCED_MOTION__;
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.05, 400);
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 600);
     camera.position.set(0, 0, 6);
     const renderer = new THREE.WebGLRenderer({
       antialias: !LOW,
       alpha: true,
       powerPreference: "high-performance"
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, LOW ? 1.25 : 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, LOW ? 1 : 2));
     mount.appendChild(renderer.domElement);
     const resize = () => {
       const {
         clientWidth: w,
         clientHeight: h
       } = mount;
-      renderer.setSize(w, h); // updateStyle=true keeps canvas CSS size = container size
+      renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     };
@@ -48,518 +48,153 @@ const PinScene = ({
       const t = clamp01((x - a) / (b - a));
       return t * t * (3 - 2 * t);
     };
-    const setOpacity = (mat, v) => {
-      if (mat) {
-        mat.opacity = v;
-        mat.visible = v > 0.01;
-      }
-    };
     const disposables = [];
     const track = x => {
       disposables.push(x);
       return x;
     };
 
-    // ── CELL ──────────────────────────────────────────────────────────────────
-    const CELL_COLORS = {
-      cyto: 0x2a1840,
-      membrane: 0x5eb5ff,
-      membraneWire: 0x8bd4ff,
-      bilayerDots: 0xc8eaff,
-      nucleus: 0x4060e8,
-      nucleusWire: 0x7aa0ff,
-      nuclearPore: 0xd0e0ff,
-      mitoOuter: 0xff6a48,
-      er: 0x67e8c5,
-      erWire: 0xb8ffe4,
-      golgi: 0xffc14d,
-      golgiWire: 0xffe0a0,
-      ribosomes: 0xe879f9,
-      vesicles: 0xffd080,
-      cytoskeleton: 0x9080a8
-    };
-    const cellGroup = new THREE.Group();
-    scene.add(cellGroup);
-
-    // Cytoplasm — solid fill only (no wireframe overlay, saves 1 DC)
-    const cytoGeo = track(new THREE.SphereGeometry(2.4, 20, 20));
-    const cytoMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.cyto,
-      transparent: true,
-      opacity: 0.14,
-      depthWrite: false,
-      side: THREE.BackSide
-    }));
-    cellGroup.add(new THREE.Mesh(cytoGeo, cytoMat));
-
-    // Plasma membrane — translucent fill + low-poly wireframe + bilayer dots
-    const memGeo = track(new THREE.SphereGeometry(2.5, 32, 32));
-    const memMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.membrane,
-      transparent: true,
-      opacity: 0.10,
-      depthWrite: false
-    }));
-    cellGroup.add(new THREE.Mesh(memGeo, memMat));
-    const memWireMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.membraneWire,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.18
-    }));
-    cellGroup.add(new THREE.Mesh(memGeo, memWireMat));
-    const bilayerN = LOW ? 120 : 320;
-    const bilayerGeo = track(new THREE.BufferGeometry());
-    const bilayerPos = new Float32Array(bilayerN * 3);
-    for (let i = 0; i < bilayerN; i++) {
-      const r = (Math.random() < 0.5 ? 2.44 : 2.56) + (Math.random() - 0.5) * 0.04;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      bilayerPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-      bilayerPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-      bilayerPos[i * 3 + 2] = r * Math.cos(phi);
-    }
-    bilayerGeo.setAttribute("position", new THREE.BufferAttribute(bilayerPos, 3));
-    const bilayerMat = track(new THREE.PointsMaterial({
-      color: CELL_COLORS.bilayerDots,
-      size: 0.032,
-      transparent: true,
-      opacity: 0.75,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    }));
-    cellGroup.add(new THREE.Points(bilayerGeo, bilayerMat));
-
-    // Nucleus — solid + wireframe envelope + nuclear pores (no nucleolus/chromatin overlay)
-    const nucleusGroup = new THREE.Group();
-    cellGroup.add(nucleusGroup);
-    const nucGeo = track(new THREE.SphereGeometry(0.95, 24, 24));
-    const nucMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.nucleus,
-      transparent: true,
-      opacity: 0.55,
-      depthWrite: false
-    }));
-    nucleusGroup.add(new THREE.Mesh(nucGeo, nucMat));
-    const nucWireMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.nucleusWire,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.35
-    }));
-    nucleusGroup.add(new THREE.Mesh(nucGeo, nucWireMat));
-    const poreCount = LOW ? 14 : 24;
-    const poreGeo = track(new THREE.BufferGeometry());
-    const porePos = new Float32Array(poreCount * 3);
-    for (let i = 0; i < poreCount; i++) {
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
-      porePos[i * 3] = 0.97 * Math.sin(phi) * Math.cos(theta);
-      porePos[i * 3 + 1] = 0.97 * Math.sin(phi) * Math.sin(theta);
-      porePos[i * 3 + 2] = 0.97 * Math.cos(phi);
-    }
-    poreGeo.setAttribute("position", new THREE.BufferAttribute(porePos, 3));
-    const poreMat = track(new THREE.PointsMaterial({
-      color: CELL_COLORS.nuclearPore,
-      size: 0.07,
-      transparent: true,
-      opacity: 0.95,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    }));
-    nucleusGroup.add(new THREE.Points(poreGeo, poreMat));
-
-    // Mitochondria — 4 bodies, no cristae wireframe overlay (saves 4 DCs)
-    const mitoMats = [];
-    const mitoPositions = [[1.25, 0.70, 0.90], [-1.40, 0.35, -0.85], [0.85, -1.30, 0.65], [1.60, -0.60, -0.40]];
-    mitoPositions.forEach((pos, i) => {
-      const g = track(new THREE.SphereGeometry(0.28, 16, 12));
-      const m = track(new THREE.MeshBasicMaterial({
-        color: CELL_COLORS.mitoOuter,
-        transparent: true,
-        opacity: 0.86
-      }));
-      mitoMats.push(m);
-      const mesh = new THREE.Mesh(g, m);
-      mesh.position.set(pos[0], pos[1], pos[2]);
-      mesh.scale.set(1.6, 0.7, 0.7);
-      mesh.rotation.z = i / mitoPositions.length * Math.PI;
-      mesh.rotation.y = i * 0.8;
-      cellGroup.add(mesh);
-    });
-
-    // ER — torus-knot with wireframe
-    const erGeo = track(new THREE.TorusKnotGeometry(0.75, 0.09, 70, 8, 2, 3));
-    const erMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.er,
-      transparent: true,
-      opacity: 0.55
-    }));
-    const er = new THREE.Mesh(erGeo, erMat);
-    er.position.set(1.15, -0.1, -0.9);
-    er.rotation.set(0.6, 0.8, 0);
-    cellGroup.add(er);
-    const erWireMat = track(new THREE.MeshBasicMaterial({
-      color: CELL_COLORS.erWire,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.28
-    }));
-    const erWire = new THREE.Mesh(erGeo, erWireMat);
-    erWire.position.copy(er.position);
-    erWire.rotation.copy(er.rotation);
-    erWire.scale.setScalar(1.03);
-    cellGroup.add(erWire);
-
-    // Golgi — 3 stacked disks (reduced from 4)
-    const golgiMats = [];
-    const golgiWireMats = [];
-    const golgiGroup = new THREE.Group();
-    golgiGroup.position.set(-1.3, 0.85, 0.6);
-    golgiGroup.rotation.set(0.4, -0.3, 0.6);
-    cellGroup.add(golgiGroup);
-    for (let gi = 0; gi < 3; gi++) {
-      const r = 0.48 - gi * 0.09;
-      const g = track(new THREE.CylinderGeometry(r, r, 0.04, 20, 1, true));
-      const m = track(new THREE.MeshBasicMaterial({
-        color: CELL_COLORS.golgi,
-        transparent: true,
-        opacity: 0.55,
-        side: THREE.DoubleSide
-      }));
-      golgiMats.push(m);
-      const disk = new THREE.Mesh(g, m);
-      disk.position.y = gi * 0.1 - 0.1;
-      golgiGroup.add(disk);
-      const wm = track(new THREE.MeshBasicMaterial({
-        color: CELL_COLORS.golgiWire,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.28
-      }));
-      golgiWireMats.push(wm);
-      const wire = new THREE.Mesh(g, wm);
-      wire.position.copy(disk.position);
-      wire.scale.setScalar(1.05);
-      golgiGroup.add(wire);
-    }
-
-    // Transport vesicles
-    const vesicleN = LOW ? 8 : 16;
-    const vesicleGeo = track(new THREE.BufferGeometry());
-    const vesiclePos = new Float32Array(vesicleN * 3);
-    for (let i = 0; i < vesicleN; i++) {
-      vesiclePos[i * 3] = -1.3 + (Math.random() - 0.5) * 1.4;
-      vesiclePos[i * 3 + 1] = 0.85 + (Math.random() - 0.5) * 1.2;
-      vesiclePos[i * 3 + 2] = 0.6 + (Math.random() - 0.5) * 1.2;
-    }
-    vesicleGeo.setAttribute("position", new THREE.BufferAttribute(vesiclePos, 3));
-    const vesicleMat = track(new THREE.PointsMaterial({
-      color: CELL_COLORS.vesicles,
-      size: 0.08,
-      transparent: true,
-      opacity: 0.85,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    }));
-    cellGroup.add(new THREE.Points(vesicleGeo, vesicleMat));
-
-    // Cytoskeleton — fewer lines, simpler curves
-    const cytoskeletonMats = [];
-    const mtCount = LOW ? 4 : 8;
-    for (let mi = 0; mi < mtCount; mi++) {
-      const theta = mi / mtCount * Math.PI * 2 + Math.random() * 0.5;
-      const phi = (Math.random() - 0.5) * 0.8;
-      const r1 = 1.0,
-        r2 = 2.35;
-      const a = new THREE.Vector3(r1 * Math.cos(theta) * Math.cos(phi), r1 * Math.sin(phi), r1 * Math.sin(theta) * Math.cos(phi));
-      const b = new THREE.Vector3(r2 * Math.cos(theta + 0.3) * Math.cos(phi + 0.2), r2 * Math.sin(phi + 0.2), r2 * Math.sin(theta + 0.3) * Math.cos(phi + 0.2));
-      const curve = new THREE.CatmullRomCurve3([a, a.clone().lerp(b, 0.4).add(new THREE.Vector3(0.1, 0.1, 0.05)), b]);
-      const g = track(new THREE.BufferGeometry().setFromPoints(curve.getPoints(16)));
-      const m = track(new THREE.LineBasicMaterial({
-        color: CELL_COLORS.cytoskeleton,
-        transparent: true,
-        opacity: 0.22
-      }));
-      cytoskeletonMats.push(m);
-      cellGroup.add(new THREE.Line(g, m));
-    }
-
-    // Ribosomes
-    const riboN = LOW ? 40 : 100;
-    const riboGeo = track(new THREE.BufferGeometry());
-    const riboPos = new Float32Array(riboN * 3);
-    let placed = 0;
-    while (placed < riboN) {
-      const x = (Math.random() - 0.5) * 4.4,
-        y = (Math.random() - 0.5) * 4.4,
-        z = (Math.random() - 0.5) * 4.4;
-      const r = Math.sqrt(x * x + y * y + z * z);
-      if (r > 1.2 && r < 2.35) {
-        riboPos[placed * 3] = x;
-        riboPos[placed * 3 + 1] = y;
-        riboPos[placed * 3 + 2] = z;
-        placed++;
-      }
-    }
-    riboGeo.setAttribute("position", new THREE.BufferAttribute(riboPos, 3));
-    const riboMat = track(new THREE.PointsMaterial({
-      color: CELL_COLORS.ribosomes,
-      size: 0.05,
-      transparent: true,
-      opacity: 0.9,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    }));
-    cellGroup.add(new THREE.Points(riboGeo, riboMat));
-
-    // CELL ROTATION
-    const CELL_ROT_AXIS = new THREE.Vector3(1, 1.3, 0.5).normalize();
-    const CELL_ROT_Q = new THREE.Quaternion();
-
-    // CELL ANCHORS — 5 labels, each with its own sequential fade window [pIn, pOut]
-    const cellAnchors = [{
-      id: "M",
-      title: "Plasma Membrane",
-      subtitle: "Phospholipid bilayer",
-      local: [2.42, 0.55, 0.0],
-      pIn: 0.10,
-      pOut: 0.45
-    }, {
-      id: "N",
-      title: "Nucleus",
-      subtitle: "DNA · chromosomes",
-      local: [0.0, 0.95, 0.0],
-      pIn: 0.36,
-      pOut: 0.68
-    }, {
-      id: "Mi",
-      title: "Mitochondrion",
-      subtitle: "ATP synthesis",
-      local: [1.40, 0.78, 0.95],
-      pIn: 0.58,
-      pOut: 0.92
-    }, {
-      id: "G",
-      title: "Golgi Apparatus",
-      subtitle: "Vesicle packaging",
-      local: [-1.50, 0.95, 0.65],
-      pIn: 0.78,
-      pOut: 1.10
-    }, {
-      id: "R",
-      title: "Ribosomes",
-      subtitle: "Protein synthesis",
-      local: [1.70, -1.50, 0.50],
-      pIn: 0.95,
-      pOut: 1.28
-    }];
-
-    // ── DNA ────────────────────────────────────────────────────────────────────
-    const DNA_COLORS = {
-      strand0: 0x5eb5ff,
-      strand1: 0xa78bfa,
-      phosphate: 0xc8a8ff,
-      baseA: 0x80ffe0,
-      baseT: 0xff88cc,
-      baseG: 0x88ccff,
-      baseC: 0xcc88ff,
-      rungWire: 0xe7e9ff
-    };
+    // ── DNA GROUP — starts horizontal ────────────────────────────────────────
     const dnaGroup = new THREE.Group();
+    dnaGroup.rotation.z = Math.PI / 2; // helix long-axis along world X
     scene.add(dnaGroup);
+    const glbMats = [];
+    let glbMixer = null,
+      glbMixer2 = null;
+    let surfHalfH = 11,
+      surfRad = 5;
+    const applyHolo = root => {
+      let n = 0;
+      root.traverse(obj => {
+        if (!obj.isMesh) return;
+        n++;
+        const mat = new THREE.MeshBasicMaterial({
+          color: 0x00ccff,
+          transparent: false,
+          side: THREE.DoubleSide,
+          depthWrite: true
+        });
+        obj.material = mat;
+        glbMats.push(mat);
+        disposables.push(mat);
+      });
+      console.log("[pin-scene] holo applied to", n, "meshes");
+    };
+    if (typeof THREE.GLTFLoader !== "undefined") {
+      new THREE.GLTFLoader().load("assets/models/dna_hologram.glb", gltf => {
+        const model = gltf.scene || gltf.scenes[0];
+        model.position.set(0, 0, 0);
+        model.rotation.set(0, 0, 0);
+        model.scale.set(1, 1, 1);
+        model.updateMatrixWorld(true);
 
-    // Reduced segment counts for performance; still reads as smooth at any viewing distance
-    const DNA_HEIGHT = 8,
-      TURNS = 3,
-      DNA_RADIUS = 0.6,
-      SEG = 130;
-    const RUNG_COUNT = 28;
-    const BACKBONE_BEAD_EVERY = 8;
-    const strandPoint = (i, s, spin) => {
-      const u = i / (SEG - 1);
-      const y = (u - 0.5) * DNA_HEIGHT;
-      const angle = u * Math.PI * 2 * TURNS + spin * 0.8 + (s ? Math.PI : 0);
-      return [Math.cos(angle) * DNA_RADIUS, y, Math.sin(angle) * DNA_RADIUS];
-    };
-    const rungEndpoints = (ri, spin) => {
-      const segI = Math.floor(ri / (RUNG_COUNT - 1) * (SEG - 1));
-      return [strandPoint(segI, 0, spin), strandPoint(segI, 1, spin)];
-    };
-    const tmp = new THREE.Vector3();
-    const tmpUp = new THREE.Vector3(0, 1, 0);
-    const tmpA = new THREE.Vector3();
-    const tmpB = new THREE.Vector3();
-    const alignCylinder = (mesh, a, b, radius = 1) => {
-      tmpA.set(a[0], a[1], a[2]);
-      tmpB.set(b[0], b[1], b[2]);
-      mesh.position.copy(tmpA).add(tmpB).multiplyScalar(0.5);
-      const dir = tmp.copy(tmpB).sub(tmpA);
-      const len = dir.length();
-      dir.normalize();
-      mesh.quaternion.setFromUnitVectors(tmpUp, dir);
-      mesh.scale.set(radius, len, radius);
-    };
-    const helixTiltGroup = new THREE.Group();
-    dnaGroup.add(helixTiltGroup);
-    const helixRotationGroup = new THREE.Group();
-    helixTiltGroup.add(helixRotationGroup);
+        // Orient longest axis to Y
+        const b0 = new THREE.Box3().setFromObject(model);
+        const sz0 = b0.getSize(new THREE.Vector3());
+        const mx0 = Math.max(sz0.x, sz0.y, sz0.z);
+        if (sz0.x === mx0) model.rotation.z = Math.PI / 2;else if (sz0.z === mx0) model.rotation.x = -Math.PI / 2;
+        model.updateMatrixWorld(true);
 
-    // DNA ANCHORS — 6 labels, sequential fade windows [pIn, pOut] across chapters 2–4
-    // Positions are in helixTiltGroup local space (parent of the spinning group) so they
-    // stay fixed relative to the helix silhouette as it rotates and tilts.
+        // Scale so longest dimension = TARGET_H, then center
+        const b1 = new THREE.Box3().setFromObject(model);
+        const sz1 = b1.getSize(new THREE.Vector3());
+        const TARGET_H = 26;
+        const s = Math.max(sz1.x, sz1.y, sz1.z) > 0.0001 ? TARGET_H / Math.max(sz1.x, sz1.y, sz1.z) : 1;
+        model.scale.setScalar(s);
+        model.updateMatrixWorld(true);
+        const b2 = new THREE.Box3().setFromObject(model);
+        model.position.sub(b2.getCenter(new THREE.Vector3()));
+        model.updateMatrixWorld(true);
+        const b3 = new THREE.Box3().setFromObject(model);
+        const sz3 = b3.getSize(new THREE.Vector3());
+        surfHalfH = sz3.y / 2;
+        surfRad = Math.max(sz3.x, sz3.z) / 2 + 2;
+        console.log("[pin-scene] size:", sz3.x.toFixed(1), sz3.y.toFixed(1), sz3.z.toFixed(1));
+        applyHolo(model);
+        dnaGroup.add(model);
+
+        // Second strand skipped on low-quality devices (saves draw calls + animation cost)
+        if (!LOW) {
+          const model2 = model.clone(true);
+          model2.position.set(0, -sz3.y, 0);
+          applyHolo(model2);
+          dnaGroup.add(model2);
+          if (gltf.animations && gltf.animations.length > 0) {
+            glbMixer2 = new THREE.AnimationMixer(model2);
+            const action2 = glbMixer2.clipAction(gltf.animations[0]);
+            action2.setLoop(THREE.LoopRepeat, Infinity);
+            action2.play();
+          }
+        }
+        if (gltf.animations && gltf.animations.length > 0) {
+          glbMixer = new THREE.AnimationMixer(model);
+          const action = glbMixer.clipAction(gltf.animations[0]);
+          action.setLoop(THREE.LoopRepeat, Infinity);
+          action.play();
+        }
+      }, xhr => {
+        if (xhr.total) console.log("[pin-scene] GLB", Math.round(xhr.loaded / xhr.total * 100) + "%");
+      }, err => console.error("[pin-scene] GLB error:", err));
+    } else {
+      console.warn("[pin-scene] THREE.GLTFLoader not found");
+    }
     const dnaAnchors = [{
       id: "BB",
-      title: "Sugar-Phosphate",
-      subtitle: "Backbone strand",
-      pIn: 1.75,
-      pOut: 2.45,
-      local: [1.0, 0.5, 0]
-    }, {
-      id: "BP",
-      title: "Base Pair",
-      subtitle: "A·T or G·C",
-      pIn: 2.20,
-      pOut: 2.90,
-      local: [-0.8, -0.5, 0]
-    }, {
-      id: "5",
-      title: "5′ End",
-      subtitle: "Phosphate terminus",
-      pIn: 2.55,
-      pOut: 3.20,
-      local: [0.5, 2.0, 0]
+      title: "Sugar-Phosphate Backbone",
+      subtitle: "Phosphodiester · 2 nm diameter",
+      pIn: 2.8,
+      pOut: 3.2,
+      x: 72,
+      y: 18
     }, {
       id: "MG",
       title: "Major Groove",
-      subtitle: "Wide face · 22 Å",
-      pIn: 3.10,
-      pOut: 3.65,
-      local: [1.2, 0.8, 0]
+      subtitle: "22 Å wide · protein landing pad",
+      pIn: 3.0,
+      pOut: 3.5,
+      x: 68,
+      y: 42
     }, {
-      id: "mg",
+      id: "BP",
+      title: "Base Pair",
+      subtitle: "A·T × 2 bonds · G·C × 3 bonds",
+      pIn: 3.2,
+      pOut: 3.7,
+      x: 14,
+      y: 56
+    }, {
+      id: "mG",
       title: "Minor Groove",
-      subtitle: "Narrow face · 12 Å",
-      pIn: 3.40,
-      pOut: 3.85,
-      local: [-1.0, -0.3, 0]
-    }, {
-      id: "3",
-      title: "3′ End",
-      subtitle: "Hydroxyl terminus",
-      pIn: 3.62,
-      pOut: 4.00,
-      local: [-0.5, -2.0, 0]
+      subtitle: "12 Å wide · 7.5 Å deep",
+      pIn: 3.5,
+      pOut: 4.0,
+      x: 18,
+      y: 78
     }];
 
-    // Strand tubes — no wireframe overlay on tubes (saves 2 large draw calls)
-    const STRAND_RADIUS = 0.05;
-    const RUNG_RADIUS = 0.045;
-    const strandColors = [DNA_COLORS.strand0, DNA_COLORS.strand1];
-    const strandTubes = [];
-    [0, 1].forEach(s => {
-      const pts = [];
-      for (let i = 0; i < SEG; i++) {
-        const [x, y, z] = strandPoint(i, s, 0);
-        pts.push(new THREE.Vector3(x, y, z));
-      }
-      const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.1);
-      const tubeGeo = track(new THREE.TubeGeometry(curve, LOW ? 60 : 120, STRAND_RADIUS, LOW ? 6 : 10, false));
-      const tubeMat = track(new THREE.MeshBasicMaterial({
-        color: strandColors[s],
-        transparent: true,
-        opacity: 0.92
-      }));
-      const tube = new THREE.Mesh(tubeGeo, tubeMat);
-      helixRotationGroup.add(tube);
-      strandTubes.push({
-        tube,
-        tubeMat
-      });
-
-      // Phosphate beads
-      const beadCount = Math.floor(SEG / BACKBONE_BEAD_EVERY);
-      const bpGeo = track(new THREE.BufferGeometry());
-      const bpPos = new Float32Array(beadCount * 3);
-      for (let bi = 0; bi < beadCount; bi++) {
-        const segI = Math.min(SEG - 1, bi * BACKBONE_BEAD_EVERY);
-        const [x, y, z] = strandPoint(segI, s, 0);
-        bpPos[bi * 3] = x;
-        bpPos[bi * 3 + 1] = y;
-        bpPos[bi * 3 + 2] = z;
-      }
-      bpGeo.setAttribute("position", new THREE.BufferAttribute(bpPos, 3));
-      const bpMat = track(new THREE.PointsMaterial({
-        color: DNA_COLORS.phosphate,
-        size: 0.14,
-        transparent: true,
-        opacity: 0.95,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      }));
-      helixRotationGroup.add(new THREE.Points(bpGeo, bpMat));
-      strandTubes[s].bpMat = bpMat;
-    });
-
-    // Rungs — cylinders + edge lines, placed once at spin=0
-    const rungMats = [];
-    const rungWireMats = [];
-    const basePairTypes = ["AT", "TA", "GC", "CG"];
-    const rungColorForPair = type => {
-      if (type === "AT") return DNA_COLORS.baseA;
-      if (type === "TA") return DNA_COLORS.baseT;
-      if (type === "GC") return DNA_COLORS.baseG;
-      return DNA_COLORS.baseC;
-    };
-    for (let i = 0; i < RUNG_COUNT; i++) {
-      const type = basePairTypes[i % basePairTypes.length];
-      const color = rungColorForPair(type);
-      const g = track(new THREE.CylinderGeometry(RUNG_RADIUS, RUNG_RADIUS, 1, 10, 1, false));
-      const m = track(new THREE.MeshBasicMaterial({
-        color,
-        transparent: true,
-        opacity: 0.85
-      }));
-      const mesh = new THREE.Mesh(g, m);
-      rungMats.push(m);
-      helixRotationGroup.add(mesh);
-      const edgesGeo = track(new THREE.EdgesGeometry(g, 1));
-      const wm = track(new THREE.LineBasicMaterial({
-        color: DNA_COLORS.rungWire,
-        transparent: true,
-        opacity: 0.45
-      }));
-      const wmesh = new THREE.LineSegments(edgesGeo, wm);
-      rungWireMats.push(wm);
-      helixRotationGroup.add(wmesh);
-      const [a, b] = rungEndpoints(i, 0);
-      alignCylinder(mesh, a, b, 1);
-      alignCylinder(wmesh, a, b, 1.12);
-    }
-
-    // ── STARS ─────────────────────────────────────────────────────────────────
+    // ── STARS ────────────────────────────────────────────────────────────────
     const starLayers = [];
-    const makeStarLayer = (count, zNear, zFar, size, baseColor) => {
-      const pos = new Float32Array(count * 3);
-      const col = new Float32Array(count * 3);
-      const r = (baseColor >> 16 & 0xff) / 255;
-      const g = (baseColor >> 8 & 0xff) / 255;
-      const b = (baseColor & 0xff) / 255;
+    const makeStarLayer = (count, zNear, zFar, sz, baseColor) => {
+      const pos = new Float32Array(count * 3),
+        col = new Float32Array(count * 3);
+      const r = (baseColor >> 16 & 0xff) / 255,
+        g = (baseColor >> 8 & 0xff) / 255,
+        b = (baseColor & 0xff) / 255;
       for (let i = 0; i < count; i++) {
-        pos[i * 3] = (Math.random() - 0.5) * 24;
-        pos[i * 3 + 1] = (Math.random() - 0.5) * 18;
+        pos[i * 3] = (Math.random() - 0.5) * 36;
+        pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
         pos[i * 3 + 2] = zNear - Math.random() * (zFar - zNear);
-        const tint = 0.7 + Math.random() * 0.3;
-        col[i * 3] = r * tint;
-        col[i * 3 + 1] = g * tint;
-        col[i * 3 + 2] = b * tint;
+        const k = 0.7 + Math.random() * 0.3;
+        col[i * 3] = r * k;
+        col[i * 3 + 1] = g * k;
+        col[i * 3 + 2] = b * k;
       }
       const geo = track(new THREE.BufferGeometry());
       geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
       geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
       const mat = track(new THREE.PointsMaterial({
         vertexColors: true,
-        size,
+        size: sz,
         transparent: true,
         opacity: 0.9,
         blending: THREE.AdditiveBlending,
@@ -570,11 +205,11 @@ const PinScene = ({
         mat
       });
     };
-    makeStarLayer(LOW ? 200 : 500, -14, -24, 0.025, 0x8090c8);
-    makeStarLayer(LOW ? 80 : 200, -6, -14, 0.04, 0xb890e0);
-    makeStarLayer(LOW ? 30 : 80, -2, -8, 0.065, 0xffffff);
+    makeStarLayer(LOW ? 80 : 500, -8, -20, 0.03, 0x8090c8);
+    makeStarLayer(LOW ? 30 : 200, -4, -10, 0.05, 0xb890e0);
+    makeStarLayer(LOW ? 10 : 80, -1, -5, 0.08, 0xffffff);
 
-    // ── ANIMATION LOOP ──────────────────────────────────────────────────────────
+    // ── ANIMATION LOOP ────────────────────────────────────────────────────────
     let visible = true;
     const vio = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
@@ -584,6 +219,12 @@ const PinScene = ({
     vio.observe(mount);
     let raf,
       last = performance.now();
+
+    // Strand animation timing (generous scroll ranges = slower, more deliberate)
+    const ROT_START = 1.6;
+    const ROT_END = 2.8;
+    const SLIDE_START = 3.1;
+    const SLIDE_END = 4.0;
     const loop = t => {
       const dt = Math.min(0.05, (t - last) / 1000);
       last = t;
@@ -591,132 +232,79 @@ const PinScene = ({
         raf = requestAnimationFrame(loop);
         return;
       }
-      const p = pRef.current; // 0..4
+      const p = pRef.current;
+      if (glbMixer) glbMixer.update(dt);
+      if (glbMixer2) glbMixer2.update(dt);
 
-      // Visibility fades
-      const cellFade = 1 - ss(0.7, 1.4, p);
-      const dnaFade = ss(0.7, 1.5, p);
+      // No passive Y rotation — strand orientation fully controlled by scroll
+      dnaGroup.rotation.y = 0;
 
-      // Cell tumble
-      CELL_ROT_Q.setFromAxisAngle(CELL_ROT_AXIS, dt * 0.18);
-      cellGroup.quaternion.multiply(CELL_ROT_Q);
-      const nucPulse = 1 + 0.04 * Math.sin(t * 0.002);
-      nucleusGroup.scale.setScalar(nucPulse);
-      setOpacity(cytoMat, 0.14 * cellFade);
-      setOpacity(memMat, 0.10 * cellFade);
-      setOpacity(memWireMat, 0.18 * cellFade);
-      setOpacity(bilayerMat, 0.75 * cellFade);
-      setOpacity(nucMat, 0.55 * cellFade);
-      setOpacity(nucWireMat, 0.35 * cellFade);
-      setOpacity(poreMat, 0.95 * cellFade);
-      setOpacity(erMat, 0.55 * cellFade);
-      setOpacity(erWireMat, 0.28 * cellFade);
-      setOpacity(riboMat, 0.90 * cellFade);
-      setOpacity(vesicleMat, 0.85 * cellFade);
-      mitoMats.forEach(m => setOpacity(m, 0.86 * cellFade));
-      golgiMats.forEach(m => setOpacity(m, 0.55 * cellFade));
-      golgiWireMats.forEach(m => setOpacity(m, 0.28 * cellFade));
-      cytoskeletonMats.forEach(m => setOpacity(m, 0.22 * cellFade));
+      // Z: horizontal (π/2) → vertical (0), smooth over ROT_START→ROT_END
+      dnaGroup.rotation.z = Math.PI / 2 * (1 - ss(ROT_START, ROT_END, p));
 
-      // DNA self-spin
-      helixRotationGroup.rotation.y = p * 0.8;
-      for (const S of strandTubes) {
-        setOpacity(S.tubeMat, 0.92 * dnaFade);
-        setOpacity(S.bpMat, 0.95 * dnaFade);
+      // X slide right after rotation
+      dnaGroup.position.x = ss(SLIDE_START, SLIDE_END, p) * 8;
+
+      // ── Camera ──────────────────────────────────────────────────────────
+      // Two modes blended by rideBlend (0 = skateboard ride, 1 = glide):
+      //
+      // RIDE: camera spirals tightly around the horizontal strand while
+      //       traveling along its X length — very close, helix-banking feel.
+      //
+      // GLIDE: single parametric formula — position is (0, localY, 9) in strand
+      //        local space, transformed by strand's current Z rotation angle,
+      //        so it follows the model as it rotates. Zero discontinuities.
+      {
+        const rideBlend = ss(ROT_START, ROT_END, p); // 0 during ride → 1 after rotation
+
+        // ── Ride mode — tight drone sweep, very close to the strand ──
+        const rideT = clamp01(p / ROT_START);
+        const helixAng = (1 - rideT) * Math.PI / 4; // 45°→0°: swoop from above to front
+        const droneFar = 6; // start close
+        const droneNear = 4.5; // end very close
+        const droneDist = droneFar + (droneNear - droneFar) * rideT;
+        const ridePos = new THREE.Vector3(surfHalfH * (-0.85 + rideT * 0.85),
+        // left end of strand → center
+        Math.sin(helixAng) * droneDist, Math.cos(helixAng) * droneDist);
+
+        // ── Glide mode ──
+        // glideZ eases from droneNear → 9, so transition is seamless and final pose unchanged
+        const glideZ = droneNear + (9 - droneNear) * ss(ROT_START, 4, p);
+        const localT = clamp01(p / 4);
+        const localY = surfHalfH * (0.28 - 0.72 * localT);
+        const rotZ = dnaGroup.rotation.z;
+        const dnaX = dnaGroup.position.x;
+        const glidePos = new THREE.Vector3(-localY * Math.sin(rotZ) + dnaX * 0.18, localY * Math.cos(rotZ), glideZ);
+        camera.position.lerpVectors(ridePos, glidePos, rideBlend);
+        camera.up.set(0, 1, 0);
+
+        // Look slightly ahead along X during ride; toward DNA center during glide
+        const rideLook = ridePos.x + surfHalfH * 0.3;
+        const glideLook = dnaX * 0.45;
+        camera.lookAt(rideLook * (1 - rideBlend) + glideLook * rideBlend, 0, 0);
       }
-      for (let i = 0; i < RUNG_COUNT; i++) {
-        setOpacity(rungMats[i], 0.85 * dnaFade);
-        setOpacity(rungWireMats[i], 0.45 * dnaFade);
-      }
-
-      // Helix tilt — spans the full last chapter (p 3→4), tilts the long axis from Y to X
-      const tiltAmt = ss(3.0, 3.8, p);
-      helixTiltGroup.rotation.z = -Math.PI * 0.5 * tiltAmt;
-      helixTiltGroup.rotation.x = 0.22 * tiltAmt;
-
-      // Camera path — four chapters
-      const camPos = new THREE.Vector3();
-      const WP = {
-        cellOverview: new THREE.Vector3(0, 0.2, 9),
-        cellClose: new THREE.Vector3(0, 0.0, 4.0),
-        helixHold: new THREE.Vector3(0, 0.0, 6.8)
-      };
-      if (p < 1) {
-        camPos.lerpVectors(WP.cellOverview, WP.cellClose, ss(0, 1, p));
-      } else if (p < 2) {
-        camPos.lerpVectors(WP.cellClose, WP.helixHold, ss(1.0, 1.85, p));
-      } else if (p < 3) {
-        camPos.copy(WP.helixHold); // hold while labels appear on upright helix
-      } else {
-        // Zoom in after tilt is mostly done (p 3.5→4.0: z 6.8→3.2)
-        const zoomT = ss(3.5, 4.0, p);
-        camPos.set(0, 0, 6.8 - zoomT * 3.6);
-      }
-      camera.position.copy(camPos);
-      camera.lookAt(0, 0, 0);
-
-      // Force matrix refresh before projecting labels
       scene.updateMatrixWorld(true);
       camera.updateMatrixWorld();
       camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+
+      // Labels during vertical phase only
       const labels = [];
-      const project = v => {
-        tmp.copy(v).project(camera);
-        if (tmp.z < -1 || tmp.z > 1) return null; // clamp to frustum only
-        return {
-          x: (tmp.x * 0.5 + 0.5) * 100,
-          y: (-tmp.y * 0.5 + 0.5) * 100
-        };
-      };
-      const projectLocal = (group, local) => {
-        const v = new THREE.Vector3(local[0], local[1], local[2]).applyMatrix4(group.matrixWorld);
-        return project(v);
-      };
-
-      // Cell labels — one at a time, cross-fading sequentially; back-face culled
-      if (cellFade > 0.02) {
-        for (const a of cellAnchors) {
-          const fade = ss(a.pIn, a.pIn + 0.18, p) * (1 - ss(a.pOut - 0.15, a.pOut, p)) * cellFade;
-          if (fade > 0.02) {
-            const anchorWorld = new THREE.Vector3(a.local[0], a.local[1], a.local[2]).applyMatrix4(cellGroup.matrixWorld);
-            const toCam = new THREE.Vector3().subVectors(camera.position, anchorWorld);
-            if (toCam.dot(anchorWorld) < 0) continue; // back-facing, skip
-            const pos = project(anchorWorld);
-            if (pos) labels.push({
-              id: a.id,
-              title: a.title,
-              subtitle: a.subtitle,
-              x: pos.x,
-              y: pos.y,
-              fade
-            });
-          }
-        }
-      }
-
-      // DNA labels — one at a time, cross-fading sequentially through chapters 2–4
-      // Projected through helixTiltGroup (not helixRotationGroup) so they don't spin with the helix
-      if (dnaFade > 0.02) {
+      if (p > ROT_END) {
         for (const a of dnaAnchors) {
-          const fade = ss(a.pIn, a.pIn + 0.20, p) * (1 - ss(a.pOut - 0.15, a.pOut, p)) * dnaFade;
-          if (fade > 0.02) {
-            const pos = projectLocal(helixTiltGroup, a.local);
-            if (pos) labels.push({
-              id: a.id,
-              title: a.title,
-              subtitle: a.subtitle,
-              x: pos.x,
-              y: pos.y,
-              fade
-            });
-          }
+          const fade = ss(a.pIn, a.pIn + 0.2, p) * (1 - ss(a.pOut - 0.1, a.pOut, p));
+          if (fade > 0.02) labels.push({
+            id: a.id,
+            title: a.title,
+            subtitle: a.subtitle,
+            x: a.x,
+            y: a.y,
+            fade
+          });
         }
       }
       window.dispatchEvent(new CustomEvent("pin-labels-update", {
         detail: labels
       }));
-
-      // Star twinkle
       const tsec = t * 0.001;
       for (let li = 0; li < starLayers.length; li++) {
         const L = starLayers[li];

@@ -57,24 +57,24 @@ window.PinSection = () => {
 
   const chapters = [
     {
-      title: "Cell",
-      headline: "You are thirty trillion of these.",
-      sub: "A living machine, ten micrometers wide. Power plants, shipping routes, a library at the center. Every story you've ever been part of started with one of these — and the smallest details are real.",
+      title: "Approach",
+      headline: "Two meters. Six micrometers.",
+      sub: "Every cell in your body holds two meters of DNA, coiled into a nucleus smaller than a grain of sand. What you're approaching is a single fragment — less than a millionth of the full strand.",
+    },
+    {
+      title: "Backbone",
+      headline: "The outer rails.",
+      sub: "Two sugar-phosphate spines, linked by phosphodiester bonds, form the outer rails of the ladder. The sequence of bases — A, T, G, C — hangs inward, readable only through the major groove.",
     },
     {
       title: "Helix",
-      headline: "Inside the library.",
-      sub: "At the core of every cell: DNA. Two meters of filament, coiled into something smaller than a grain of dust. Three and a half billion years of faithful copies, all the way down to now.",
-    },
-    {
-      title: "Labeled",
-      headline: "The double helix, up close.",
-      sub: "Two antiparallel sugar-phosphate backbones. Base pairs every 3.4 ångströms. Major groove on one face, minor groove on the other. Every word biology ever spoke, written here.",
+      headline: "Right-handed. Antiparallel.",
+      sub: "10.4 base pairs per full twist. One strand runs 5′ to 3′; the other runs 3′ to 5′ in the opposite direction. The twist carves two grooves — major and minor — that proteins land on to read or regulate the code.",
     },
     {
       title: "Structure",
-      headline: "Read between the strands.",
-      sub: "The ladder tilts horizontal — and you're inside it. Each rung: two complementary bases, hydrogen-bonded. Four letters, infinite sequences, one unbroken chain from the first cell to now.",
+      headline: "Four letters. Infinite sequences.",
+      sub: "A pairs with T by two hydrogen bonds; G pairs with C by three. The extra bond in G·C makes those pairs more thermally stable — a fact evolution has written into every promoter, every regulatory switch.",
     },
   ];
 
@@ -101,7 +101,7 @@ window.PinSection = () => {
             </div>
           </div>
           <div className="pin-footer">
-            <div className="pin-tag">cell → helix → labeled → structure</div>
+            <div className="pin-tag">approach → backbone → helix → structure</div>
             <div className="pin-progress-bar" style={{ "--p": `${(progress / 4) * 100}%` }} />
             <div className="pin-tag">{Math.round((progress / 4) * 100)}%</div>
           </div>
@@ -181,6 +181,15 @@ const ProjectCard = ({ p, tall, onOpen }) => (
           <span className="project-chip more">+{p.stack.flatMap(g => g.items).length - 5}</span>
         )}
       </div>
+      {p.links && p.links.length > 0 && (
+        <div className="project-card-links" onClick={e => e.stopPropagation()}>
+          {p.links.map(l => (
+            <a key={l.label} href={l.href} target="_blank" rel="noreferrer" className="project-card-link">
+              {l.label === "github" ? "↗ github" : `↗ ${l.label}`}
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   </div>
 );

@@ -440,6 +440,15 @@ section { position: relative; }
 
 .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
+.project-card-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 4px; }
+.project-card-link {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--cyan); border: 1px solid rgba(94,181,255,0.25);
+  padding: 4px 10px; border-radius: 2px; text-decoration: none;
+  transition: all 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px;
+}
+.project-card-link:hover { border-color: var(--cyan); background: rgba(94,181,255,0.08); }
+
 /* ---------- PROJECT MODAL ---------- */
 .pm-overlay {
   position: fixed; inset: 0; z-index: 400;
@@ -852,4 +861,7 @@ footer .konami-hint { margin-top: 8px; font-size: 9px; color: var(--ink-dimmer);
   .pin-overlay { padding: 20px; }
   .pin-header { flex-direction: column; gap: 20px; }
   .pin-chapter-rail { flex-direction: row; flex-wrap: wrap; text-align: left; }
+  .pin-wrap { height: 250vh; }
+  .project-grid { grid-template-columns: 1fr; }
+  .project-card-link { max-width: 160px; }
 }

@@ -42,28 +42,28 @@ window.PROJECTS = [
 
   {
     id: "tethr-wedding",
-    title: "Tethr",
-    subtitle: "Wedding platform with AI seating and a live guest concierge",
-    tag: "Full-Stack · AI · Live Product",
-    status: "live", badge: "Featured", featured: true, tall: true,
+    title: "Tethr AI",
+    subtitle: "I built an AI — a constraint-aware seating optimizer and multi-turn guest concierge, shipped in production",
+    tag: "AI · Full-Stack · Live Product",
+    status: "live", badge: "AI · Live", featured: true, tall: true,
     img: null, hero: null,
     year: "2024 — Present",
     role: "Founder · Solo engineer",
     scale: "Shipping in production · mytethr.com",
-    desc: "Production wedding platform under Tethr Software LLC. Couples manage RSVPs, table assignments, and guest communication. The standout features are two Claude-powered AI tools built beyond a simple chatbot: a constraint-aware seating optimizer and a multi-turn guest concierge.",
+    desc: "I built Kai — two Claude-powered AI features inside a production wedding platform that go well beyond a chatbot. A constraint-aware seating optimizer reasons over guest relationship graphs and physical table constraints, enforcing a strict JSON schema over Claude's output. A multi-turn guest concierge handles full conversation history, detects short-affirmation replies, classifies post-response intent, and rate-limits per IP. Both run on real user data today.",
     long: [
-      "AI seating optimizer sends guest bios, relationship notes, and table constraints to Claude with a strict JSON schema enforced over the output. Context is merged from three data sources per guest before the prompt is built. Plan-tier gating limits runs per account with developer and paid overrides.",
-      "AI guest concierge handles multi-turn wedding guest questions with full conversation history, short-affirmation detection that resolves 'yes please' back to the original question rather than treating it as a new prompt, per-IP rate limiting, and post-reply intent classification via a separate classifier function.",
-      "Table tag automation: a daily Supabase cron job fires at 9 AM CT and sends personalized table tag emails to every guest for events whose wedding date is tomorrow, with reset tooling for re-sends.",
-      "Magic-link passwordless auth with row-level security, Stripe Checkout and webhook handling, Resend transactional email, Cloudflare for DNS, and Vercel for deployment.",
+      "Seating optimizer: guest bios, relationship flags, and table constraints are merged from three data sources and sent to Claude with a strict JSON schema enforced on the output. Plan-tier gating controls access per account with developer and paid overrides.",
+      "Guest concierge: full multi-turn conversation history, short-affirmation detection that resolves 'yes please' back to the preceding question rather than treating it as a new prompt, per-IP rate limiting with configurable windows, and a post-reply intent classifier that runs as a separate function after each response.",
+      "Table tag automation: a daily Supabase cron job fires at 9 AM CT and sends personalized table-tag emails to every guest for events whose wedding date is tomorrow, with reset tooling for re-sends.",
+      "Production infrastructure: magic-link passwordless auth with row-level security, Stripe Checkout and webhook handling, Resend transactional email, Cloudflare for DNS, and Vercel for deployment.",
     ],
     stack: [
+      { cat: "AI",        items: ["Claude API (Anthropic)", "Constraint reasoning", "Structured JSON output", "Multi-turn chat", "Intent classification"] },
       { cat: "Frontend",  items: ["Vue 3", "TypeScript", "Tailwind", "GSAP", "PrimeVue"] },
       { cat: "Backend",   items: ["Supabase Edge Functions", "Deno", "PostgreSQL", "Supabase Realtime"] },
-      { cat: "AI",        items: ["Claude API (Anthropic)", "Structured output", "Multi-turn chat", "Intent classification"] },
       { cat: "Services",  items: ["Stripe", "Resend", "Cloudflare", "Vercel"] },
     ],
-    links: [{ label: "mytethr.com", href: "#" }],
+    links: [{ label: "mytethr.com", href: "https://mytethr.com" }],
   },
 
   {
@@ -94,6 +94,33 @@ window.PROJECTS = [
   },
 
   {
+    id: "echovision",
+    title: "EchoVision",
+    subtitle: "Mixed reality accessibility app — AI describes what a visually impaired user sees",
+    tag: "Unity · XR · AI · Accessibility",
+    status: "fun", badge: "Graphics · AI", featured: true,
+    img: "assets/projects/echoVision.png", hero: "assets/projects/echoVision.png",
+    year: "2025",
+    role: "Co-developer — passthrough integration, voice pipeline, interaction design",
+    scale: "Meta Quest 3 · Solo + Daniel Vu",
+    desc: "A Meta Quest 3 mixed reality app that streams real headset camera footage to an AI backend, transcribes voice queries hands-free, and speaks back context-aware descriptions through an animated avatar. Built at the intersection of real-time computer graphics and real-world accessibility — the system can identify objects in a user's hand, read signage, and narrate surroundings for visually or cognitively impaired people.",
+    long: [
+      "Passthrough integration using QuestCamera API streams live headset camera frames in real time. Combined with OpenXR spatial anchoring, the app places UI panels as world-space billboards that stay fixed in the physical environment.",
+      "Voice pipeline: microphone capture feeds a Python FastAPI backend that handles transcription and LLM inference. Results are returned to the headset and spoken through an avatar with a state machine that cycles through Idle → Listening → Processing → Success/Error modes.",
+      "Gesture control via Meta XR SDK: a palm-up gesture triggers the listening state without the user needing to press anything — critical for accessibility contexts where one hand may be occupied.",
+      "Custom ShaderLab and HLSL shaders drive the avatar feedback visuals. Spatial UI panels are camera-facing billboards anchored in real world coordinates so they don't drift as the user moves.",
+      "Potential use cases: navigation instructions, identifying objects in hand, reading labels, describing scenes for users with visual impairment or cognitive load constraints.",
+    ],
+    stack: [
+      { cat: "XR",        items: ["Unity 2022 LTS", "Meta XR SDK", "OpenXR", "QuestCamera API"] },
+      { cat: "Shaders",   items: ["ShaderLab", "HLSL"] },
+      { cat: "AI",        items: ["Python FastAPI", "LLM inference", "Speech transcription"] },
+      { cat: "Interaction", items: ["Voice recognition", "Gesture control", "Spatial UI", "Billboards"] },
+    ],
+    links: [{ label: "github", href: "https://github.com/brnolson/RealWorldObjectRecognitionXR" }],
+  },
+
+  {
     id: "raytracer",
     title: "C++ Raytracer Engine",
     subtitle: "Built from scratch, every intersection by hand",
@@ -102,7 +129,7 @@ window.PROJECTS = [
     img: "assets/projects/raytracer.png", hero: "assets/projects/raytracer.png",
     year: "2025",
     role: "Solo",
-    scale: "Standalone engine",
+    scale: "Standalone engine · C++",
     desc: "A complete Whitted-style ray tracing renderer written from scratch in C++. Spheres, triangles, planes, boxes, and arbitrary OBJ meshes with recursive reflection and refraction, three light types, per-pixel shadows, texture and normal mapping, and a BVH acceleration structure that achieves over 10x speedup on complex scenes.",
     long: [
       "Built every layer from first principles: ray-object intersection math for spheres and triangles, Phong illumination model with ambient, diffuse and specular terms, and recursive Whitted-style reflection and refraction to a configurable depth.",
@@ -117,7 +144,7 @@ window.PROJECTS = [
       { cat: "Geometry",   items: ["Spheres", "Triangles", "Planes", "Boxes", "OBJ meshes"] },
       { cat: "Lighting",   items: ["Point", "Directional", "Spot", "Shadows", "Reflection", "Refraction"] },
     ],
-    links: [],
+    links: [{ label: "github", href: "https://github.com/brnolson/raytracer-engine" }],
   },
 
   {
@@ -157,7 +184,7 @@ window.PROJECTS = [
     subtitle: "Five shader models written from scratch",
     tag: "GLSL · Shader Programming · TypeScript",
     status: "fun", badge: "Graphics",
-    img: "assets/projects/artistic-rendering.png", hero: "assets/projects/artistic-rendering.png",
+    img: "assets/projects/ars.png", hero: "assets/projects/ars.png",
     year: "2025",
     role: "Solo",
     scale: "Coursework",
@@ -181,7 +208,7 @@ window.PROJECTS = [
     subtitle: "BVH motion capture on a custom rigged character",
     tag: "TypeScript · WebGL · Bone Hierarchies",
     status: "fun", badge: "Graphics",
-    img: "assets/projects/skeletal-animation.png", hero: "assets/projects/skeletal-animation.png",
+    img: "assets/projects/ummbbones.png", hero: "assets/projects/ummbbones.png",
     year: "2025",
     role: "Solo",
     scale: "Coursework",
@@ -276,7 +303,7 @@ window.PROJECTS = [
     subtitle: "Built from scratch in C++ and OpenGL",
     tag: "C++ · OpenGL · SDL3",
     status: "fun", badge: "Graphics",
-    img: "assets/projects/csci5607.png", hero: "assets/projects/csci5607.png",
+    img: "assets/projects/maze.png", hero: "assets/projects/maze.png",
     year: "2025",
     role: "Solo",
     scale: "Coursework",
@@ -292,7 +319,7 @@ window.PROJECTS = [
       { cat: "Graphics",    items: ["OpenGL", "SDL3", "GLSL"] },
       { cat: "Techniques",  items: ["OBJ loading", "UV texture mapping", "Phong lighting", "Collision detection"] },
     ],
-    links: [],
+    links: [{ label: "github", href: "https://github.com/brnolson/csci5607_Project3b" }],
   },
 
   // ============================================================
@@ -347,7 +374,7 @@ window.PROJECTS = [
       { cat: "Framework",  items: ["React", "JavaScript"] },
       { cat: "Audio",      items: ["Web Audio API"] },
     ],
-    links: [],
+    links: [{ label: "github", href: "https://github.com/brnolson/3d-rhythm-scene-builder" }],
   },
 
   {
@@ -381,11 +408,11 @@ window.PROJECTS = [
     subtitle: "Built the developer tool that did not exist",
     tag: "Vanilla JS · SVG · Developer Tool",
     status: "fun",
-    img: "assets/projects/svg-editor.png", hero: "assets/projects/svg-editor.png",
+    img: "assets/projects/svgEditor.png", hero: "assets/projects/svgEditor.png",
     year: "2026",
     role: "Solo",
     scale: "Personal",
-    desc: "A focused tool for writing, testing, and refining SVG path code with a live preview. Most SVG editors hide the path string behind a visual UI. This one puts the raw d attribute front and center with drag-and-drop anchor editing, undo/redo, variable substitution, and persistent zoom.",
+    desc: "I kept needing a fast, visual way to write and tweak SVG path code — and nothing that existed hit the right balance. So I built it. A live-preview editor that puts the raw d attribute front and center with drag-and-drop anchor editing, undo/redo, variable substitution, and persistent zoom.",
     long: [
       "Live preview updates on every keystroke. Coordinate readout follows the cursor in viewBox units. Zoom and pan state persists across edits so the viewport never resets while tuning control points.",
       "Drag mode maps path anchor nodes and Bezier handles back to d-attribute tokens in the code string. Dragging normalizes the surrounding segment in-place: relative commands convert to absolute, H and V commands convert to L when moved in 2D. Code stays accurate throughout.",
@@ -396,7 +423,7 @@ window.PROJECTS = [
       { cat: "Language",   items: ["Vanilla JS"] },
       { cat: "Web APIs",   items: ["SVG", "Canvas", "DOM"] },
     ],
-    links: [],
+    links: [{ label: "svg-code-editor-three.vercel.app", href: "https://svg-code-editor-three.vercel.app" }],
   },
 
   {
@@ -513,7 +540,7 @@ window.PROJECTS = [
       { cat: "Graphics",  items: ["Three.js", "GLSL", "WebGL"] },
       { cat: "Web",       items: ["HTML", "CSS", "JavaScript", "React (CDN)"] },
     ],
-    links: [],
+    links: [{ label: "github", href: "https://github.com/brnolson/BrenenOlson-WebsitePortfolio" }],
   },
 ];
 
