@@ -135,10 +135,10 @@ window.Projects = () => {
         <div>
           <div className="section-label"><span className="section-num">03</span> selected work</div>
           <h2 className="section-head">Projects shipped,<br/>simulated, and built.</h2>
-          <p className="section-sub">Graphics research, shipped product, and internal tools. Click any card for the details.</p>
+          <p className="section-sub">Shipped products, graphics work, and personal builds. Click any card for the details.</p>
         </div>
         <div className="projects-filter">
-          {[["all", "all"], ["live", "shipping"], ["research", "research"], ["fun", "graphics"]].map(([k, label]) => (
+          {[["all", "all"], ["live", "shipping"], ["fun", "graphics + personal"]].map(([k, label]) => (
             <button key={k} className={`filter-btn ${filter === k ? "active" : ""}`} onClick={() => setFilter(k)}>{label}</button>
           ))}
         </div>
@@ -164,7 +164,6 @@ const ProjectCard = ({ p, tall, onOpen }) => (
       {p.img ? <img src={p.img} alt={p.title} /> : <PlaceholderGraphic id={p.id} />}
       {p.badge && <div className="project-badge">{p.badge}</div>}
       {p.status === "live" && <div className="project-shipping live">Live</div>}
-      {p.status === "research" && <div className="project-shipping">Research</div>}
       <div className="project-open-hint">view case study <span>→</span></div>
     </div>
     <div className="project-body">
@@ -205,8 +204,6 @@ const ProjectModal = ({ p, onClose }) => (
             {p.subtitle && <div className="pm-subtitle">{p.subtitle}</div>}
           </div>
           {p.status === "live" && <div className="pm-status live"><span />Live in production</div>}
-          {p.status === "research" && <div className="pm-status research"><span />Research</div>}
-          {p.status === "fun" && <div className="pm-status fun"><span />For fun</div>}
         </div>
 
         <div className="pm-meta">

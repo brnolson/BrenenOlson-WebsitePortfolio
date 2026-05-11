@@ -182,9 +182,9 @@ window.Projects = () => {
     className: "section-head"
   }, "Projects shipped,", /*#__PURE__*/React.createElement("br", null), "simulated, and built."), /*#__PURE__*/React.createElement("p", {
     className: "section-sub"
-  }, "Graphics research, shipped product, and internal tools. Click any card for the details.")), /*#__PURE__*/React.createElement("div", {
+  }, "Shipped products, graphics work, and personal builds. Click any card for the details.")), /*#__PURE__*/React.createElement("div", {
     className: "projects-filter"
-  }, [["all", "all"], ["live", "shipping"], ["research", "research"], ["fun", "graphics"]].map(([k, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["all", "all"], ["live", "shipping"], ["fun", "graphics + personal"]].map(([k, label]) => /*#__PURE__*/React.createElement("button", {
     key: k,
     className: `filter-btn ${filter === k ? "active" : ""}`,
     onClick: () => setFilter(k)
@@ -224,9 +224,7 @@ const ProjectCard = ({
   className: "project-badge"
 }, p.badge), p.status === "live" && /*#__PURE__*/React.createElement("div", {
   className: "project-shipping live"
-}, "Live"), p.status === "research" && /*#__PURE__*/React.createElement("div", {
-  className: "project-shipping"
-}, "Research"), /*#__PURE__*/React.createElement("div", {
+}, "Live"), /*#__PURE__*/React.createElement("div", {
   className: "project-open-hint"
 }, "view case study ", /*#__PURE__*/React.createElement("span", null, "\u2192"))), /*#__PURE__*/React.createElement("div", {
   className: "project-body"
@@ -290,11 +288,7 @@ const ProjectModal = ({
   className: "pm-subtitle"
 }, p.subtitle)), p.status === "live" && /*#__PURE__*/React.createElement("div", {
   className: "pm-status live"
-}, /*#__PURE__*/React.createElement("span", null), "Live in production"), p.status === "research" && /*#__PURE__*/React.createElement("div", {
-  className: "pm-status research"
-}, /*#__PURE__*/React.createElement("span", null), "Research"), p.status === "fun" && /*#__PURE__*/React.createElement("div", {
-  className: "pm-status fun"
-}, /*#__PURE__*/React.createElement("span", null), "For fun")), /*#__PURE__*/React.createElement("div", {
+}, /*#__PURE__*/React.createElement("span", null), "Live in production")), /*#__PURE__*/React.createElement("div", {
   className: "pm-meta"
 }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
   className: "pm-meta-k"
