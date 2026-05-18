@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tethr — Developer Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0f12;
+      --surface: #13161b;
+      --surface2: #1a1e25;
+      --border: #252a34;
+      --border2: #1e2330;
+      --text: #e4e6eb;
+      --muted: #6b7280;
+      --accent: #7c6f9f;
+      --accent2: #9d8ece;
+      --green: #22c55e;
+      --blue: #60a5fa;
+      --amber: #fbbf24;
+      --pink: #f472b6;
+      --teal: #2dd4bf;
+      --sidebar-w: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Gate ── */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+
+    .gate-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    }
+
+    .gate-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .gate-logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .gate-logo-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .gate-logo-sub {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 0.1rem;
+    }
+
+    .gate-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .gate-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+      line-height: 1.6;
+    }
+
+    .gate-nda {
+      background: rgba(251,191,36,0.06);
+      border: 1px solid rgba(251,191,36,0.18);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      font-size: 0.8rem;
+      color: #d6a83a;
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+
+    .gate-nda strong {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+    }
+
+    .gate-check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      margin-bottom: 1.25rem;
+      cursor: pointer;
+    }
+
+    .gate-check-row input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .gate-check-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .gate-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .gate-field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .gate-field input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.875rem;
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+      letter-spacing: 0.1em;
+    }
+
+    .gate-field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,111,159,0.15);
+    }
+
+    .gate-error {
+      font-size: 0.8rem;
+      color: #f87171;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+
+    .gate-error.visible { display: block; }
+
+    .gate-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, var(--accent) 0%, #6a5d8e 100%);
+      border: none;
+      border-radius: 9px;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .gate-btn:hover:not(:disabled) { opacity: 0.9; }
+    .gate-btn:active:not(:disabled) { transform: scale(0.99); }
+    .gate-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── Docs layout ── */
+    #docs {
+      display: none;
+      min-height: 100vh;
+    }
+
+    #docs.visible { display: flex; }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+      padding: 1.5rem 0 2rem;
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .sidebar-brand-tag {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .sidebar-section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      padding: 0 1.25rem 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .sidebar-nav { list-style: none; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1.25rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all 0.12s;
+    }
+
+    .sidebar-nav a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--accent2);
+      border-left-color: var(--accent);
+      background: rgba(124,111,159,0.07);
+    }
+
+    .sidebar-nav .nav-icon {
+      width: 16px;
+      text-align: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 3rem 4rem;
+      max-width: calc(var(--sidebar-w) + 860px);
+    }
+
+    /* ── Sections ── */
+    .doc-section {
+      margin-bottom: 4.5rem;
+      scroll-margin-top: 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent2);
+      margin-bottom: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      line-height: 1.25;
+    }
+
+    .section-lead {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    h3:first-child { margin-top: 0; }
+
+    p {
+      font-size: 0.9rem;
+      color: #c0c5cf;
+      line-height: 1.75;
+      margin-bottom: 0.875rem;
+    }
+
+    /* ── Pill grid (stack) ── */
+    .pill-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    .pill.green  { color: var(--green);  background: rgba(34,197,94,0.08);   border-color: rgba(34,197,94,0.2); }
+    .pill.blue   { color: var(--blue);   background: rgba(96,165,250,0.08);  border-color: rgba(96,165,250,0.2); }
+    .pill.amber  { color: var(--amber);  background: rgba(251,191,36,0.08);  border-color: rgba(251,191,36,0.2); }
+    .pill.pink   { color: var(--pink);   background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.2); }
+    .pill.teal   { color: var(--teal);   background: rgba(45,212,191,0.08);  border-color: rgba(45,212,191,0.2); }
+    .pill.purple { color: var(--accent2); background: rgba(124,111,159,0.08); border-color: rgba(124,111,159,0.2); }
+    .pill.muted  { color: var(--muted);  background: rgba(107,114,128,0.08); border-color: rgba(107,114,128,0.2); }
+
+    /* ── Stack rows ── */
+    .stack-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+
+    .stack-group-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--muted);
+      padding: 0.7rem 1.1rem 0.5rem;
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .stack-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.7rem 1.1rem;
+      border-bottom: 1px solid var(--border2);
+      font-size: 0.875rem;
+    }
+
+    .stack-row:last-child { border-bottom: none; }
+
+    .stack-row-name {
+      font-weight: 600;
+      color: var(--text);
+      min-width: 170px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .stack-row-desc {
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+
+    /* ── App cards ── */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .app-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+      transition: border-color 0.15s;
+    }
+
+    .app-card:hover { border-color: var(--accent); }
+
+    .app-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .app-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .app-card-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .app-card-route {
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--accent2);
+    }
+
+    .app-card-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 0.875rem;
+    }
+
+    .app-card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .feature-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    /* ── File tree ── */
+    .file-tree {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .file-tree .dir  { color: var(--blue); font-weight: 500; }
+    .file-tree .file { color: #c0c5cf; }
+    .file-tree .note { color: var(--muted); font-style: italic; }
+    .file-tree .hl   { color: var(--accent2); }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #c0c5cf;
+      overflow-x: auto;
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+
+    .code-block .cmd  { color: var(--green); }
+    .code-block .key  { color: var(--accent2); }
+    .code-block .val  { color: var(--amber); }
+    .code-block .cmt  { color: var(--muted); font-style: italic; }
+
+    /* ── Test table ── */
+    .test-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .test-table th {
+      text-align: left;
+      padding: 0.6rem 1rem;
+      background: var(--surface2);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .test-table td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--border2);
+      color: #c0c5cf;
+      font-size: 0.83rem;
+    }
+
+    .test-table tr:last-child td { border-bottom: none; }
+
+    .test-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent2);
+    }
+
+    .test-table { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+    /* ── Info box ── */
+    .info-box {
+      display: flex;
+      gap: 0.875rem;
+      padding: 1rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+
+    .info-box.blue   { background: rgba(96,165,250,0.06);  border: 1px solid rgba(96,165,250,0.18);  color: #93c5fd; }
+    .info-box.amber  { background: rgba(251,191,36,0.06);  border: 1px solid rgba(251,191,36,0.18);  color: #fcd34d; }
+    .info-box.green  { background: rgba(34,197,94,0.06);   border: 1px solid rgba(34,197,94,0.18);   color: #86efac; }
+    .info-box-icon   { font-size: 1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    /* ── Mobile ── */
+    .mobile-nav-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; padding: 2rem 1.5rem; }
+      .mobile-nav-toggle { display: flex; }
+      .app-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .main-content { padding: 1.5rem 1rem; }
+      .section-title { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Gate ── -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="gate-logo">
+      <div class="gate-logo-mark">🔒</div>
+      <div>
+        <div class="gate-logo-text">Tethr</div>
+        <div class="gate-logo-sub">developer documentation</div>
+      </div>
+    </div>
+
+    <div class="gate-title">Restricted Access</div>
+    <p class="gate-desc">
+      This document contains proprietary architecture, codebase details, and implementation specifics for Tethr. Access is limited to authorized collaborators only.
+    </p>
+
+    <div class="gate-nda">
+      <strong>Confidentiality Notice</strong>
+      By accessing this document you agree not to disclose, distribute, or reproduce any information contained herein without prior written consent from the project owner. This includes architecture details, implementation specifics, and business logic described within.
+    </div>
+
+    <label class="gate-check-row">
+      <input type="checkbox" id="agree-check" />
+      <span class="gate-check-label">I have read and agree to the confidentiality terms above and confirm I am an authorized collaborator.</span>
+    </label>
+
+    <div class="gate-field">
+      <label for="pw-input">Access Password</label>
+      <input type="password" id="pw-input" placeholder="Enter password" autocomplete="off" />
+    </div>
+
+    <div class="gate-error" id="gate-error">Incorrect password. Please check with Brenen.</div>
+
+    <button class="gate-btn" id="gate-btn" disabled>Continue</button>
+  </div>
+</div>
+
+<!-- ── Docs ── -->
+<button class="mobile-nav-toggle" id="nav-toggle">☰</button>
+
+<div id="docs">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-mark">💍</div>
+      <div>
+        <div class="sidebar-brand-name">Tethr</div>
+        <div class="sidebar-brand-tag">dev docs · private</div>
+      </div>
+    </div>
+
+    <span class="sidebar-section-label">Getting Started</span>
+    <ul class="sidebar-nav">
+      <li><a href="#overview" class="nav-link"><span class="nav-icon">🗺</span> Overview</a></li>
+      <li><a href="#setup" class="nav-link"><span class="nav-icon">⚙️</span> Local Setup</a></li>
+    </ul>
+
+    <span class="sidebar-section-label">Architecture</span>
+    <ul class="sidebar-nav">
+      <li><a href="#stack" class="nav-link"><span class="nav-icon">🧱</span> Tech Stack</a></li>
+      <li><a href="#structure" class="nav-link"><span class="nav-icon">📁</span> File Structure</a></li>
+    </ul>
+
+    <span class="sidebar-section-label">Applications</span>
+    <ul class="sidebar-nav">
+      <li><a href="#apps" class="nav-link"><span class="nav-icon">📦</span> All Apps</a></li>
+      <li><a href="#routing" class="nav-link"><span class="nav-icon">🔀</span> Routing</a></li>
+      <li><a href="#database" class="nav-link"><span class="nav-icon">🗄</span> Database</a></li>
+    </ul>
+
+    <span class="sidebar-section-label">Quality</span>
+    <ul class="sidebar-nav">
+      <li><a href="#testing" class="nav-link"><span class="nav-icon">🧪</span> Testing</a></li>
+      <li><a href="#deployment" class="nav-link"><span class="nav-icon">🚀</span> Deployment</a></li>
+    </ul>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- Overview -->
+    <section class="doc-section" id="overview">
+      <div class="section-eyebrow">// intro</div>
+      <h1 class="section-title">Tethr — Wedding Planning Suite</h1>
+      <p class="section-lead">
+        Tethr is a multi-product wedding planning platform. Couples get a suite of connected tools — from digital save-the-dates to AI-powered seating charts — all sharing a single guest list and account. Planners get their own dashboard to manage multiple client events.
+      </p>
+
+      <div class="info-box blue">
+        <span class="info-box-icon">ℹ️</span>
+        <span>All six products (Save the Date, RSVP, TableTag, Website, Maestro, Guest List) share the same Supabase backend and Vue frontend. You're working in a monorepo-style single SPA, not separate services.</span>
+      </div>
+
+      <h3>Products at a glance</h3>
+      <div class="pill-grid">
+        <span class="pill pink">Save the Date</span>
+        <span class="pill blue">RSVP / Invites</span>
+        <span class="pill green">TableTag (Seating)</span>
+        <span class="pill amber">Wedding Website</span>
+        <span class="pill teal">Maestro (Messaging)</span>
+        <span class="pill purple">Guest List</span>
+        <span class="pill muted">Guest Concierge (AI)</span>
+        <span class="pill muted">Planner Dashboard</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Setup -->
+    <section class="doc-section" id="setup">
+      <div class="section-eyebrow">// getting started</div>
+      <h2 class="section-title">Local Setup</h2>
+      <p class="section-lead">You need Node 20+, a Supabase account (ask Brenen for credentials), and a Stripe test key.</p>
+
+      <h3>1. Clone & install</h3>
+      <div class="code-block">
+        <div><span class="cmd">git clone</span> https://github.com/brnolson/tethr-wedding-webapp</div>
+        <div><span class="cmd">cd</span> tethr-wedding-webapp</div>
+        <div><span class="cmd">npm install</span></div>
+      </div>
+
+      <h3>2. Environment variables</h3>
+      <p>Copy <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">.env.example</code> to <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">.env.local</code> and fill in the values Brenen shares:</p>
+      <div class="code-block">
+        <div><span class="key">VITE_SUPABASE_URL</span>=<span class="val">https://&lt;project&gt;.supabase.co</span></div>
+        <div><span class="key">VITE_SUPABASE_KEY</span>=<span class="val">eyJ...</span></div>
+        <div><span class="key">VITE_REDIRECT_URL</span>=<span class="val">http://localhost:5173</span></div>
+        <div>&nbsp;</div>
+        <div><span class="cmt"># For running tests only:</span></div>
+        <div><span class="key">SUPABASE_SERVICE_ROLE_KEY</span>=<span class="val">eyJ...</span></div>
+        <div><span class="key">PW_COUPLE_EMAIL</span>=<span class="val">pw-couple-1@tethr-tests.local</span></div>
+        <div><span class="key">PW_COUPLE_PASSWORD</span>=<span class="val">...</span></div>
+      </div>
+
+      <h3>3. Dev server</h3>
+      <div class="code-block">
+        <div><span class="cmd">npm run dev</span>         <span class="cmt"># starts at http://localhost:5173</span></div>
+        <div><span class="cmd">npm run build</span>       <span class="cmt"># production build → dist/</span></div>
+        <div><span class="cmd">npm run lint</span>        <span class="cmt"># ESLint with auto-fix</span></div>
+        <div><span class="cmd">npm run test:e2e</span>    <span class="cmt"># Playwright tests (needs .env.local)</span></div>
+        <div><span class="cmd">npm run test:e2e:ui</span> <span class="cmt"># Playwright interactive UI</span></div>
+      </div>
+
+      <div class="info-box amber">
+        <span class="info-box-icon">⚠️</span>
+        <span>The test suite hits a real Supabase database and auto-creates test accounts on first run via <code style="font-family:JetBrains Mono,monospace">tests/support/global-setup.js</code>. Don't run it against the production project.</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Stack -->
+    <section class="doc-section" id="stack">
+      <div class="section-eyebrow">// technology</div>
+      <h2 class="section-title">Tech Stack</h2>
+      <p class="section-lead">Vue 3 SPA on the frontend, Supabase for everything on the backend. No separate API server — business logic lives in Supabase Edge Functions (Deno/TypeScript).</p>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Frontend</div>
+        <div class="stack-row"><span class="stack-row-name">Vue 3</span><span class="stack-row-desc">Framework — Composition API throughout, no Options API</span></div>
+        <div class="stack-row"><span class="stack-row-name">Vue Router 4</span><span class="stack-row-desc">Client-side routing, 40+ routes with auth meta guards</span></div>
+        <div class="stack-row"><span class="stack-row-name">Vite 7</span><span class="stack-row-desc">Build tool & dev server, path alias <code style="font-family:JetBrains Mono,monospace">@</code> → <code style="font-family:JetBrains Mono,monospace">./src</code></span></div>
+        <div class="stack-row"><span class="stack-row-name">PrimeVue 4</span><span class="stack-row-desc">UI component library (Aura theme preset, custom overrides)</span></div>
+        <div class="stack-row"><span class="stack-row-name">GSAP 3</span><span class="stack-row-desc">Animations — used in landing pages and transitions</span></div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Backend & Data</div>
+        <div class="stack-row"><span class="stack-row-name">Supabase</span><span class="stack-row-desc">PostgreSQL + Auth + Storage + Edge Functions + Realtime</span></div>
+        <div class="stack-row"><span class="stack-row-name">Edge Functions</span><span class="stack-row-desc">Deno/TypeScript serverless functions for email, AI, Stripe, scheduling</span></div>
+        <div class="stack-row"><span class="stack-row-name">Row-Level Security</span><span class="stack-row-desc">Multi-tenant access control at the database level</span></div>
+        <div class="stack-row"><span class="stack-row-name">Migrations</span><span class="stack-row-desc">45+ SQL migrations in <code style="font-family:JetBrains Mono,monospace">supabase/migrations/</code></span></div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Third-party Services</div>
+        <div class="stack-row"><span class="stack-row-name">Stripe</span><span class="stack-row-desc">Subscriptions, checkout, portal, webhooks</span></div>
+        <div class="stack-row"><span class="stack-row-name">Resend</span><span class="stack-row-desc">Transactional email delivery</span></div>
+        <div class="stack-row"><span class="stack-row-name">Telnyx</span><span class="stack-row-desc">SMS delivery for table tag notifications</span></div>
+        <div class="stack-row"><span class="stack-row-name">Claude API</span><span class="stack-row-desc">AI seating assistant (Kai) + Guest Concierge chatbot</span></div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Tooling</div>
+        <div class="stack-row"><span class="stack-row-name">Playwright</span><span class="stack-row-desc">E2E tests — the only test layer; no unit tests</span></div>
+        <div class="stack-row"><span class="stack-row-name">ESLint 9</span><span class="stack-row-desc">Linting with eslint-plugin-vue</span></div>
+        <div class="stack-row"><span class="stack-row-name">Vercel</span><span class="stack-row-desc">Frontend hosting with SPA rewrite rules</span></div>
+        <div class="stack-row"><span class="stack-row-name">GitHub Actions</span><span class="stack-row-desc">Scheduled cron job for auto-send workflows</span></div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Structure -->
+    <section class="doc-section" id="structure">
+      <div class="section-eyebrow">// codebase</div>
+      <h2 class="section-title">File Structure</h2>
+      <p class="section-lead">Everything meaningful lives in <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">src/</code> and <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">supabase/</code>. Frontend components are organized by product, not by type.</p>
+
+      <div class="file-tree">
+        <div><span class="dir">tethr-wedding-webapp/</span></div>
+        <div>├── <span class="dir">src/</span></div>
+        <div>│   ├── <span class="dir">components/</span>           <span class="note"># one folder per product</span></div>
+        <div>│   │   ├── <span class="dir">GuestConcierge/</span>       <span class="note"># AI chatbot for guests</span></div>
+        <div>│   │   ├── <span class="dir">GuestList/</span>            <span class="note"># master guest database</span></div>
+        <div>│   │   ├── <span class="dir">Maestro/</span>              <span class="note"># scheduled messaging</span></div>
+        <div>│   │   ├── <span class="dir">Planner/</span>              <span class="note"># professional planner tools</span></div>
+        <div>│   │   ├── <span class="dir">RSVP/</span>                 <span class="note"># invitations & responses</span></div>
+        <div>│   │   ├── <span class="dir">SaveTheDate/</span>          <span class="note"># digital save-the-dates</span></div>
+        <div>│   │   ├── <span class="dir">Shared/</span>               <span class="note"># Header, Footer, Auth, Nav, dialogs</span></div>
+        <div>│   │   ├── <span class="dir">TableTag/</span>             <span class="note"># seating chart editor</span></div>
+        <div>│   │   └── <span class="dir">Website/</span>              <span class="note"># wedding website builder + templates</span></div>
+        <div>│   ├── <span class="dir">composables/</span></div>
+        <div>│   │   └── <span class="file">useEffectiveWedding.js</span>  <span class="note"># resolves planner's active client</span></div>
+        <div>│   ├── <span class="dir">router/</span></div>
+        <div>│   │   └── <span class="hl">index.js</span>               <span class="note"># all 40+ routes defined here</span></div>
+        <div>│   ├── <span class="dir">utils/</span></div>
+        <div>│   │   ├── <span class="file">supabase.js</span>           <span class="note"># Supabase client singleton</span></div>
+        <div>│   │   ├── <span class="file">plans.js</span>              <span class="note"># billing plans, limits, feature gates</span></div>
+        <div>│   │   ├── <span class="file">collaboration.js</span>      <span class="note"># invite/accept/remove collaborators</span></div>
+        <div>│   │   ├── <span class="file">userProfile.js</span>        <span class="note"># fetch & cache user profile</span></div>
+        <div>│   │   ├── <span class="file">inviteTemplates.js</span>    <span class="note"># RSVP card visual designs</span></div>
+        <div>│   │   ├── <span class="file">websiteTemplates.js</span>   <span class="note"># website builder template configs</span></div>
+        <div>│   │   ├── <span class="file">websiteThemes.js</span>      <span class="note"># CSS theme token system</span></div>
+        <div>│   │   ├── <span class="file">rateLimiting.js</span>       <span class="note"># client-side rate limiting</span></div>
+        <div>│   │   └── <span class="file">validation.js</span>         <span class="note"># shared form validation helpers</span></div>
+        <div>│   ├── <span class="file">App.vue</span>                <span class="note"># root component, provides user/profile</span></div>
+        <div>│   └── <span class="file">main.js</span>                <span class="note"># Vite entry, mounts PrimeVue + router</span></div>
+        <div>│</div>
+        <div>├── <span class="dir">supabase/</span></div>
+        <div>│   ├── <span class="dir">functions/</span>             <span class="note"># Deno edge functions</span></div>
+        <div>│   │   ├── <span class="dir">_shared/</span>              <span class="note"># shared libs (email templates, AI config)</span></div>
+        <div>│   │   ├── <span class="file">send-table-tags/</span>      <span class="note"># email/SMS table tag delivery</span></div>
+        <div>│   │   ├── <span class="file">maestro-scheduled-send/</span> <span class="note"># cron-based message dispatch</span></div>
+        <div>│   │   ├── <span class="file">guest-concierge/</span>      <span class="note"># AI chatbot handler</span></div>
+        <div>│   │   ├── <span class="file">ai-seat-guests/</span>       <span class="note"># Claude-powered seating algorithm</span></div>
+        <div>│   │   ├── <span class="file">stripe-*/</span>             <span class="note"># checkout, portal, webhook, refund</span></div>
+        <div>│   │   ├── <span class="file">send-account-email/</span>   <span class="note"># transactional emails (invites, etc.)</span></div>
+        <div>│   │   └── <span class="file">import-guests-to-master/</span> <span class="note"># guest import across apps</span></div>
+        <div>│   ├── <span class="dir">migrations/</span>            <span class="note"># 45+ SQL schema migrations</span></div>
+        <div>│   └── <span class="file">config.toml</span>            <span class="note"># function JWT + webhook config</span></div>
+        <div>│</div>
+        <div>├── <span class="dir">tests/</span></div>
+        <div>│   ├── <span class="dir">e2e/</span>                   <span class="note"># Playwright specs (35+ files)</span></div>
+        <div>│   └── <span class="dir">support/</span>               <span class="note"># global-setup, fixtures, helpers</span></div>
+        <div>│</div>
+        <div>├── <span class="file">vercel.json</span>            <span class="note"># SPA rewrite: all → /index.html</span></div>
+        <div>├── <span class="file">vite.config.js</span></div>
+        <div>└── <span class="file">playwright.config.js</span></div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Apps -->
+    <section class="doc-section" id="apps">
+      <div class="section-eyebrow">// products</div>
+      <h2 class="section-title">Applications</h2>
+      <p class="section-lead">Each product has its own component folder and set of routes, but they all share the same auth, guest list, and billing system.</p>
+
+      <div class="app-grid">
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(199,106,131,0.12);color:#c76a83;">💌</div>
+            <div>
+              <div class="app-card-name">Save the Date</div>
+              <div class="app-card-route">/save/dashboard</div>
+            </div>
+          </div>
+          <p class="app-card-desc">Digital save-the-date cards couples can share via a public link. Tracks who has opened / responded.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">Custom messages</span>
+            <span class="feature-tag">Response tracking</span>
+            <span class="feature-tag">Guest import</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(100,116,199,0.12);color:#6474c7;">📋</div>
+            <div>
+              <div class="app-card-name">RSVP / Invites</div>
+              <div class="app-card-route">/rsvp/dashboard</div>
+            </div>
+          </div>
+          <p class="app-card-desc">Full invitation suite with a conversational RSVP flow for guests. Multiple design templates, dietary/plus-one collection.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">6+ templates</span>
+            <span class="feature-tag">Conversational UI</span>
+            <span class="feature-tag">Guest name matching</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(5,150,105,0.12);color:#059669;">🪑</div>
+            <div>
+              <div class="app-card-name">TableTag</div>
+              <div class="app-card-route">/table-tag/dashboard</div>
+            </div>
+          </div>
+          <p class="app-card-desc">Seating chart editor. Couples build tables, assign guests, then send personalized "table tag" cards via email or SMS.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">AI seating (Kai)</span>
+            <span class="feature-tag">Email + SMS send</span>
+            <span class="feature-tag">Auto-send scheduler</span>
+            <span class="feature-tag">Public view</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(251,191,36,0.1);color:#d97706;">🌐</div>
+            <div>
+              <div class="app-card-name">Website Builder</div>
+              <div class="app-card-route">/website/builder</div>
+            </div>
+          </div>
+          <p class="app-card-desc">No-code wedding website editor. Pick a template, customize text and photos, publish at a unique URL.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">6 templates</span>
+            <span class="feature-tag">Inline editing</span>
+            <span class="feature-tag">Theme tokens</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(45,212,191,0.1);color:#0d9488;">🎼</div>
+            <div>
+              <div class="app-card-name">Maestro</div>
+              <div class="app-card-route">/maestro/hub</div>
+            </div>
+          </div>
+          <p class="app-card-desc">Scheduled guest messaging. Compose messages, set a send time, Maestro dispatches them automatically via email or SMS.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">Cron scheduling</span>
+            <span class="feature-tag">Retry + backoff</span>
+            <span class="feature-tag">Broadcast log</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(124,111,159,0.12);color:#7c6f9f;">👥</div>
+            <div>
+              <div class="app-card-name">Guest List</div>
+              <div class="app-card-route">/guests/dashboard</div>
+            </div>
+          </div>
+          <p class="app-card-desc">Central contact directory. Add guests once, they sync across every product. Supports households, import from any app, AI context notes.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">Household grouping</span>
+            <span class="feature-tag">Cross-app sync</span>
+            <span class="feature-tag">AI context field</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(99,102,241,0.12);color:#6366f1;">🤖</div>
+            <div>
+              <div class="app-card-name">Guest Concierge</div>
+              <div class="app-card-route">/concierge/:userId</div>
+            </div>
+          </div>
+          <p class="app-card-desc">AI chatbot couples deploy for their guests. Guests ask it questions about the venue, schedule, dress code — it answers using Claude.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">Claude-powered</span>
+            <span class="feature-tag">Passcode protected</span>
+            <span class="feature-tag">FAQ seeding</span>
+          </div>
+        </div>
+
+        <div class="app-card">
+          <div class="app-card-header">
+            <div class="app-icon" style="background:rgba(251,191,36,0.1);color:#b45309;">🗂</div>
+            <div>
+              <div class="app-card-name">Planner Dashboard</div>
+              <div class="app-card-route">/planner/dashboard</div>
+            </div>
+          </div>
+          <p class="app-card-desc">Professional planners manage multiple client weddings from one dashboard. They can connect to couple accounts and operate on their behalf.</p>
+          <div class="app-card-features">
+            <span class="feature-tag">Multi-client</span>
+            <span class="feature-tag">Connect flow</span>
+            <span class="feature-tag">Role-based access</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Routing -->
+    <section class="doc-section" id="routing">
+      <div class="section-eyebrow">// navigation</div>
+      <h2 class="section-title">Routing & Auth</h2>
+      <p class="section-lead">All routes are defined in <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">src/router/index.js</code>. Protected routes carry <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">meta: { requiresAuth: true }</code> and redirect to <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">/login</code> if the user is not authenticated.</p>
+
+      <h3>Key route patterns</h3>
+      <div class="stack-group">
+        <div class="stack-group-label">Route types</div>
+        <div class="stack-row">
+          <span class="stack-row-name">/</span>
+          <span class="stack-row-desc">Public marketing landing page</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-row-name">/save/dashboard</span>
+          <span class="stack-row-desc">Protected dashboard — user manages their save-the-dates here</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-row-name">/save/:id</span>
+          <span class="stack-row-desc">Public guest-facing view — no auth required</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-row-name">/view/:slug</span>
+          <span class="stack-row-desc">Public wedding website or table-tag seating view</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-row-name">/invite/:token</span>
+          <span class="stack-row-desc">Collaboration invite acceptance flow</span>
+        </div>
+        <div class="stack-row">
+          <span class="stack-row-name">/connect/*</span>
+          <span class="stack-row-desc">Planner ↔ couple connection flows</span>
+        </div>
+      </div>
+
+      <h3>User & Profile state</h3>
+      <p>The root <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">App.vue</code> fetches the Supabase auth session and user profile on mount, then provides both via Vue's <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">provide/inject</code> so any child component can access them. Planners have an <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">active_wedding_user_id</code> field on their profile that resolves which couple's data to show — the <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">useEffectiveWedding</code> composable handles this transparently.</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Database -->
+    <section class="doc-section" id="database">
+      <div class="section-eyebrow">// data layer</div>
+      <h2 class="section-title">Database & Edge Functions</h2>
+      <p class="section-lead">Supabase PostgreSQL is the single source of truth. Row-level security (RLS) policies enforce multi-tenant access — users can only read their own rows.</p>
+
+      <h3>Core tables</h3>
+      <div class="stack-group">
+        <div class="stack-group-label">Tables (simplified)</div>
+        <div class="stack-row"><span class="stack-row-name">user_profiles</span><span class="stack-row-desc">Plan type, user type (couple/planner), active wedding context</span></div>
+        <div class="stack-row"><span class="stack-row-name">save_the_dates</span><span class="stack-row-desc">STD events — owns collaborator + planner connection columns</span></div>
+        <div class="stack-row"><span class="stack-row-name">rsvp_events</span><span class="stack-row-desc">RSVP events, form fields, template config</span></div>
+        <div class="stack-row"><span class="stack-row-name">tabletag_events</span><span class="stack-row-desc">Seating events, tables, guests, send status</span></div>
+        <div class="stack-row"><span class="stack-row-name">master_guests</span><span class="stack-row-desc">Shared guest directory, linked to all products</span></div>
+        <div class="stack-row"><span class="stack-row-name">maestro_messages</span><span class="stack-row-desc">Scheduled messages with status + retry logic</span></div>
+        <div class="stack-row"><span class="stack-row-name">wedding_website</span><span class="stack-row-desc">Website config, sections, published slug</span></div>
+        <div class="stack-row"><span class="stack-row-name">concierge_configs</span><span class="stack-row-desc">AI chatbot settings per couple</span></div>
+      </div>
+
+      <h3>Edge Functions</h3>
+      <p>Serverless Deno functions in <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">supabase/functions/</code> handle anything that needs a secret key or heavy computation. They're called from the frontend via <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">supabase.functions.invoke()</code>.</p>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Key Edge Functions</div>
+        <div class="stack-row"><span class="stack-row-name">send-table-tags</span><span class="stack-row-desc">Sends table tag emails + SMS to all guests in an event</span></div>
+        <div class="stack-row"><span class="stack-row-name">maestro-scheduled-send</span><span class="stack-row-desc">Cron-invoked job that dispatches pending scheduled messages</span></div>
+        <div class="stack-row"><span class="stack-row-name">guest-concierge</span><span class="stack-row-desc">Proxies user messages to Claude API, returns AI reply</span></div>
+        <div class="stack-row"><span class="stack-row-name">ai-seat-guests</span><span class="stack-row-desc">Claude-powered seating algorithm with guest constraints</span></div>
+        <div class="stack-row"><span class="stack-row-name">stripe-checkout</span><span class="stack-row-desc">Creates Stripe checkout sessions for plan upgrades</span></div>
+        <div class="stack-row"><span class="stack-row-name">stripe-webhook</span><span class="stack-row-desc">Handles Stripe events (payment success, cancellation, etc.)</span></div>
+        <div class="stack-row"><span class="stack-row-name">send-account-email</span><span class="stack-row-desc">All transactional emails — invites, confirmations, nudges</span></div>
+        <div class="stack-row"><span class="stack-row-name">import-guests-to-master</span><span class="stack-row-desc">Imports guests from any product into the master guest list</span></div>
+      </div>
+
+      <div class="info-box green">
+        <span class="info-box-icon">💡</span>
+        <span>Schema changes always go through <code style="font-family:JetBrains Mono,monospace">supabase/migrations/</code> — never edit the database directly. New migrations are named <code style="font-family:JetBrains Mono,monospace">YYYYMMDDHHMMSS_description.sql</code>.</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Testing -->
+    <section class="doc-section" id="testing">
+      <div class="section-eyebrow">// quality</div>
+      <h2 class="section-title">Testing Suite</h2>
+      <p class="section-lead">Tethr uses Playwright for all testing — there are no unit tests. Every spec hits a real Supabase test project and a real browser, so what passes actually works.</p>
+
+      <h3>Test projects (browser contexts)</h3>
+      <table class="test-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Auth State</th>
+            <th>Used For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>anonymous-chromium</td>
+            <td>Not logged in</td>
+            <td>Public pages, marketing, guest-facing views</td>
+          </tr>
+          <tr>
+            <td>couple-chromium</td>
+            <td>Couple account</td>
+            <td>All product dashboards and CRUD flows</td>
+          </tr>
+          <tr>
+            <td>planner-chromium</td>
+            <td>Planner account</td>
+            <td>Planner dashboard, client management</td>
+          </tr>
+          <tr>
+            <td>sharing-chromium</td>
+            <td>Couple + Couple2</td>
+            <td>Collaboration invite/accept flows</td>
+          </tr>
+          <tr>
+            <td>mobile-chromium</td>
+            <td>Couple account</td>
+            <td>Responsive behavior at 390×844</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Running tests</h3>
+      <div class="code-block">
+        <div><span class="cmd">npm run test:e2e</span>                               <span class="cmt"># all tests, headless</span></div>
+        <div><span class="cmd">npm run test:e2e:ui</span>                            <span class="cmt"># Playwright interactive UI</span></div>
+        <div><span class="cmd">npm run test:e2e:headed</span>                        <span class="cmt"># headed, single worker</span></div>
+        <div><span class="cmd">npx playwright test tests/e2e/rsvp-crud.spec.js</span> <span class="cmt"># run one file</span></div>
+        <div><span class="cmd">npm run test:e2e:report</span>                        <span class="cmt"># open last HTML report</span></div>
+      </div>
+
+      <h3>Test structure</h3>
+      <p>Each spec file is independent — they don't share state between files. Test accounts are auto-created on first run by <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">tests/support/global-setup.js</code> and auth sessions are saved to <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">tests/.auth/</code> so login only happens once per run.</p>
+
+      <h3>Coverage areas</h3>
+      <div class="pill-grid">
+        <span class="pill green">CRUD for all 6 products</span>
+        <span class="pill blue">Auth flows</span>
+        <span class="pill blue">Onboarding</span>
+        <span class="pill amber">Collaboration / sharing</span>
+        <span class="pill pink">Public guest pages</span>
+        <span class="pill teal">Planner ↔ couple connection</span>
+        <span class="pill purple">Responsive / mobile</span>
+        <span class="pill muted">Smoke tests (marketing pages)</span>
+      </div>
+
+      <div class="info-box amber">
+        <span class="info-box-icon">⚠️</span>
+        <span>Tests are configured with 90s timeout and 0 retries locally (2 retries in CI). If a test is flaky, investigate rather than bumping the retry count — flakiness usually means a missing <code style="font-family:JetBrains Mono,monospace">await expect(...).toBeVisible()</code> before an action.</span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Deployment -->
+    <section class="doc-section" id="deployment">
+      <div class="section-eyebrow">// shipping</div>
+      <h2 class="section-title">Deployment</h2>
+      <p class="section-lead">Frontend deploys automatically to Vercel on every push to <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">main</code>. Edge functions deploy via the Supabase CLI.</p>
+
+      <h3>Frontend (Vercel)</h3>
+      <p>Vercel rewrites all paths to <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">/index.html</code> (configured in <code style="font-family:JetBrains Mono,monospace;color:var(--accent2)">vercel.json</code>) so Vue Router handles client-side navigation. No server-side rendering — it's a pure SPA.</p>
+
+      <h3>Edge Functions (Supabase CLI)</h3>
+      <div class="code-block">
+        <div><span class="cmd">supabase functions deploy</span> send-table-tags</div>
+        <div><span class="cmd">supabase functions deploy</span> maestro-scheduled-send</div>
+        <div><span class="cmd">supabase functions deploy --all</span>  <span class="cmt"># deploy everything</span></div>
+      </div>
+
+      <h3>Database migrations</h3>
+      <div class="code-block">
+        <div><span class="cmd">supabase migration new</span> <span class="val">add_column_to_table</span>  <span class="cmt"># creates a new migration file</span></div>
+        <div><span class="cmd">supabase db push</span>                             <span class="cmt"># applies migrations to remote</span></div>
+      </div>
+
+      <div class="info-box blue">
+        <span class="info-box-icon">ℹ️</span>
+        <span>Production secrets (Stripe keys, Resend API key, Telnyx key) live in Vercel environment variables and Supabase vault. You won't have these locally — ask Brenen for test-environment equivalents.</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  const PASS = 'McQueen95'
+  const SESSION_KEY = 'tethr_docs_auth'
+
+  const gateEl    = document.getElementById('gate')
+  const docsEl    = document.getElementById('docs')
+  const agreeEl   = document.getElementById('agree-check')
+  const pwEl      = document.getElementById('pw-input')
+  const btnEl     = document.getElementById('gate-btn')
+  const errEl     = document.getElementById('gate-error')
+  const toggleEl  = document.getElementById('nav-toggle')
+  const sidebarEl = document.getElementById('sidebar')
+
+  function unlock() {
+    gateEl.style.display = 'none'
+    docsEl.classList.add('visible')
+    sessionStorage.setItem(SESSION_KEY, '1')
+    initNav()
+  }
+
+  function updateBtn() {
+    btnEl.disabled = !(agreeEl.checked && pwEl.value.length > 0)
+  }
+
+  agreeEl.addEventListener('change', updateBtn)
+  pwEl.addEventListener('input', () => { errEl.classList.remove('visible'); updateBtn() })
+
+  pwEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !btnEl.disabled) btnEl.click()
+  })
+
+  btnEl.addEventListener('click', () => {
+    if (pwEl.value === PASS) {
+      unlock()
+    } else {
+      errEl.classList.add('visible')
+      pwEl.value = ''
+      updateBtn()
+      pwEl.focus()
+    }
+  })
+
+  toggleEl.addEventListener('click', () => {
+    sidebarEl.classList.toggle('open')
+  })
+
+  document.addEventListener('click', (e) => {
+    if (sidebarEl.classList.contains('open') && !sidebarEl.contains(e.target) && e.target !== toggleEl) {
+      sidebarEl.classList.remove('open')
+    }
+  })
+
+  function initNav() {
+    const links    = document.querySelectorAll('.nav-link')
+    const sections = document.querySelectorAll('.doc-section')
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'))
+          const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`)
+          if (active) active.classList.add('active')
+        }
+      })
+    }, { rootMargin: '-20% 0px -70% 0px' })
+
+    sections.forEach(s => observer.observe(s))
+
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) sidebarEl.classList.remove('open')
+      })
+    })
+  }
+
+  if (sessionStorage.getItem(SESSION_KEY)) unlock()
+</script>
+</body>
+</html>
