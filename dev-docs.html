@@ -706,6 +706,7 @@
     <ul class="sidebar-nav">
       <li><a href="#testing" class="nav-link"><span class="nav-icon">🧪</span> Testing</a></li>
       <li><a href="#deployment" class="nav-link"><span class="nav-icon">🚀</span> Deployment</a></li>
+      <li><a href="#git" class="nav-link"><span class="nav-icon">🌿</span> Git Workflow</a></li>
     </ul>
   </nav>
 
@@ -721,7 +722,7 @@
 
       <div class="info-box blue">
         <span class="info-box-icon">ℹ️</span>
-        <span>All six products (Save the Date, RSVP, TableTag, Website, Maestro, Guest List) share the same Supabase backend and Vue frontend. You're working in a monorepo-style single SPA, not separate services.</span>
+        <span>Five active products (Save the Date, RSVP, TableTag, Maestro, Guest List) share the same Supabase backend and Vue frontend. You're working in a monorepo-style single SPA, not separate services. <span style="opacity:0.55;font-style:italic;">Website Builder is deprecated and not in active development.</span></span>
       </div>
 
       <h3>Products at a glance</h3>
@@ -729,7 +730,7 @@
         <span class="pill pink">Save the Date</span>
         <span class="pill blue">RSVP / Invites</span>
         <span class="pill green">TableTag (Seating)</span>
-        <span class="pill amber">Wedding Website</span>
+        <span class="pill muted" style="text-decoration:line-through;opacity:0.5;" title="Deprecated — not in active development">Wedding Website</span>
         <span class="pill teal">Maestro (Messaging)</span>
         <span class="pill purple">Guest List</span>
         <span class="pill muted">Guest Concierge (AI)</span>
@@ -842,7 +843,7 @@
         <div>│   │   ├── <span class="dir">SaveTheDate/</span>          <span class="note"># digital save-the-dates</span></div>
         <div>│   │   ├── <span class="dir">Shared/</span>               <span class="note"># Header, Footer, Auth, Nav, dialogs</span></div>
         <div>│   │   ├── <span class="dir">TableTag/</span>             <span class="note"># seating chart editor</span></div>
-        <div>│   │   └── <span class="dir">Website/</span>              <span class="note"># wedding website builder + templates</span></div>
+        <div style="opacity:0.45;">│   │   └── <span class="dir">Website/</span>              <span class="note"># wedding website builder + templates — <em>deprecated, not maintained</em></span></div>
         <div>│   ├── <span class="dir">composables/</span></div>
         <div>│   │   └── <span class="file">useEffectiveWedding.js</span>  <span class="note"># resolves planner's active client</span></div>
         <div>│   ├── <span class="dir">router/</span></div>
@@ -941,19 +942,20 @@
           </div>
         </div>
 
-        <div class="app-card">
+        <div class="app-card" style="opacity:0.45;border-color:rgba(107,114,128,0.3);pointer-events:none;">
           <div class="app-card-header">
-            <div class="app-icon" style="background:rgba(251,191,36,0.1);color:#d97706;">🌐</div>
+            <div class="app-icon" style="background:rgba(107,114,128,0.08);color:var(--muted);">🌐</div>
             <div>
-              <div class="app-card-name">Website Builder</div>
-              <div class="app-card-route">/website/builder</div>
+              <div class="app-card-name" style="color:var(--muted);">Website Builder</div>
+              <div class="app-card-route" style="color:var(--muted);">/website/builder</div>
             </div>
+            <span style="margin-left:auto;font-size:0.68rem;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);background:rgba(107,114,128,0.1);border:1px solid rgba(107,114,128,0.25);padding:3px 8px;border-radius:4px;">Legacy · Not in use</span>
           </div>
-          <p class="app-card-desc">No-code wedding website editor. Pick a template, customize text and photos, publish at a unique URL.</p>
+          <p class="app-card-desc" style="font-style:italic;">Deprecated — development paused indefinitely. Code lives in <code style="font-family:JetBrains Mono,monospace">src/components/Website/</code> and <code style="font-family:JetBrains Mono,monospace">src/utils/websiteTemplates.js</code> but is not being actively maintained or shipped.</p>
           <div class="app-card-features">
-            <span class="feature-tag">6 templates</span>
-            <span class="feature-tag">Inline editing</span>
-            <span class="feature-tag">Theme tokens</span>
+            <span class="feature-tag" style="opacity:0.5;">6 templates</span>
+            <span class="feature-tag" style="opacity:0.5;">Inline editing</span>
+            <span class="feature-tag" style="opacity:0.5;">Theme tokens</span>
           </div>
         </div>
 
@@ -1081,7 +1083,7 @@
         <div class="stack-row"><span class="stack-row-name">tabletag_events</span><span class="stack-row-desc">Seating events, tables, guests, send status</span></div>
         <div class="stack-row"><span class="stack-row-name">master_guests</span><span class="stack-row-desc">Shared guest directory, linked to all products</span></div>
         <div class="stack-row"><span class="stack-row-name">maestro_messages</span><span class="stack-row-desc">Scheduled messages with status + retry logic</span></div>
-        <div class="stack-row"><span class="stack-row-name">wedding_website</span><span class="stack-row-desc">Website config, sections, published slug</span></div>
+        <div class="stack-row" style="opacity:0.45;"><span class="stack-row-name" style="text-decoration:line-through;">wedding_website</span><span class="stack-row-desc" style="font-style:italic;">Website config, sections, published slug — deprecated</span></div>
         <div class="stack-row"><span class="stack-row-name">concierge_configs</span><span class="stack-row-desc">AI chatbot settings per couple</span></div>
       </div>
 
@@ -1206,10 +1208,87 @@
         <div><span class="cmd">supabase db push</span>                             <span class="cmt"># applies migrations to remote</span></div>
       </div>
 
+    </section>
+
+    <!-- Git Workflow -->
+    <section class="doc-section" id="git">
+      <div class="section-eyebrow">// collaboration</div>
+      <h2 class="section-title">Git Workflow</h2>
+
+      <h3>Branch naming</h3>
+      <p>All work happens on branches — never commit directly to <code>main</code>.</p>
+      <div class="code-block">
+        <div><span class="cmt"># features</span></div>
+        <div><span class="val">feat/&lt;short-description&gt;</span>       <span class="cmt"># e.g. feat/rsvp-plus-one</span></div>
+        <div><span class="val">feat/&lt;ticket-id&gt;-description</span>   <span class="cmt"># e.g. feat/GH-42-stripe-webhook</span></div>
+        <div>&nbsp;</div>
+        <div><span class="cmt"># fixes</span></div>
+        <div><span class="val">fix/&lt;short-description&gt;</span>        <span class="cmt"># e.g. fix/guest-count-overflow</span></div>
+        <div>&nbsp;</div>
+        <div><span class="cmt"># chores (deps, config, docs)</span></div>
+        <div><span class="val">chore/&lt;short-description&gt;</span>      <span class="cmt"># e.g. chore/bump-supabase-sdk</span></div>
+        <div>&nbsp;</div>
+        <div><span class="cmt"># hotfixes applied directly from main</span></div>
+        <div><span class="val">hotfix/&lt;short-description&gt;</span>     <span class="cmt"># e.g. hotfix/stripe-null-crash</span></div>
+      </div>
+
+      <h3>Day-to-day flow</h3>
+      <div class="code-block">
+        <div><span class="cmd">git switch main</span> <span class="cmt">&amp;&amp;</span> <span class="cmd">git pull</span>              <span class="cmt"># always start from a fresh main</span></div>
+        <div><span class="cmd">git switch -c</span> <span class="val">feat/your-feature</span>          <span class="cmt"># create your branch</span></div>
+        <div>&nbsp;</div>
+        <div><span class="cmt"># ... do your work, commit often with clear messages ...</span></div>
+        <div>&nbsp;</div>
+        <div><span class="cmd">git push -u origin</span> <span class="val">feat/your-feature</span>   <span class="cmt"># push and set upstream</span></div>
+        <div><span class="cmd">gh pr create --fill</span>                       <span class="cmt"># open PR on GitHub</span></div>
+      </div>
+
+      <h3>Commit messages</h3>
+      <p>Use the <a href="https://www.conventionalcommits.org/" target="_blank" rel="noreferrer" style="color:var(--cyan)">Conventional Commits</a> format so the history stays scannable.</p>
+      <div class="code-block">
+        <div><span class="val">feat</span>: add plus-one toggle to RSVP form</div>
+        <div><span class="val">fix</span>: prevent double-submit on slow connections</div>
+        <div><span class="val">chore</span>: upgrade Supabase JS to v2.45</div>
+        <div><span class="val">docs</span>: document Maestro retry logic</div>
+        <div>&nbsp;</div>
+        <div><span class="cmt"># longer body when the why isn't obvious</span></div>
+        <div><span class="val">fix</span>: guard against null couple_id in webhook handler</div>
+        <div>&nbsp;</div>
+        <div>Stripe sends a checkout.session.completed event before our</div>
+        <div>DB trigger fires, so couple_id can be null on first receipt.</div>
+        <div>Retry is already handled by Stripe — just bail early here.</div>
+      </div>
+
+      <h3>Pull request rules</h3>
       <div class="info-box blue">
         <span class="info-box-icon">ℹ️</span>
-        <span>Production secrets (Stripe keys, Resend API key, Telnyx key) live in Vercel environment variables and Supabase vault. You won't have these locally — ask Brenen for test-environment equivalents.</span>
+        <span>Every change to <code>main</code> goes through a PR. No exceptions — this protects the production deploy and gives the team a paper trail.</span>
       </div>
+      <ul style="padding-left:1.4rem;line-height:2rem;margin-top:0.5rem;">
+        <li>Keep PRs small and focused — one feature or fix per PR.</li>
+        <li>Write a one-paragraph description of what changed and why.</li>
+        <li>Link the GitHub Issue number in the PR body (<code>Closes #42</code>) so it auto-closes.</li>
+        <li>At least one reviewer approval before merging (use GitHub's review request).</li>
+        <li>Squash-merge into <code>main</code> to keep the history linear.</li>
+        <li>Delete the branch after merge — GitHub can do this automatically.</li>
+      </ul>
+
+      <h3>Protecting main</h3>
+      <p>Configure branch protection on GitHub: <strong>Settings → Branches → Add rule → <code>main</code></strong>. Enable:</p>
+      <ul style="padding-left:1.4rem;line-height:2rem;">
+        <li>Require a pull request before merging</li>
+        <li>Require at least 1 approval</li>
+        <li>Require status checks to pass (add your Vercel preview check once connected)</li>
+        <li>Do not allow bypassing the above settings</li>
+      </ul>
+
+      <h3>Environments</h3>
+      <div class="code-block">
+        <div><span class="val">main</span>        → auto-deploys to <span class="cmd">production</span>  (tethrweddings.com)</div>
+        <div><span class="val">PR branches</span> → auto-deploys to <span class="cmd">preview</span>     (*.vercel.app — share link in PR)</div>
+        <div><span class="val">local</span>        → <span class="cmd">npm run dev</span>  with a <span class="val">.env.local</span> file (ask Brenen for test-env keys)</div>
+      </div>
+
     </section>
 
   </main>
