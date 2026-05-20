@@ -113,10 +113,17 @@ window.PinSection = () => {
 
 // ---------- PROJECTS ----------
 window.Projects = () => {
-  const [filter, setFilter] = React.useState("all");
+  const [view, setView] = React.useState("featured"); // "featured" | "all" | "graphics" | "live"
   const [openId, setOpenId] = React.useState(null);
   const PROJECTS = window.PROJECTS || [];
-  const shown = PROJECTS.filter(p => filter === "all" || p.status === filter);
+  const shown = view === "featured"
+    ? PROJECTS.filter(p => p.highlight)
+    : PROJECTS.filter(p => {
+        if (view === "all") return true;
+        if (view === "graphics") return p.category === "graphics";
+        if (view === "live") return p.status === "live";
+        return true;
+      });
   const featured = shown.filter(p => p.featured);
   const rest = shown.filter(p => !p.featured);
   const openProject = PROJECTS.find(p => p.id === openId);
@@ -137,11 +144,13 @@ window.Projects = () => {
           <h2 className="section-head">Projects shipped,<br/>simulated, and built.</h2>
           <p className="section-sub">Shipped products, graphics work, and personal builds. Click any card for the details.</p>
         </div>
-        <div className="projects-filter">
-          {[["all", "all"], ["live", "shipping"], ["fun", "graphics + personal"]].map(([k, label]) => (
-            <button key={k} className={`filter-btn ${filter === k ? "active" : ""}`} onClick={() => setFilter(k)}>{label}</button>
-          ))}
-        </div>
+        {view !== "featured" && (
+          <div className="projects-filter">
+            {[["all", "all"], ["graphics", "graphics"], ["live", "shipped"]].map(([k, label]) => (
+              <button key={k} className={`filter-btn ${view === k ? "active" : ""}`} onClick={() => setView(k)}>{label}</button>
+            ))}
+          </div>
+        )}
       </div>
 
       {featured.length > 0 && (
@@ -151,6 +160,13 @@ window.Projects = () => {
       )}
       <div className="project-grid">
         {rest.map(p => <ProjectCard key={p.id} p={p} onOpen={setOpenId} />)}
+      </div>
+
+      <div className="projects-browse-row">
+        {view === "featured"
+          ? <button className="projects-view-all-btn" onClick={() => setView("all")}>view all projects →</button>
+          : <button className="projects-back-btn" onClick={() => setView("featured")}>← featured only</button>
+        }
       </div>
 
       {openProject && <ProjectModal p={openProject} onClose={() => setOpenId(null)} />}

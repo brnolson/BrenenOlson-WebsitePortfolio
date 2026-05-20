@@ -149,10 +149,15 @@ window.PinSection = () => {
 
 // ---------- PROJECTS ----------
 window.Projects = () => {
-  const [filter, setFilter] = React.useState("all");
+  const [view, setView] = React.useState("featured"); // "featured" | "all" | "graphics" | "live"
   const [openId, setOpenId] = React.useState(null);
   const PROJECTS = window.PROJECTS || [];
-  const shown = PROJECTS.filter(p => filter === "all" || p.status === filter);
+  const shown = view === "featured" ? PROJECTS.filter(p => p.highlight) : PROJECTS.filter(p => {
+    if (view === "all") return true;
+    if (view === "graphics") return p.category === "graphics";
+    if (view === "live") return p.status === "live";
+    return true;
+  });
   const featured = shown.filter(p => p.featured);
   const rest = shown.filter(p => !p.featured);
   const openProject = PROJECTS.find(p => p.id === openId);
@@ -182,12 +187,12 @@ window.Projects = () => {
     className: "section-head"
   }, "Projects shipped,", /*#__PURE__*/React.createElement("br", null), "simulated, and built."), /*#__PURE__*/React.createElement("p", {
     className: "section-sub"
-  }, "Shipped products, graphics work, and personal builds. Click any card for the details.")), /*#__PURE__*/React.createElement("div", {
+  }, "Shipped products, graphics work, and personal builds. Click any card for the details.")), view !== "featured" && /*#__PURE__*/React.createElement("div", {
     className: "projects-filter"
-  }, [["all", "all"], ["live", "shipping"], ["fun", "graphics + personal"]].map(([k, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["all", "all"], ["graphics", "graphics"], ["live", "shipped"]].map(([k, label]) => /*#__PURE__*/React.createElement("button", {
     key: k,
-    className: `filter-btn ${filter === k ? "active" : ""}`,
-    onClick: () => setFilter(k)
+    className: `filter-btn ${view === k ? "active" : ""}`,
+    onClick: () => setView(k)
   }, label)))), featured.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "featured"
   }, featured.slice(0, 2).map((p, i) => /*#__PURE__*/React.createElement(ProjectCard, {
@@ -201,7 +206,15 @@ window.Projects = () => {
     key: p.id,
     p: p,
     onOpen: setOpenId
-  }))), openProject && /*#__PURE__*/React.createElement(ProjectModal, {
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "projects-browse-row"
+  }, view === "featured" ? /*#__PURE__*/React.createElement("button", {
+    className: "projects-view-all-btn",
+    onClick: () => setView("all")
+  }, "view all projects \u2192") : /*#__PURE__*/React.createElement("button", {
+    className: "projects-back-btn",
+    onClick: () => setView("featured")
+  }, "\u2190 featured only")), openProject && /*#__PURE__*/React.createElement(ProjectModal, {
     p: openProject,
     onClose: () => setOpenId(null)
   }));

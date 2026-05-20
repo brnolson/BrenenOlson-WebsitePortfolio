@@ -367,6 +367,19 @@ section { position: relative; }
 .filter-btn:hover { color: var(--ink); border-color: var(--line-strong); }
 .filter-btn.active { color: var(--ink); background: rgba(167,139,250,0.1); border-color: var(--violet); }
 
+.projects-browse-row { display: flex; justify-content: center; padding-top: 48px; }
+.projects-view-all-btn {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: lowercase;
+  color: var(--violet); background: transparent; border: 1px solid var(--line-strong);
+  padding: 12px 28px; border-radius: 2px; cursor: pointer; transition: all 0.2s;
+}
+.projects-view-all-btn:hover { border-color: var(--violet); background: rgba(167,139,250,0.06); }
+.projects-back-btn {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: lowercase;
+  color: var(--ink-dimmer); background: transparent; border: none; cursor: pointer; transition: color 0.2s;
+}
+.projects-back-btn:hover { color: var(--ink-dim); }
+
 .featured { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; margin-bottom: 16px; }
 .project-card {
   position: relative; background: var(--bg-2); border: 1px solid var(--line);
