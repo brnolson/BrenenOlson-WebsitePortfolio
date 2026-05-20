@@ -187,9 +187,9 @@ window.Projects = () => {
     className: "section-head"
   }, "Projects shipped,", /*#__PURE__*/React.createElement("br", null), "simulated, and built."), /*#__PURE__*/React.createElement("p", {
     className: "section-sub"
-  }, "Shipped products, graphics work, and personal builds. Click any card for the details.")), view !== "featured" && /*#__PURE__*/React.createElement("div", {
+  }, "Shipped products, graphics work, and personal builds. Click any card for the details.")), /*#__PURE__*/React.createElement("div", {
     className: "projects-filter"
-  }, [["all", "all"], ["graphics", "graphics"], ["live", "shipped"]].map(([k, label]) => /*#__PURE__*/React.createElement("button", {
+  }, [["featured", "featured"], ["graphics", "graphics"], ["live", "shipped"], ["all", "all"]].map(([k, label]) => /*#__PURE__*/React.createElement("button", {
     key: k,
     className: `filter-btn ${view === k ? "active" : ""}`,
     onClick: () => setView(k)
@@ -202,19 +202,16 @@ window.Projects = () => {
     onOpen: setOpenId
   }))), /*#__PURE__*/React.createElement("div", {
     className: "project-grid"
-  }, rest.map(p => /*#__PURE__*/React.createElement(ProjectCard, {
+  }, [...featured.slice(2), ...rest].map(p => /*#__PURE__*/React.createElement(ProjectCard, {
     key: p.id,
     p: p,
     onOpen: setOpenId
-  }))), /*#__PURE__*/React.createElement("div", {
+  }))), view === "featured" && /*#__PURE__*/React.createElement("div", {
     className: "projects-browse-row"
-  }, view === "featured" ? /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: "projects-view-all-btn",
     onClick: () => setView("all")
-  }, "view all projects \u2192") : /*#__PURE__*/React.createElement("button", {
-    className: "projects-back-btn",
-    onClick: () => setView("featured")
-  }, "\u2190 featured only")), openProject && /*#__PURE__*/React.createElement(ProjectModal, {
+  }, "view all projects \u2192")), openProject && /*#__PURE__*/React.createElement(ProjectModal, {
     p: openProject,
     onClose: () => setOpenId(null)
   }));

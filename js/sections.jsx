@@ -144,13 +144,11 @@ window.Projects = () => {
           <h2 className="section-head">Projects shipped,<br/>simulated, and built.</h2>
           <p className="section-sub">Shipped products, graphics work, and personal builds. Click any card for the details.</p>
         </div>
-        {view !== "featured" && (
-          <div className="projects-filter">
-            {[["all", "all"], ["graphics", "graphics"], ["live", "shipped"]].map(([k, label]) => (
-              <button key={k} className={`filter-btn ${view === k ? "active" : ""}`} onClick={() => setView(k)}>{label}</button>
-            ))}
-          </div>
-        )}
+        <div className="projects-filter">
+          {[["featured", "featured"], ["graphics", "graphics"], ["live", "shipped"], ["all", "all"]].map(([k, label]) => (
+            <button key={k} className={`filter-btn ${view === k ? "active" : ""}`} onClick={() => setView(k)}>{label}</button>
+          ))}
+        </div>
       </div>
 
       {featured.length > 0 && (
@@ -159,15 +157,14 @@ window.Projects = () => {
         </div>
       )}
       <div className="project-grid">
-        {rest.map(p => <ProjectCard key={p.id} p={p} onOpen={setOpenId} />)}
+        {[...featured.slice(2), ...rest].map(p => <ProjectCard key={p.id} p={p} onOpen={setOpenId} />)}
       </div>
 
-      <div className="projects-browse-row">
-        {view === "featured"
-          ? <button className="projects-view-all-btn" onClick={() => setView("all")}>view all projects →</button>
-          : <button className="projects-back-btn" onClick={() => setView("featured")}>← featured only</button>
-        }
-      </div>
+      {view === "featured" && (
+        <div className="projects-browse-row">
+          <button className="projects-view-all-btn" onClick={() => setView("all")}>view all projects →</button>
+        </div>
+      )}
 
       {openProject && <ProjectModal p={openProject} onClose={() => setOpenId(null)} />}
     </section>
