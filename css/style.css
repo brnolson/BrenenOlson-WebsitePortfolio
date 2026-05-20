@@ -135,8 +135,8 @@ img { display: block; max-width: 100%; }
   line-height: 0.98; letter-spacing: -0.03em;
   margin-bottom: 32px;
 }
-.hero-title .accent  { background: linear-gradient(120deg, var(--cyan), var(--violet), var(--magenta), var(--violet), var(--cyan)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 11s ease-in-out infinite; }
-.hero-title .accent2 { background: linear-gradient(120deg, var(--violet), var(--magenta), var(--coral), var(--magenta), var(--violet)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 9s ease-in-out infinite; animation-delay: -3s; }
+.hero-title .accent  { background: linear-gradient(120deg, var(--cyan), var(--violet), var(--magenta), var(--violet), var(--cyan)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 11s ease-in-out infinite; padding: 0.08em 0.15em 0.08em 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hero-title .accent2 { background: linear-gradient(120deg, var(--violet), var(--magenta), var(--coral), var(--magenta), var(--violet)); background-size: 280% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; font-style: italic; font-weight: 400; animation: gradientShimmer 9s ease-in-out infinite; animation-delay: -3s; padding: 0.08em 0.15em 0.08em 0; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 /* TWEAK ME — speed of the gradient shimmer. Keep it subtle (8–12s). */
 @keyframes gradientShimmer {
