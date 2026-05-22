@@ -16,7 +16,7 @@
       tall     - true to take full height in featured row
       img      - preview image path, e.g. "assets/projects/myproject.png", or null for procedural graphic
       hero     - modal hero image path (usually same as img), or null
-      year     - "2025" or "2024 — Present"
+      year     - "2025" or "2024–Present"
       role     - your role on the project
       scale    - short scope note ("Solo", "Internal · 5k users", ...)
       desc     - 1-2 sentence pitch
@@ -43,14 +43,14 @@ window.PROJECTS = [
   {
     id: "tethr-wedding",
     title: "Tethr AI",
-    subtitle: "I built an AI — a constraint-aware seating optimizer and multi-turn guest concierge, shipped in production",
+    subtitle: "I built an AI: a constraint-aware seating optimizer and multi-turn guest concierge, shipped in production",
     tag: "AI · Full-Stack · Live Product",
     status: "live", badge: "AI · Live", featured: true, tall: true, highlight: true,
     img: null, hero: null,
-    year: "2024 — Present",
+    year: "2024–Present",
     role: "Founder · Solo engineer",
     scale: "Shipping in production · mytethr.com",
-    desc: "I built Kai — two Claude-powered AI features inside a production wedding platform that go well beyond a chatbot. A constraint-aware seating optimizer reasons over guest relationship graphs and physical table constraints, enforcing a strict JSON schema over Claude's output. A multi-turn guest concierge handles full conversation history, detects short-affirmation replies, classifies post-response intent, and rate-limits per IP. Both run on real user data today.",
+    desc: "I built Kai: two Claude-powered AI features inside a production wedding platform that go well beyond a chatbot. A constraint-aware seating optimizer reasons over guest relationship graphs and physical table constraints, enforcing a strict JSON schema over Claude's output. A multi-turn guest concierge handles full conversation history, detects short-affirmation replies, classifies post-response intent, and rate-limits per IP. Both run on real user data today.",
     long: [
       "Seating optimizer: guest bios, relationship flags, and table constraints are merged from three data sources and sent to Claude with a strict JSON schema enforced on the output. Plan-tier gating controls access per account with developer and paid overrides.",
       "Guest concierge: full multi-turn conversation history, short-affirmation detection that resolves 'yes please' back to the preceding question rather than treating it as a new prompt, per-IP rate limiting with configurable windows, and a post-reply intent classifier that runs as a separate function after each response.",
@@ -96,17 +96,17 @@ window.PROJECTS = [
   {
     id: "abide-circle",
     title: "Abide Circle",
-    subtitle: "Family visit accountability app — by Tethr",
+    subtitle: "Family visit accountability app by Tethr",
     tag: "Full-Stack · Behavioral Systems · Live Product",
     status: "live", highlight: true,
     img: "assets/projects/abide.png", hero: "assets/projects/abide.png",
-    year: "2025 — Present",
+    year: "2025–Present",
     role: "Founder · Solo engineer",
     scale: "Shipping in production · abidecircle.com",
-    desc: "Production SaaS under Tethr Software LLC. Families create a circle around an elderly parent or sick loved one, schedule visits, and the app handles the social accountability layer: streaks, nudges, milestone recognition, and weekly digests — all automated.",
+    desc: "Production SaaS under Tethr Software LLC. Families create a circle around an elderly parent or sick loved one, schedule visits, and the app handles the social accountability layer: streaks, nudges, milestone recognition, and weekly digests, all automated.",
     long: [
       "Role-based access across three user types: family admins manage the circle and see analytics, visitors sign up for visits and log mood and photos, and loved ones get a simplified high-contrast view with minimal UI.",
-      "Behavioral nudging pipeline: seven Supabase Edge Functions handle visit confirmations, pre-visit reminders, post-visit follow-ups, streak alerts, milestone emails, weekly digests, and an unsubscribe flow — all triggered by database events or scheduled crons.",
+      "Behavioral nudging pipeline: seven Supabase Edge Functions handle visit confirmations, pre-visit reminders, post-visit follow-ups, streak alerts, milestone emails, weekly digests, and an unsubscribe flow, all triggered by database events or scheduled crons.",
       "Streak system calculates visit consistency with timezone-aware logic and DST edge cases covered by a Vitest unit suite. Manual nudge and streak refresh available to admins.",
       "Stripe subscription with trial period, Checkout, Customer Portal, and webhook handling. Feature gating runs through a single useGate() composable so no component checks subscription status directly.",
       "Playwright E2E test suite seeds isolated users and a test circle against a staging Supabase instance and cleans up after itself. Never runs against production.",
@@ -123,18 +123,18 @@ window.PROJECTS = [
   {
     id: "echovision",
     title: "EchoVision",
-    subtitle: "Mixed reality accessibility app — AI describes what a visually impaired user sees",
+    subtitle: "Mixed reality accessibility app: AI describes what a visually impaired user sees",
     tag: "Unity · XR · AI · Accessibility",
     status: "fun", badge: "Graphics · AI", featured: true, highlight: true, category: "graphics",
     img: "assets/projects/echoVision.png", hero: "assets/projects/echoVision.png",
     year: "2025",
-    role: "Co-developer — passthrough integration, voice pipeline, interaction design",
+    role: "Co-developer: passthrough integration, voice pipeline, interaction design",
     scale: "Meta Quest 3 · Solo + Daniel Vu",
-    desc: "A Meta Quest 3 mixed reality app that streams real headset camera footage to an AI backend, transcribes voice queries hands-free, and speaks back context-aware descriptions through an animated avatar. Built at the intersection of real-time computer graphics and real-world accessibility — the system can identify objects in a user's hand, read signage, and narrate surroundings for visually or cognitively impaired people.",
+    desc: "A Meta Quest 3 mixed reality app that streams real headset camera footage to an AI backend, transcribes voice queries hands-free, and speaks back context-aware descriptions through an animated avatar. Built at the intersection of real-time computer graphics and real-world accessibility. The system can identify objects in a user's hand, read signage, and narrate surroundings for visually or cognitively impaired people.",
     long: [
       "Passthrough integration using QuestCamera API streams live headset camera frames in real time. Combined with OpenXR spatial anchoring, the app places UI panels as world-space billboards that stay fixed in the physical environment.",
       "Voice pipeline: microphone capture feeds a Python FastAPI backend that handles transcription and LLM inference. Results are returned to the headset and spoken through an avatar with a state machine that cycles through Idle → Listening → Processing → Success/Error modes.",
-      "Gesture control via Meta XR SDK: a palm-up gesture triggers the listening state without the user needing to press anything — critical for accessibility contexts where one hand may be occupied.",
+      "Gesture control via Meta XR SDK: a palm-up gesture triggers the listening state without the user needing to press anything, critical for accessibility contexts where one hand may be occupied.",
       "Custom ShaderLab and HLSL shaders drive the avatar feedback visuals. Spatial UI panels are camera-facing billboards anchored in real world coordinates so they don't drift as the user moves.",
       "Potential use cases: navigation instructions, identifying objects in hand, reading labels, describing scenes for users with visual impairment or cognitive load constraints.",
     ],
@@ -154,7 +154,7 @@ window.PROJECTS = [
     tag: "C++ · OpenGL 4.6 · Deferred Rendering",
     status: "fun", badge: "In Development", featured: true, highlight: true, category: "graphics",
     img: "assets/projects/elevator.png", hero: "assets/projects/elevator.png",
-    year: "2025 — Present",
+    year: "2025–Present",
     role: "Solo",
     scale: "Personal",
     desc: "An anime-style infinite runner built from the GPU up in C++ and OpenGL 4.6. Deferred shading pipeline with a hand-rolled GBuffer, cel shading via a 1D toon ramp texture, screen-space outline extraction, particle VFX, procedural obstacle generation, and a full upgrade system. Still in active development.",
@@ -307,11 +307,11 @@ window.PROJECTS = [
     year: "2025",
     role: "Solo",
     scale: "Coursework",
-    desc: "A first-person 3D game engine built from scratch in C++ and OpenGL. OBJ model loading, UV texture mapping, multiple point lights, a spot flashlight, smooth animated doors, jumping, and first-person collision detection — all written without a game engine.",
+    desc: "A first-person 3D game engine built from scratch in C++ and OpenGL. OBJ model loading, UV texture mapping, multiple point lights, a spot flashlight, smooth animated doors, jumping, and first-person collision detection, all written without a game engine.",
     long: [
       "OBJ parser loads arbitrary 3D models at runtime. Keys, doors, NPCs, and level props are independently modeled files placed in the scene at startup via a custom text map format.",
       "Phong lighting model supports multiple simultaneous point lights plus a spot flashlight attached to the player camera. Ambient, diffuse, and specular terms computed per-fragment in GLSL.",
-      "First-person collision detection against walls and locked doors. Doors animate smoothly on unlock — the transform is interpolated over a fixed duration in the game loop, not a physics engine.",
+      "First-person collision detection against walls and locked doors. Doors animate smoothly on unlock; the transform is interpolated over a fixed duration in the game loop, not a physics engine.",
       "Custom map format: a text grid of wall, door, key, and start tokens. Designed two maps specifically to exercise all engine features in one playthrough.",
     ],
     stack: [
@@ -362,7 +362,7 @@ window.PROJECTS = [
     year: "2025",
     role: "Solo",
     scale: "Personal",
-    desc: "ATS Resource Supervisor — a web tool for managing and supervising ATS resources.",
+    desc: "ATS Resource Supervisor, a web tool for managing and supervising ATS resources.",
     long: [],
     stack: [
       { cat: "Web", items: ["HTML", "CSS", "JavaScript"] },
@@ -380,7 +380,7 @@ window.PROJECTS = [
     year: "2025",
     role: "Solo",
     scale: "Personal",
-    desc: "A personal website for trombone — showcasing recordings, resources, and more.",
+    desc: "A personal website for trombone showcasing recordings, resources, and more.",
     long: [],
     stack: [
       { cat: "Web", items: ["HTML", "CSS", "JavaScript"] },
@@ -420,7 +420,7 @@ window.PROJECTS = [
     tag: "C# · WPF · .NET 8",
     status: "live",
     img: "assets/projects/noteslift.png", hero: "assets/projects/noteslift.png",
-    year: "2024 — 2025",
+    year: "2024–2025",
     role: "Co-developer",
     scale: "UMN School of Public Health · 1,000+ students",
     desc: "A native Windows app that extracts content from PowerPoint presentations and generates clean, accessible Markdown transcripts. Initiated on-shift at UMN's School of Public Health, officially adopted by the department, and used to support lecture accessibility for over a thousand students.",
@@ -448,7 +448,7 @@ window.PROJECTS = [
     year: "2026",
     role: "Solo",
     scale: "Personal",
-    desc: "I kept needing a fast, visual way to write and tweak SVG path code — and nothing that existed hit the right balance. So I built it. A live-preview editor that puts the raw d attribute front and center with drag-and-drop anchor editing, undo/redo, variable substitution, and persistent zoom.",
+    desc: "I kept needing a fast, visual way to write and tweak SVG path code, and nothing that existed hit the right balance. So I built it. A live-preview editor that puts the raw d attribute front and center with drag-and-drop anchor editing, undo/redo, variable substitution, and persistent zoom.",
     long: [
       "Live preview updates on every keystroke. Coordinate readout follows the cursor in viewBox units. Zoom and pan state persists across edits so the viewport never resets while tuning control points.",
       "Drag mode maps path anchor nodes and Bezier handles back to d-attribute tokens in the code string. Dragging normalizes the surrounding segment in-place: relative commands convert to absolute, H and V commands convert to L when moved in 2D. Code stays accurate throughout.",
@@ -469,7 +469,7 @@ window.PROJECTS = [
     tag: "3D · Three.js",
     status: "fun", category: "graphics",
     img: "assets/projects/pancake.png", hero: "assets/projects/pancake.png",
-    year: "2025 — Present",
+    year: "2025–Present",
     role: "Solo",
     scale: "Personal",
     desc: "Stylized Three.js resume inside a virtual cafe. Smooth camera interpolation, baked lighting, and playful hotspot interactions.",
@@ -492,7 +492,7 @@ window.PROJECTS = [
     tag: "3D · Game Dev",
     status: "fun", category: "graphics",
     img: "assets/projects/rouge.png", hero: "assets/projects/rouge.png",
-    year: "2024 — Present",
+    year: "2024–Present",
     role: "Solo",
     scale: "Personal",
     desc: "Handcrafted Unreal 5 game with physics-based interactions, dynamic environment effects, and original sound design.",
@@ -562,7 +562,7 @@ window.PROJECTS = [
     tag: "Web · Three.js · GLSL",
     status: "fun",
     img: "assets/projects/portfolio.png", hero: "assets/projects/portfolio.png",
-    year: "2025 — Present",
+    year: "2025–Present",
     role: "Solo",
     scale: "Ongoing",
     desc: "This portfolio itself: a Three.js and GLSL graphics demo that doubles as a resume. Raymarched hero orb, scroll-driven DNA journey, interactive pipeline visualization, and a neural skill constellation. All content is data-driven.",
@@ -583,9 +583,9 @@ window.PROJECTS = [
 window.EXPERIENCE = [
   {
     type: "work",
-    date: "2024 — Present",
+    date: "2024–Present",
     role: "Founder & Engineer",
-    org: "Tethr Software LLC — Minneapolis, MN",
+    org: "Tethr Software LLC, Minneapolis, MN",
     bullets: [
       "Founded and sole-engineered two production SaaS products: mytethr.com (wedding platform) and abidecircle.com (family visit accountability app).",
       "Built AI features with the Claude API beyond a simple chatbot: a constraint-aware seating optimizer with structured JSON output and a multi-turn guest concierge with affirmation detection, rate limiting, and intent classification.",
@@ -594,18 +594,18 @@ window.EXPERIENCE = [
   },
   {
     type: "work",
-    date: "02/2026 — Present · Contract",
+    date: "02/2026–Present · Contract",
     role: "Freelance Developer",
-    org: "Art Unlimited — Grand Rapids, MN",
+    org: "Art Unlimited, Grand Rapids, MN",
     bullets: [
       "Contracted to build internal web portal applications (details under NDA).",
     ],
   },
   {
     type: "work",
-    date: "05/2025 — Present · transitioning to full-time",
+    date: "05/2025–Present · transitioning to full-time",
     role: "Software Engineer",
-    org: "KEB America — Shakopee, MN",
+    org: "KEB America, Shakopee, MN",
     bullets: [
       "Built a full-stack Blazor + SQLite inventory system with an animated SVG carousel mirroring physical Kardex warehouse hardware; deployed to internal IIS behind Active Directory SSO, managing 5,000+ parts.",
       "Architected a shared-resource management platform (Blazor + SQL Server) with optimistic concurrency, row-version conflict resolution, and a bUnit/xUnit test suite at over 80% coverage on state-changing endpoints.",
@@ -615,7 +615,7 @@ window.EXPERIENCE = [
   },
   {
     type: "research",
-    date: "01/2025 — 12/2025 · Research",
+    date: "01/2025–12/2025 · Research",
     role: "Simulation Software Developer",
     org: "Cable-Driven 6-DoF Spacecraft Motion Simulator · UMN x Cornell",
     bullets: [
@@ -625,20 +625,20 @@ window.EXPERIENCE = [
   },
   {
     type: "work",
-    date: "02/2023 — 12/2025",
+    date: "02/2023–12/2025",
     role: "Student Tech Support Services",
-    org: "School of Public Health — UMN",
+    org: "School of Public Health, UMN",
     bullets: [
       "Produced lectures for 1,000+ students; supported faculty in the School of Public Health.",
       "Python automation (PyAutoGUI + OS) cut audio-splicing time by 75%.",
-      "Initiated and developed NotesLift — an accessibility tool adopted by the School.",
+      "Initiated and developed NotesLift, an accessibility tool adopted by the School.",
     ],
   },
   {
     type: "edu",
     date: "Graduated 12/2025",
     role: "B.S. Computer Science",
-    org: "UMN Twin Cities — College of Science & Engineering · GPA 3.809",
+    org: "UMN Twin Cities, College of Science & Engineering · GPA 3.809",
     bullets: [
       "Dean's List: Fall 2023, Spring 2024, Fall 2024, Spring 2025, Fall 2025.",
       "Coursework emphasis: graphics, systems, embedded.",

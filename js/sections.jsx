@@ -19,16 +19,16 @@ window.About = () => (
     <div className="about-body">
       <div className="section-label"><span className="section-num">01</span> about</div>
       <p className="about-statement">
-        I'm a <em>graphics engineer</em> and <em>full-stack developer</em> with
+        I'm a <em>graphics engineer</em>, <em>software engineer</em>, and <em>full-stack developer</em> with
         a B.S. in Computer Science from UMN. I write <em className="med">real-time shaders</em>,
-        build physics simulators, and ship production software — the whole pipeline
+        build physics simulators, and ship production software, the whole pipeline
         from GPU to product, built by one person.
       </p>
       <div className="about-cards">
         <div className="about-card"><div className="about-card-k">Core</div><div className="about-card-v">Real-time graphics</div><div className="about-card-note">GLSL, Unreal 5, Three.js, rigid-body physics.</div></div>
-        <div className="about-card"><div className="about-card-k">Also</div><div className="about-card-v">Full-stack product</div><div className="about-card-note">Vue 3, Blazor, Supabase, Cloudflare — shipped.</div></div>
+        <div className="about-card"><div className="about-card-k">Also</div><div className="about-card-v">Full-stack product</div><div className="about-card-note">Vue 3, Blazor, Supabase, Cloudflare. Shipped.</div></div>
         <div className="about-card"><div className="about-card-k">Research</div><div className="about-card-v">6-DoF simulation</div><div className="about-card-note">Cable-driven spacecraft motion sim w/ Cornell.</div></div>
-        <div className="about-card"><div className="about-card-k">Approach</div><div className="about-card-v">End-to-end</div><div className="about-card-note">Shader to UI, firmware to cloud — no handoffs.</div></div>
+        <div className="about-card"><div className="about-card-k">Approach</div><div className="about-card-v">End-to-end</div><div className="about-card-note">Shader to UI, firmware to cloud. No handoffs.</div></div>
       </div>
     </div>
   </section>
@@ -59,22 +59,22 @@ window.PinSection = () => {
     {
       title: "Approach",
       headline: "Two meters. Six micrometers.",
-      sub: "Every cell in your body holds two meters of DNA, coiled into a nucleus smaller than a grain of sand. What you're approaching is a single fragment — less than a millionth of the full strand.",
+      sub: "Every cell in your body holds two meters of DNA, coiled into a nucleus smaller than a grain of sand. What you're approaching is a single fragment, less than a millionth of the full strand.",
     },
     {
       title: "Backbone",
       headline: "The outer rails.",
-      sub: "Two sugar-phosphate spines, linked by phosphodiester bonds, form the outer rails of the ladder. The sequence of bases — A, T, G, C — hangs inward, readable only through the major groove.",
+      sub: "Two sugar-phosphate spines, linked by phosphodiester bonds, form the outer rails of the ladder. The sequence of bases (A, T, G, C) hangs inward, readable only through the major groove.",
     },
     {
       title: "Helix",
       headline: "Right-handed. Antiparallel.",
-      sub: "10.4 base pairs per full twist. One strand runs 5′ to 3′; the other runs 3′ to 5′ in the opposite direction. The twist carves two grooves — major and minor — that proteins land on to read or regulate the code.",
+      sub: "10.4 base pairs per full twist. One strand runs 5′ to 3′; the other runs 3′ to 5′ in the opposite direction. The twist carves two grooves (major and minor) that proteins land on to read or regulate the code.",
     },
     {
       title: "Structure",
       headline: "Four letters. Infinite sequences.",
-      sub: "A pairs with T by two hydrogen bonds; G pairs with C by three. The extra bond in G·C makes those pairs more thermally stable — a fact evolution has written into every promoter, every regulatory switch.",
+      sub: "A pairs with T by two hydrogen bonds; G pairs with C by three. The extra bond in G·C makes those pairs more thermally stable, a fact evolution has written into every promoter, every regulatory switch.",
     },
   ];
 
@@ -496,10 +496,10 @@ window.BoidsGame = () => {
           <div className="pipeline-detail-title">Reynolds flocking, live</div>
         </div>
         <div className="pipeline-detail-desc">
-          Three rules — separation, alignment, cohesion — produce emergent group behavior. Every frame: O(N²) neighbor query, three steering forces, speed cap, toroidal wrap. <strong style={{ color: "var(--ink)" }}>{population}</strong> agents, zero dependencies.
+          Three rules (separation, alignment, cohesion) produce emergent group behavior. Every frame: O(N²) neighbor query, three steering forces, speed cap, toroidal wrap. <strong style={{ color: "var(--ink)" }}>{population}</strong> agents, zero dependencies.
         </div>
         <div className="pipeline-detail-body">
-          <span style={{ color: "var(--violet)" }}>↳</span> Move your cursor through the flock — boids flee a predator radius. <span style={{ color: "var(--violet)" }}>↳</span> Click to fire a radial shockwave. <span style={{ color: "var(--ink-dim)" }}>scatters:</span> <strong>{scatters}</strong>
+          <span style={{ color: "var(--violet)" }}>↳</span> Move your cursor through the flock; boids flee a predator radius. <span style={{ color: "var(--violet)" }}>↳</span> Click to fire a radial shockwave. <span style={{ color: "var(--ink-dim)" }}>scatters:</span> <strong>{scatters}</strong>
         </div>
       </div>
     </div>
@@ -1053,7 +1053,7 @@ window.Skills = () => {
       <div className="skills-head">
         <div className="section-label"><span className="section-num">04</span> skills · live demo</div>
         <h2 className="section-head">180 boids.<br />Three rules.</h2>
-        <p className="section-sub">A live Reynolds flocking simulation — one of the foundational algorithms of real-time graphics. Move your cursor through the flock. Click to scatter them. Supporting skill levels below.</p>
+        <p className="section-sub">A live Reynolds flocking simulation, one of the foundational algorithms of real-time graphics. Move your cursor through the flock. Click to scatter them. Supporting skill levels below.</p>
       </div>
       <div className="skills-layout pipeline-layout">
         <window.BoidsGame />
@@ -1154,7 +1154,7 @@ window.Contact = () => (
         <label htmlFor="email">your email</label>
         <input type="email" id="email" name="email" required placeholder="you@example.com" />
         <label htmlFor="message">message</label>
-        <textarea id="message" name="message" rows="6" required placeholder="hey brenen — I'd love to talk about..." />
+        <textarea id="message" name="message" rows="6" required placeholder="hey brenen, I'd love to talk about..." />
         <button type="submit" className="cta primary" style={{ alignSelf: "flex-start" }}>send message →</button>
       </form>
     </div>
@@ -1186,7 +1186,7 @@ window.Konami = () => {
       <div className="konami-terminal">
         <button className="konami-close" onClick={() => setActive(false)}>[ esc ]</button>
         <pre style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}>
-{`> ACCESS GRANTED — brenen.olson:root
+{`> ACCESS GRANTED: brenen.olson:root
 > loading .bio...
 
   name       Brenen Olson

@@ -25,9 +25,9 @@ window.About = () => /*#__PURE__*/React.createElement("section", {
   className: "section-num"
 }, "01"), " about"), /*#__PURE__*/React.createElement("p", {
   className: "about-statement"
-}, "I'm a ", /*#__PURE__*/React.createElement("em", null, "graphics engineer"), " and ", /*#__PURE__*/React.createElement("em", null, "full-stack developer"), " with a B.S. in Computer Science from UMN. I write ", /*#__PURE__*/React.createElement("em", {
+}, "I'm a ", /*#__PURE__*/React.createElement("em", null, "graphics engineer"), ", ", /*#__PURE__*/React.createElement("em", null, "software engineer"), ", and ", /*#__PURE__*/React.createElement("em", null, "full-stack developer"), " with a B.S. in Computer Science from UMN. I write ", /*#__PURE__*/React.createElement("em", {
   className: "med"
-}, "real-time shaders"), ", build physics simulators, and ship production software \u2014 the whole pipeline from GPU to product, built by one person."), /*#__PURE__*/React.createElement("div", {
+}, "real-time shaders"), ", build physics simulators, and ship production software, the whole pipeline from GPU to product, built by one person."), /*#__PURE__*/React.createElement("div", {
   className: "about-cards"
 }, /*#__PURE__*/React.createElement("div", {
   className: "about-card"
@@ -45,7 +45,7 @@ window.About = () => /*#__PURE__*/React.createElement("section", {
   className: "about-card-v"
 }, "Full-stack product"), /*#__PURE__*/React.createElement("div", {
   className: "about-card-note"
-}, "Vue 3, Blazor, Supabase, Cloudflare \u2014 shipped.")), /*#__PURE__*/React.createElement("div", {
+}, "Vue 3, Blazor, Supabase, Cloudflare. Shipped.")), /*#__PURE__*/React.createElement("div", {
   className: "about-card"
 }, /*#__PURE__*/React.createElement("div", {
   className: "about-card-k"
@@ -61,7 +61,7 @@ window.About = () => /*#__PURE__*/React.createElement("section", {
   className: "about-card-v"
 }, "End-to-end"), /*#__PURE__*/React.createElement("div", {
   className: "about-card-note"
-}, "Shader to UI, firmware to cloud \u2014 no handoffs.")))));
+}, "Shader to UI, firmware to cloud. No handoffs.")))));
 
 // ---------- PINNED SCROLL ----------
 window.PinSection = () => {
@@ -87,19 +87,19 @@ window.PinSection = () => {
   const chapters = [{
     title: "Approach",
     headline: "Two meters. Six micrometers.",
-    sub: "Every cell in your body holds two meters of DNA, coiled into a nucleus smaller than a grain of sand. What you're approaching is a single fragment — less than a millionth of the full strand."
+    sub: "Every cell in your body holds two meters of DNA, coiled into a nucleus smaller than a grain of sand. What you're approaching is a single fragment, less than a millionth of the full strand."
   }, {
     title: "Backbone",
     headline: "The outer rails.",
-    sub: "Two sugar-phosphate spines, linked by phosphodiester bonds, form the outer rails of the ladder. The sequence of bases — A, T, G, C — hangs inward, readable only through the major groove."
+    sub: "Two sugar-phosphate spines, linked by phosphodiester bonds, form the outer rails of the ladder. The sequence of bases (A, T, G, C) hangs inward, readable only through the major groove."
   }, {
     title: "Helix",
     headline: "Right-handed. Antiparallel.",
-    sub: "10.4 base pairs per full twist. One strand runs 5′ to 3′; the other runs 3′ to 5′ in the opposite direction. The twist carves two grooves — major and minor — that proteins land on to read or regulate the code."
+    sub: "10.4 base pairs per full twist. One strand runs 5′ to 3′; the other runs 3′ to 5′ in the opposite direction. The twist carves two grooves (major and minor) that proteins land on to read or regulate the code."
   }, {
     title: "Structure",
     headline: "Four letters. Infinite sequences.",
-    sub: "A pairs with T by two hydrogen bonds; G pairs with C by three. The extra bond in G·C makes those pairs more thermally stable — a fact evolution has written into every promoter, every regulatory switch."
+    sub: "A pairs with T by two hydrogen bonds; G pairs with C by three. The extra bond in G·C makes those pairs more thermally stable, a fact evolution has written into every promoter, every regulatory switch."
   }];
   return /*#__PURE__*/React.createElement("section", {
     className: "pin-wrap",
@@ -640,7 +640,7 @@ window.BoidsGame = () => {
     className: "pipeline-detail-title"
   }, "Reynolds flocking, live")), /*#__PURE__*/React.createElement("div", {
     className: "pipeline-detail-desc"
-  }, "Three rules \u2014 separation, alignment, cohesion \u2014 produce emergent group behavior. Every frame: O(N\xB2) neighbor query, three steering forces, speed cap, toroidal wrap. ", /*#__PURE__*/React.createElement("strong", {
+  }, "Three rules (separation, alignment, cohesion) produce emergent group behavior. Every frame: O(N\xB2) neighbor query, three steering forces, speed cap, toroidal wrap. ", /*#__PURE__*/React.createElement("strong", {
     style: {
       color: "var(--ink)"
     }
@@ -650,7 +650,7 @@ window.BoidsGame = () => {
     style: {
       color: "var(--violet)"
     }
-  }, "\u21B3"), " Move your cursor through the flock \u2014 boids flee a predator radius. ", /*#__PURE__*/React.createElement("span", {
+  }, "\u21B3"), " Move your cursor through the flock; boids flee a predator radius. ", /*#__PURE__*/React.createElement("span", {
     style: {
       color: "var(--violet)"
     }
@@ -1325,7 +1325,7 @@ window.Skills = () => {
     className: "section-head"
   }, "180 boids.", /*#__PURE__*/React.createElement("br", null), "Three rules."), /*#__PURE__*/React.createElement("p", {
     className: "section-sub"
-  }, "A live Reynolds flocking simulation \u2014 one of the foundational algorithms of real-time graphics. Move your cursor through the flock. Click to scatter them. Supporting skill levels below.")), /*#__PURE__*/React.createElement("div", {
+  }, "A live Reynolds flocking simulation, one of the foundational algorithms of real-time graphics. Move your cursor through the flock. Click to scatter them. Supporting skill levels below.")), /*#__PURE__*/React.createElement("div", {
     className: "skills-layout pipeline-layout"
   }, /*#__PURE__*/React.createElement(window.BoidsGame, null), /*#__PURE__*/React.createElement("div", {
     className: "skill-table"
@@ -1506,7 +1506,7 @@ window.Contact = () => /*#__PURE__*/React.createElement("section", {
   name: "message",
   rows: "6",
   required: true,
-  placeholder: "hey brenen \u2014 I'd love to talk about..."
+  placeholder: "hey brenen, I'd love to talk about..."
 }), /*#__PURE__*/React.createElement("button", {
   type: "submit",
   className: "cta primary",
@@ -1549,7 +1549,7 @@ window.Konami = () => {
       whiteSpace: "pre-wrap",
       lineHeight: 1.6
     }
-  }, `> ACCESS GRANTED — brenen.olson:root
+  }, `> ACCESS GRANTED: brenen.olson:root
 > loading .bio...
 
   name       Brenen Olson
