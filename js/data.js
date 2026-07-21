@@ -42,16 +42,17 @@ window.PROJECTS = [
 
   {
     id: "tethr-wedding",
-    title: "Tethr AI",
-    subtitle: "I built an AI: a constraint-aware seating optimizer and multi-turn guest concierge, shipped in production",
+    title: "Table Tag",
+    subtitle: "AI-powered event manager I built for my own wedding, now shipping in production",
     tag: "AI · Full-Stack · Live Product",
     status: "live", badge: "AI · Live", featured: true, tall: true, highlight: true,
-    img: null, hero: null,
+    img: "assets/projects/tabletag.png", hero: "assets/projects/tabletag.png",
     year: "2024–Present",
     role: "Founder · Solo engineer",
     scale: "Shipping in production · mytethr.com",
-    desc: "I built Kai: two Claude-powered AI features inside a production wedding platform that go well beyond a chatbot. A constraint-aware seating optimizer reasons over guest relationship graphs and physical table constraints, enforcing a strict JSON schema over Claude's output. A multi-turn guest concierge handles full conversation history, detects short-affirmation replies, classifies post-response intent, and rate-limits per IP. Both run on real user data today.",
+    desc: "Table Tag is an AI-powered event manager that started as a tool for my own wedding: guest list, seating chart, and table-tag emails all ran live on the actual day. It grew into a production product with two Claude-powered features that go well beyond a chatbot: a constraint-aware seating optimizer that reasons over guest relationship graphs and physical table constraints with a strict JSON schema enforced on Claude's output, and a multi-turn guest concierge that handles full conversation history, detects short-affirmation replies, classifies post-response intent, and rate-limits per IP. Both run on real user data today.",
     long: [
+      "Built for my own wedding first: I needed a way to manage guests, seating, and day-of table tags, so I built it myself — then hardened it into a product other couples and event hosts use.",
       "Seating optimizer: guest bios, relationship flags, and table constraints are merged from three data sources and sent to Claude with a strict JSON schema enforced on the output. Plan-tier gating controls access per account with developer and paid overrides.",
       "Guest concierge: full multi-turn conversation history, short-affirmation detection that resolves 'yes please' back to the preceding question rather than treating it as a new prompt, per-IP rate limiting with configurable windows, and a post-reply intent classifier that runs as a separate function after each response.",
       "Table tag automation: a daily Supabase cron job fires at 9 AM CT and sends personalized table-tag emails to every guest for events whose wedding date is tomorrow, with reset tooling for re-sends.",
