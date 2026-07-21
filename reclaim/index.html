@@ -302,10 +302,25 @@
     font-size: 14.5px;
   }
 
-  .addon span:last-child {
+  .addon > span:last-child {
     font-weight: 600;
     color: var(--sage-deep);
     white-space: nowrap;
+  }
+
+  .addon.has-desc { align-items: flex-start; }
+
+  .addon-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .addon-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.45;
   }
 
   .notes {
@@ -372,6 +387,7 @@
           <li>Fully mobile responsive</li>
           <li>Built from your copy and photos</li>
           <li>1 revision round</li>
+          <li>Launch walkthrough so you know how it all works</li>
           <li>Hosted free, no monthly fees</li>
         </ul>
         <div class="timeline">Live in about 1 week</div>
@@ -387,6 +403,7 @@
         <ul>
           <li>Everything in Essentials</li>
           <li>Multiple pages: Home, About, Services, Book</li>
+          <li>Photo gallery and before-and-after section</li>
           <li>Tasteful, light animation done with restraint</li>
           <li>Services styled with descriptions and pricing</li>
           <li>Basic on-page SEO, favicon, social preview</li>
@@ -405,12 +422,14 @@
         <div class="rule"></div>
         <ul>
           <li>Everything in Signature</li>
+          <li>Individual pages for each service or treatment</li>
           <li>Contact form routed to your inbox</li>
-          <li>Photo gallery or before and after section</li>
           <li>Testimonials and reviews section</li>
           <li>Email capture for a simple lead funnel</li>
+          <li>Local SEO and Google Business Profile setup</li>
+          <li>Analytics setup to track visits and bookings</li>
           <li>Priority build and 3 revision rounds</li>
-          <li>Launch walkthrough plus 30 days of free tweaks</li>
+          <li>30 days of free tweaks after launch</li>
         </ul>
         <div class="timeline">Live in about 2 to 3 weeks</div>
       </div>
@@ -419,7 +438,7 @@
     <div class="addons">
       <h2>Optional add-ons</h2>
       <div class="addon-grid">
-        <div class="addon"><span>Care plan, ongoing edits and hosting</span><span>$25/mo</span></div>
+        <div class="addon has-desc"><span class="addon-label">Care plan<span class="addon-desc">Hosting, uptime monitoring, backups, and up to 30 minutes of small text or photo edits each month. Larger changes quoted separately.</span></span><span>$25/mo</span></div>
         <div class="addon"><span>Extra revision round</span><span>$100</span></div>
         <div class="addon"><span>Logo or brand touch-ups</span><span>Quoted</span></div>
       </div>
