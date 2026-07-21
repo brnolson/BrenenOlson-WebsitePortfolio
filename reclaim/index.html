@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reclaim MedSpa &amp; Wellness — Proposal</title>
+<title>Reclaim MedSpa &amp; Wellness Proposal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -99,6 +99,17 @@
     margin-right: auto;
   }
 
+  .disclaimer {
+    font-size: 13px;
+    color: var(--sage-deep);
+    background: var(--ivory);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 14px 18px;
+    max-width: 560px !important;
+    margin-top: 20px !important;
+  }
+
   .demo-btns {
     display: flex;
     gap: 16px;
@@ -191,6 +202,31 @@
   }
 
   .featured .price { color: #FBF8F2; }
+
+  .price .was {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-right: 12px;
+  }
+
+  .featured .price .was { color: #9C968A; }
+
+  .founder {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 2px;
+  }
+
+  .featured .founder { color: #B7C0A6; }
+
+  .founder + .price { margin-top: 0; }
 
   .rule { height: 1px; background: var(--line); margin: 26px 0; }
   .featured .rule { background: #4A453E; }
@@ -308,15 +344,16 @@
       <div class="eyebrow">Website Proposal</div>
       <div class="brand">Reclaim MedSpa &amp; Wellness</div>
       <div class="tagline">Natural. Elevated. You.</div>
-      <p class="lede">A clean, high-end site that lets people get to know you, explore your services, and book in a couple of clicks. Hosted with no monthly fees.</p>
+      <p class="lede">A clean, high-end site that lets people get to know you, explore your services, and book in a couple of clicks. Hosted with no monthly fees. Prices below reflect a founder rate, a discount for getting in early.</p>
     </div>
 
     <div class="preview">
       <h2>See the direction</h2>
-      <p>Two quick template concepts showing the look and feel we would build from, based on the Essentials plan. Same layout, two moods.</p>
+      <p>Two quick concepts showing the look and feel we would build from. Same layout, two moods.</p>
+      <p class="disclaimer">A quick heads-up before you click: these are bare-bones, desktop-only sketches, best viewed on a computer. They are not mobile-friendly and not the finished product. They exist only to show the direction and feel so we can agree on a vibe before the real site gets built and polished.</p>
       <div class="demo-btns">
-        <a class="btn btn-light" href="https://reclaim-demo-six.vercel.app/Reclaim" target="_blank" rel="noopener">View Light Concept</a>
-        <a class="btn btn-dark" href="https://reclaim-demo-six.vercel.app/ReclaimBlack" target="_blank" rel="noopener">View Dark Concept</a>
+        <a class="btn btn-light" href="https://reclaim-demo-one.vercel.app/Reclaim" target="_blank" rel="noopener">View Light Concept</a>
+        <a class="btn btn-dark" href="https://reclaim-demo-one.vercel.app/ReclaimBlack" target="_blank" rel="noopener">View Dark Concept</a>
       </div>
     </div>
 
@@ -325,7 +362,8 @@
         <div class="tier-tag"></div>
         <div class="tier-name">Essentials</div>
         <div class="tier-note">Simple, clean, live fast.</div>
-        <div class="price">$450</div>
+        <div class="founder">Founder rate</div>
+        <div class="price"><span class="was">$650</span>$500</div>
         <div class="rule"></div>
         <ul>
           <li>Single-page site, hand-coded and fast-loading</li>
@@ -343,7 +381,8 @@
         <div class="tier-tag">Most Popular</div>
         <div class="tier-name">Signature</div>
         <div class="tier-note">The elevated, multi-page experience.</div>
-        <div class="price">$650</div>
+        <div class="founder">Founder rate</div>
+        <div class="price"><span class="was">$850</span>$700</div>
         <div class="rule"></div>
         <ul>
           <li>Everything in Essentials</li>
@@ -361,7 +400,8 @@
         <div class="tier-tag">Complete</div>
         <div class="tier-name">Flagship</div>
         <div class="tier-note">The full experience, built to grow.</div>
-        <div class="price">$850</div>
+        <div class="founder">Founder rate</div>
+        <div class="price"><span class="was">$1,100</span>$950</div>
         <div class="rule"></div>
         <ul>
           <li>Everything in Signature</li>
@@ -379,14 +419,13 @@
     <div class="addons">
       <h2>Optional add-ons</h2>
       <div class="addon-grid">
-        <div class="addon"><span>Care plan, ongoing edits and hosting</span><span>$30/mo</span></div>
-        <div class="addon"><span>Extra revision round</span><span>$75</span></div>
-        <div class="addon"><span>Copywriting help</span><span>$100</span></div>
+        <div class="addon"><span>Care plan, ongoing edits and hosting</span><span>$40/mo</span></div>
+        <div class="addon"><span>Extra revision round</span><span>$100</span></div>
         <div class="addon"><span>Logo or brand touch-ups</span><span>Quoted</span></div>
       </div>
     </div>
 
-    <p class="notes">Every package is <strong>hosted free with no monthly fees</strong>, unlike Wix or Squarespace. Booking runs through your existing system, so nothing changes there. To keep timelines on track, copy, photos, and your service list are provided by you.</p>
+    <p class="notes">Every package is <strong>hosted free with no monthly fees</strong>, unlike Wix or Squarespace. Booking runs through your existing system, so nothing changes there. To build this, I would need your <strong>text content, images, logo files, and service list</strong> from your side. We can shape the wording together, but the raw copy and brand assets come from you.</p>
 
     <div class="footer">
       <span>Prepared for Reclaim MedSpa &amp; Wellness</span>
