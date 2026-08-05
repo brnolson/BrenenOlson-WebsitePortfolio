@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Packages &amp; Pricing &middot; Brenen Olson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #F5F1EA;
+    --paper: #FFFFFF;
+    --espresso: #2E2A25;
+    --ink: #33302B;
+    --muted: #726B60;
+    --line: #E3DBCE;
+    --sage: #7E8A6F;
+    --sage-deep: #5E6A50;
+    --stone: #EDE7DD;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Mulish', sans-serif;
+    background: var(--ivory);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 88px 32px 72px;
+  }
+
+  .intro {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 56px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .brand {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 500;
+    line-height: 1.08;
+    color: var(--espresso);
+    letter-spacing: -0.01em;
+  }
+
+  .tagline {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.4vw, 22px);
+    color: var(--sage-deep);
+    margin-top: 14px;
+  }
+
+  .lede {
+    color: var(--muted);
+    font-size: 16px;
+    margin-top: 22px;
+  }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .tier {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tier.featured {
+    background: var(--espresso);
+    border-color: var(--espresso);
+    color: #EDE7DD;
+  }
+
+  .tier-tag {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    font-weight: 600;
+    margin-bottom: 18px;
+    min-height: 14px;
+  }
+
+  .featured .tier-tag { color: #B7C0A6; }
+
+  .tier-name {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--espresso);
+  }
+
+  .featured .tier-name { color: #FBF8F2; }
+
+  .tier-note {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+
+  .featured .tier-note { color: #C4BDAF; }
+
+  .price {
+    font-family: 'Fraunces', serif;
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--espresso);
+    margin: 26px 0 4px;
+  }
+
+  .featured .price { color: #FBF8F2; }
+
+  .price .was {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-right: 12px;
+  }
+
+  .featured .price .was { color: #9C968A; }
+
+  .founder {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 2px;
+  }
+
+  .featured .founder { color: #B7C0A6; }
+
+  .founder + .price { margin-top: 0; }
+
+  .rule { height: 1px; background: var(--line); margin: 26px 0; }
+  .featured .rule { background: #4A453E; }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    flex-grow: 1;
+  }
+
+  li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+
+  .featured li { color: #E4DED2; }
+
+  li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sage);
+  }
+
+  .featured li::before { background: #A7B291; }
+
+  .timeline {
+    margin-top: 26px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .featured .timeline { color: #B7B1A4; }
+
+  .addons {
+    margin-top: 64px;
+    background: var(--stone);
+    border-radius: 4px;
+    padding: 44px 48px;
+  }
+
+  .addons h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--espresso);
+    margin-bottom: 24px;
+  }
+
+  .addon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 48px;
+  }
+
+  .addon {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+  }
+
+  .addon > span:last-child {
+    font-weight: 600;
+    color: var(--sage-deep);
+    white-space: nowrap;
+  }
+
+  .addon.has-desc { align-items: flex-start; }
+
+  .addon-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .addon-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .notes {
+    margin-top: 56px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 680px;
+    margin: 56px auto 0;
+  }
+
+  .notes strong { color: var(--ink); font-weight: 600; }
+
+  .footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 860px) {
+    .tiers { grid-template-columns: 1fr; }
+    .addon-grid { grid-template-columns: 1fr; }
+    .wrap { padding: 56px 22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="intro">
+      <div class="eyebrow">Website Packages</div>
+      <div class="brand">Sites built to fit your business</div>
+      <div class="tagline">Clean, fast, and made to convert.</div>
+      <p class="lede">A high-end site that lets people get to know you, explore what you offer, and reach out or book in a couple of clicks. Hand-coded, hosted with no monthly fees. The founder rate below is a courtesy on a first project together.</p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-tag"></div>
+        <div class="tier-name">Essentials</div>
+        <div class="tier-note">Simple, clean, live fast.</div>
+        <div class="founder">Founder rate</div>
+        <div class="price"><span class="was">$650</span>$500</div>
+        <div class="rule"></div>
+        <ul>
+          <li>Single-page site, hand-coded and fast-loading</li>
+          <li>Hero with your hook, short About, and Services</li>
+          <li>Call-to-action button linked to your booking or contact system</li>
+          <li>Fully mobile responsive</li>
+          <li>Built from your copy and photos</li>
+          <li>1 revision round</li>
+          <li>Launch walkthrough so you know how it all works</li>
+          <li>Hosted free, no monthly fees</li>
+        </ul>
+        <div class="timeline">Live in about 1 week</div>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-tag">Most Popular</div>
+        <div class="tier-name">Signature</div>
+        <div class="tier-note">The elevated, multi-page experience.</div>
+        <div class="founder">Founder rate</div>
+        <div class="price"><span class="was">$850</span>$700</div>
+        <div class="rule"></div>
+        <ul>
+          <li>Everything in Essentials</li>
+          <li>Multiple pages: Home, About, Services, Contact</li>
+          <li>Photo gallery or portfolio section</li>
+          <li>Tasteful, light animation done with restraint</li>
+          <li>Services styled with descriptions and pricing</li>
+          <li>Basic on-page SEO, favicon, social preview</li>
+          <li>Google Maps location and hours</li>
+          <li>2 revision rounds</li>
+        </ul>
+        <div class="timeline">Live in about 1.5 to 2 weeks</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-tag">Complete</div>
+        <div class="tier-name">Flagship</div>
+        <div class="tier-note">The full experience, built to grow.</div>
+        <div class="founder">Founder rate</div>
+        <div class="price"><span class="was">$1,100</span>$950</div>
+        <div class="rule"></div>
+        <ul>
+          <li>Everything in Signature</li>
+          <li>Individual pages for each service or offering</li>
+          <li>Contact form routed to your inbox</li>
+          <li>Testimonials and reviews section</li>
+          <li>Email capture for a simple lead funnel</li>
+          <li>Local SEO and Google Business Profile setup</li>
+          <li>Analytics setup to track visits and conversions</li>
+          <li>Priority build and 3 revision rounds</li>
+          <li>30 days of free tweaks after launch</li>
+        </ul>
+        <div class="timeline">Live in about 2 to 3 weeks</div>
+      </div>
+    </div>
+
+    <div class="addons">
+      <h2>Optional add-ons</h2>
+      <div class="addon-grid">
+        <div class="addon has-desc"><span class="addon-label">Care plan<span class="addon-desc">Hosting, uptime monitoring, backups, and up to 30 minutes of small text or photo edits each month. Larger changes quoted separately.</span></span><span>$25/mo</span></div>
+        <div class="addon"><span>Extra revision round</span><span>$100</span></div>
+        <div class="addon"><span>Logo or brand touch-ups</span><span>Quoted</span></div>
+      </div>
+    </div>
+
+    <p class="notes">Every package is <strong>hosted free with no monthly fees</strong>, unlike Wix or Squarespace. Any booking or scheduling tool you already use keeps running as-is, so nothing changes there. To build this, I would need your <strong>text content, images, logo files, and service list</strong> from your side. We can shape the wording together, but the raw copy and brand assets come from you.</p>
+
+    <div class="footer">
+      <span>Website design &amp; development</span>
+      <span>Brenen Olson &nbsp;&middot;&nbsp; brenenolson.dev</span>
+    </div>
+  </div>
+</body>
+</html>
